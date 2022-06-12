@@ -23,7 +23,7 @@ public class UserService {
     }
 
     public Member join(Member member) {
-        
+
         return userRepository.save(member);
 
     }
