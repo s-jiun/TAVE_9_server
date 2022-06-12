@@ -24,6 +24,18 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//테스트 DB
+	//runtimeOnly 'com.h2database:h2'
+
+	//mySql
+	runtimeOnly 'mysql:mysql-connector-java'
+	implementation group: 'org.javassist', name: 'javassist', version: '3.15.0-GA'
+
+	//스프링 시큐리티
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+
+
 }
 
 tasks.named('test') {
