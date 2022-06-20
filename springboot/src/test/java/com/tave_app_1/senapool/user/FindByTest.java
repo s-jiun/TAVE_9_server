@@ -1,6 +1,6 @@
 package com.tave_app_1.senapool.user;
 
-import com.tave_app_1.senapool.entity.Member;
+import com.tave_app_1.senapool.entity.User;
 import com.tave_app_1.senapool.user.repository.UserRepository;
 import com.tave_app_1.senapool.user.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -22,28 +22,28 @@ public class FindByTest {
     @Test
     void findByUserPK() {
         //given
-        Member memberA = new Member("testMember", userService.encryptPassword("1234"), "email","pic");
+        User UserA = new User("testUser", userService.encryptPassword("1234"), "email","pic");
 
         //when
-        Member joinMember = userService.join(memberA);
-        Member findMember = userRepository.findByUserPK(joinMember.getUserPK());
+        User joinUser = userService.join(UserA);
+        User findUser = userRepository.findByUserPK(joinUser.getUserPK());
 
         //then
-        assertThat(joinMember.getUserId()).isEqualTo(findMember.getUserId());
+        assertThat(joinUser.getUserId()).isEqualTo(findUser.getUserId());
     }
 
     @Test
     void update() {
         //given
-        Member member = userRepository.findByUserPK(3);
-        Member memberA = new Member("testMemberUpdate", userService.encryptPassword("1234"), "kjesjs","pic");
+        User User = userRepository.findByUserPK(3);
+        User UserA = new User("testUserUpdate", userService.encryptPassword("1234"), "kjesjs","pic");
         //when
 
-        Member updateMember = userService.userInfoUpdate(memberA);
-        Member findUpdateMember = userRepository.findByUserPK(updateMember.getUserPK());
+        User updateUser = userService.userInfoUpdate(UserA);
+        User findUpdateUser = userRepository.findByUserPK(updateUser.getUserPK());
 
         //then
-        assertThat(findUpdateMember.getUserId()).isEqualTo("testMemberUpdate");
+        assertThat(findUpdateUser.getUserId()).isEqualTo("testUserUpdate");
     }
 }
 

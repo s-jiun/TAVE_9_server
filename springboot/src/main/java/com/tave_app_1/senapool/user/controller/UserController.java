@@ -1,7 +1,7 @@
 package com.tave_app_1.senapool.user.controller;
 
 
-import com.tave_app_1.senapool.entity.Member;
+import com.tave_app_1.senapool.entity.User;
 import com.tave_app_1.senapool.user.dto.UserLoginDTO;
 import com.tave_app_1.senapool.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,26 +23,26 @@ public class UserController {
     }
 
     @PostMapping("/user/signup") // 회원 가입
-    public Member userSignUp(@RequestBody Member member) {
-        log.info("user={}", member);
-        member.setPassword(userService.encryptPassword(member.getPassword()));
+    public User userSignUp(@RequestBody User User) {
+        log.info("user={}", User);
+        User.setPassword(userService.encryptPassword(User.getPassword()));
 
-        return userService.join(member);
+        return userService.join(User);
     }
 
     @PostMapping("/user/login") //로그인
-    public Optional<Member> userLogin(@RequestBody UserLoginDTO userLoginDTO) throws NoSuchElementException {
+    public Optional<User> userLogin(@RequestBody UserLoginDTO userLoginDTO) throws NoSuchElementException {
         try {
-            Optional<Member> loginMember = userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
-            return loginMember;
+            Optional<User> loginUser = userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
+            return loginUser;
         } catch (NoSuchElementException e) {
             return Optional.empty();
         }
     }
 
     @PutMapping("/user/update") // 회원 정보 수정
-    public Member userUpdate(@RequestBody Member updateInfoMember ) {
-        Member updatedMember = userService.userInfoUpdate(updateInfoMember);
-        return updatedMember;
+    public User userUpdate(@RequestBody User updateInfoUser ) {
+        User updatedUser = userService.userInfoUpdate(updateInfoUser);
+        return updatedUser;
     }
 }

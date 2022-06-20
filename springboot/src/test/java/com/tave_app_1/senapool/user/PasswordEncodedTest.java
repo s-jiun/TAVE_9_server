@@ -1,6 +1,6 @@
 package com.tave_app_1.senapool.user;
 
-import com.tave_app_1.senapool.entity.Member;
+import com.tave_app_1.senapool.entity.User;
 import com.tave_app_1.senapool.user.repository.UserRepository;
 import com.tave_app_1.senapool.user.service.UserService;
 import org.assertj.core.api.Assertions;
@@ -26,18 +26,18 @@ public class PasswordEncodedTest {
 
     @Test
     public void 비밀번호_일치_테스트() {
-        Member member = new Member("hello", userService.encryptPassword("1234"), "email","pic");
+        User User = new User("hello", userService.encryptPassword("1234"), "email","pic");
 
-        Assertions.assertThat(bCryptPasswordEncoder.matches("1234",member.getPassword())).isEqualTo(true);
+        Assertions.assertThat(bCryptPasswordEncoder.matches("1234",User.getPassword())).isEqualTo(true);
     }
 
     @Test
     public void 같은_비밀번호_다른_해시값_테스트() {
-        Member memberA = new Member("memberA", userService.encryptPassword("1234"), "email","pic");
-        Member memberB = new Member("memberB", userService.encryptPassword("1234"), "email", "pic");
+        User UserA = new User("UserA", userService.encryptPassword("1234"), "email","pic");
+        User UserB = new User("UserB", userService.encryptPassword("1234"), "email", "pic");
 
-        assertThat(memberA.getPassword()).isNotEqualTo(memberB.getPassword());
-        Assertions.assertThat(bCryptPasswordEncoder.matches("1234",memberA.getPassword())).isEqualTo(true);
+        assertThat(UserA.getPassword()).isNotEqualTo(UserB.getPassword());
+        Assertions.assertThat(bCryptPasswordEncoder.matches("1234",UserA.getPassword())).isEqualTo(true);
         Assertions.assertThat(bCryptPasswordEncoder.matches("1234","$2a$10$7gF7zAgCokpi/aaAIYsFSuOMR/ku3vIGrjuZGYtMctwZiVXLj1MIC")).isEqualTo(true);
 
 
@@ -46,11 +46,11 @@ public class PasswordEncodedTest {
     @Test
     public void 이메일_조회_테스트() {
         //given
-        Member member = new Member("memberC","1234","rkdejr2321@naver.com","pic");
+        User User = new User("UserC","1234","rkdejr2321@naver.com","pic");
 
         //when
-        Member joinMember = userService.join(member);
-        Optional<Member> findMember = userRepository.findByEmail(joinMember.getEmail());
+        User joinUser = userService.join(User);
+        Optional<User> findUser = userRepository.findByEmail(joinUser.getEmail());
 
         //then
 
