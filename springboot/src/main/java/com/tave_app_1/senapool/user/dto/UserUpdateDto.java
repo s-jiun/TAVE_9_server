@@ -1,9 +1,16 @@
 package com.tave_app_1.senapool.user.dto;
 
-public class UserUpdateDTO {
+import lombok.Getter;
+
+import javax.persistence.Id;
+
+@Getter
+public class UserUpdateDto {
+    @Id
+    private Integer userPk;
 
     private String userId;
-    private String password;
+
     private String email;
     private String userImage;
 
