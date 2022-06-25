@@ -3,6 +3,7 @@ package com.tave_app_1.senapool.myplant_list.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Getter
@@ -11,5 +12,5 @@ import lombok.Setter;
 public class Plant {
     private Integer plantPK;
     private String plantName;
-    private String plantImage; // 자료형 변환해줘야함
+    private byte[] plantImage; // 자료형 변환해줘야함
 }

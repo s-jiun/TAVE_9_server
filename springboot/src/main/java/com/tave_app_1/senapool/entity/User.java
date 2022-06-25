@@ -29,8 +29,8 @@ public class User {
     @Column(name = "user_image",nullable = true)
     private String userImage;
 
-    //@OneToMany(mappedBy = "user")
-    //private List<MyPlant> myPlants;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<MyPlant> myPlants;
 
 
     @Builder

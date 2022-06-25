@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface MyPlantRepository extends JpaRepository<MyPlant, Integer> {
 
-    @Query(value = "SELECT * FROM myplant WHERE user_pk = :userPK", nativeQuery = true)
-    List<MyPlant> findPlantList(int userPK);
+    //@Query(value = "SELECT * FROM myplant WHERE user_pk = :userPK", nativeQuery = true)
+    //List<MyPlant> findPlantList(int userPK);
 
 }

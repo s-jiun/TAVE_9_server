@@ -20,11 +20,11 @@ public class RespPlantListDto {
     /*
     추후 builder로 변경
      */
-    public RespPlantListDto(User user, List<MyPlant> a_plantList){
+    public RespPlantListDto(User user){
         userPK = user.getUserPK();
         userId = user.getUserId();
         userImage = user.getUserImage();
 
-        plantList = new PlantList(a_plantList);
+        plantList = new PlantList(user.getMyPlants());
     }
 }
