@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,11 +16,11 @@ import javax.persistence.*;
 @DynamicUpdate
 public class User {
 
-    @Id
+    @Id @Column(name = "user_pk")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userPK;
 
-    @Column(name = "userId",nullable = false)
+    @Column(name = "user_id",nullable = false)
     private String userId;
 
     @Column
@@ -28,7 +29,7 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @Column(name = "userImage",nullable = true)
+    @Column(name = "user_image",nullable = true)
     private String userImage;
 
     public void setPassword(String enPw) {
