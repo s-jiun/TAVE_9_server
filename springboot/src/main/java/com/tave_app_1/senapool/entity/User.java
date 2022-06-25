@@ -6,6 +6,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.util.Set;
 
+
 @Entity
 @Getter
 @Setter
@@ -30,7 +31,7 @@ public class User {
     @Column(name = "email",nullable = false)
     private String email;
 
-    @Column(name = "userImage",nullable = true)
+    @Column(name = "user_image",nullable = true)
     private String userImage;
 
 
@@ -48,3 +49,4 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
     private Set<Authority> authorities;
 }
+
