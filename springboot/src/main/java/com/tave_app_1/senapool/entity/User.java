@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -16,22 +17,34 @@ import javax.persistence.*;
 public class User {
 
     @Id
+    @Column(name = "user_pk")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userPK;
 
-    @Column(name = "userId",nullable = false)
+    @Column(name = "user_id",nullable = false)
     private String userId;
 
-    @Column
+    @Column(name = "password")
     private String password;
 
-    @Column(nullable = false)
+    @Column(name = "email",nullable = false)
     private String email;
 
     @Column(name = "userImage",nullable = true)
     private String userImage;
 
+
+    @Column(name = "activated")
+    private boolean activated;
+
     public void setPassword(String enPw) {
         this.password = enPw;
     }
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = {@JoinColumn(name = "user_pk", referencedColumnName = "user_pk")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+    private Set<Authority> authorities;
 }
