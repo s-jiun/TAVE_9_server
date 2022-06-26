@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 
@@ -41,6 +42,9 @@ public class User {
     public void setPassword(String enPw) {
         this.password = enPw;
     }
+
+    @OneToMany(mappedBy = "user")
+    private List<MyPlant> myPlants;
 
     @ManyToMany
     @JoinTable(
