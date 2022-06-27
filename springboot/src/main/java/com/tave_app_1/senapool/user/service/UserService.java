@@ -82,11 +82,7 @@ public class UserService {
 
         return userRepository.save(updateUser);
     }
-
-    public String encryptPassword(String password) {
-        return passwordEncoder.encode(password);
-    }
-
+    
     private ResponseEntity<TokenDto> getTokenDtoResponseEntity(UserLoginDto userLoginDTO) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userLoginDTO.getEmail(), userLoginDTO.getPassword());
