@@ -19,7 +19,6 @@ public class PlantDiary{
     @Column(name = "diary_pk")
     private Long id;
 
-//    //일기 순번
 //    @Column(nullable = false)
 //    private Long num;
 
