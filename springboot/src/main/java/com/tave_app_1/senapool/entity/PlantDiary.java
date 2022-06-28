@@ -13,13 +13,15 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PlantDiary{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "diary_pk")
     private Long id;
 
-    //일기 순번
-    @Column(nullable = false)
-    private Long num;
+//    //일기 순번
+//    @Column(nullable = false)
+//    private Long num;
 
     //일기 제목
     @Column(nullable = false)
@@ -37,5 +39,14 @@ public class PlantDiary{
     @Column
     private Boolean open;
 
+    //식물 정보 매핑
+    @ManyToOne
+    @JoinColumn(name = "plant_pk")
+    private MyPlant myPlant;
+
+    //유저 정보 매핑
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_pk")
+    private User user;
 
 }
