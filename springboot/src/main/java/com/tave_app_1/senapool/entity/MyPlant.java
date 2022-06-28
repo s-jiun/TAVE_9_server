@@ -51,6 +51,7 @@ public class MyPlant {
     /*
      startDay, lastWater 추가
      */
+
     public MyPlant(User user, String plantName, String plantType, Integer waterPeriod, String plantImage) {
         this.user = user;
         this.plantName = plantName;

@@ -32,6 +32,9 @@ public class User {
     @Column(name = "user_image",nullable = true)
     private String userImage;
 
+    @OneToMany(mappedBy = "user")
+    private List<MyPlant> myPlants;
+
     public void setPassword(String enPw) {
         this.password = enPw;
     }

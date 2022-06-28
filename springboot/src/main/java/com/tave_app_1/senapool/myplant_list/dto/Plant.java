@@ -12,5 +12,5 @@ import org.springframework.web.multipart.MultipartFile;
 public class Plant {
     private Integer plantPK;
     private String plantName;
-    private byte[] plantImage; // 자료형 변환해줘야함
+    private String plantImage;
 }

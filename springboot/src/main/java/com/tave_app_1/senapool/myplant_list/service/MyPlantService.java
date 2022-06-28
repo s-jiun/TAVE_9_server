@@ -6,19 +6,11 @@ import com.tave_app_1.senapool.myplant_list.dto.ReqPlantRegisterDto;
 import com.tave_app_1.senapool.myplant_list.dto.RespPlantListDto;
 import com.tave_app_1.senapool.myplant_list.repository.MyPlantRepository;
 import com.tave_app_1.senapool.user.repository.UserRepository;
+import com.tave_app_1.senapool.utils.FileProcessor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -27,14 +19,12 @@ public class MyPlantService {
 
     private final MyPlantRepository myPlantRepository;
     private final UserRepository userRepository;
-
-    @Value("${file.path}")
-    private String uploadFolder;
+    private final FileProcessor fileProcessor;
 
     @Transactional(readOnly = true)
     public RespPlantListDto makeList(int userPK) {
+        // userPK로 해당 user 정보 가져오기
         User user = userRepository.findByUserPK(userPK);
-
         // Entity -> Dto 변환
         RespPlantListDto respPlantListDto = new RespPlantListDto(user);
         return respPlantListDto;
@@ -44,25 +34,10 @@ public class MyPlantService {
     세션정보 넘어온 뒤 user 정보 넣어줘야함
      */
     @Transactional
-    public void plantSaveToDB(ReqPlantRegisterDto reqPlantRegisterDto){
-        String absolutePath = new File("").getAbsolutePath() + '\\';
-        String path = absolutePath + "/src/main/resources/images/plant/";
-        File file = new File(path);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
+    public void joinPlant(ReqPlantRegisterDto reqPlantRegisterDto){
 
-        UUID uuid = UUID.randomUUID();
-        String plantImage = uuid + "_" + reqPlantRegisterDto.getFile().getOriginalFilename();
-
-        Path imageFilePath = Paths.get(path + plantImage);
-
-        try{
-            Files.write(imageFilePath, reqPlantRegisterDto.getFile().getBytes());
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        // 식물 이미지 저장
+        fileProcessor.savePlantImage(reqPlantRegisterDto.getFile());
 
         /*
         dummy user
@@ -77,7 +52,16 @@ public class MyPlantService {
         /*
             추후 빌더 형태로 변환
          */
-        MyPlant myPlant = reqPlantRegisterDto.toEntity(plantImage, user);
+        String uniqueImageName = fileProcessor.getUniqueImageName(reqPlantRegisterDto.getFile());
+        MyPlant myPlant = reqPlantRegisterDto.toEntity(uniqueImageName, user);
         myPlantRepository.save(myPlant);
+    }
+
+    @Transactional
+    public void updatePlant(int userPK, int plantPK) {
+    }
+
+    @Transactional
+    public void deletePlant(int userPK, int plantPK) {
     }
 }
