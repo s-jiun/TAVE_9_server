@@ -1,3 +1,11 @@
+package com.tave_app_1.senapool.entity;
+
+import com.tave_app_1.senapool.entity.User;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+
 @Entity
 @Getter
 @Setter
