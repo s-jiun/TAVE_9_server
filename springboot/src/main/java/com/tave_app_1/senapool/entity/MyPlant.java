@@ -15,7 +15,7 @@ public class MyPlant {
 
     @Id @GeneratedValue
     @Column(name = "plant_pk")
-    private Integer plantPK;
+    private Long plantPK;
 
     /*
     cascade 설정 변경 필요
@@ -51,6 +51,7 @@ public class MyPlant {
     /*
      startDay, lastWater 추가
      */
+
     public MyPlant(User user, String plantName, String plantType, Integer waterPeriod, String plantImage) {
         this.user = user;
         this.plantName = plantName;

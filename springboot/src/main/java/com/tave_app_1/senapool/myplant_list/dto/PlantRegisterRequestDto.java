@@ -7,11 +7,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 @Data
-public class ReqPlantRegisterDto {
+public class PlantRegisterRequestDto {
+
     private MultipartFile file;
+
     private String plantName;
+
     private String plantType;
+
     private Integer waterPeriod;
+
     //private Date startDay;
 
     /*
