@@ -9,6 +9,9 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+// 서버 실행 후 아래주소로 들어가면 api doc 나옴.
+// http://localhost:8080/swagger-ui/index.html#/
+
 @Configuration
 public class SwaggerConfig {
 

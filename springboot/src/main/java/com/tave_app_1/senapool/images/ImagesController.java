@@ -1,6 +1,6 @@
 package com.tave_app_1.senapool.images;
 
-import com.tave_app_1.senapool.utils.FileProcessor;
+import com.tave_app_1.senapool.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -14,10 +14,10 @@ import java.net.MalformedURLException;
 @RequiredArgsConstructor
 public class ImagesController {
 
-    private final FileProcessor fileProcessor;
+    private final FileUtil fileUtil;
 
     /**
-     * 식물 이미지 다운로드
+     * 이미지 다운로드
      * [GET] /images/{type}/{userPK}/{fileName}
      * 작성자 : 장동호
      * 작성일 :
@@ -28,8 +28,8 @@ public class ImagesController {
                                   @PathVariable("userPK") int userPK,
                                   @PathVariable("fileName") String fileName) throws MalformedURLException {
         String filePath;
-        if(type.equals("plant")) filePath = fileProcessor.getPlantFolderPath();
-        else filePath = fileProcessor.getUserFolderPath();
+        if(type.equals("plant")) filePath = fileUtil.getPlantFolderPath();
+        else filePath = fileUtil.getUserFolderPath();
 
         return new UrlResource("file:" + filePath + fileName);
     }

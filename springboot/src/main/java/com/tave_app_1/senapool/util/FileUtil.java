@@ -1,4 +1,4 @@
-package com.tave_app_1.senapool.utils;
+package com.tave_app_1.senapool.util;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;
@@ -12,13 +12,13 @@ import java.util.UUID;
 
 @Getter
 @Component
-public class FileProcessor {
+public class FileUtil {
 
     private final String absolutePath;
     private final String plantFolderPath;
     private final String userFolderPath;
 
-    public FileProcessor() {
+    public FileUtil() {
         this.absolutePath = new File("").getAbsolutePath() + '\\';
         this.plantFolderPath = absolutePath + "src/main/resources/static/images/plant/";
         this.userFolderPath = absolutePath + "src/main/resources/static/images/user/";
