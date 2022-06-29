@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PlantDiary{
+public class PlantDiary extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,7 @@ public class PlantDiary{
 
     //공개 여부
     @Column
-    private Boolean open;
+    private Boolean publish;
 
     //식물 정보 매핑
     @ManyToOne
@@ -47,5 +47,10 @@ public class PlantDiary{
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_pk")
     private User user;
+
+    public void addPlant(MyPlant myPlant){
+        PlantDiary plantDiary = new PlantDiary();
+        plantDiary.setMyPlant(myPlant);
+    }
 
 }

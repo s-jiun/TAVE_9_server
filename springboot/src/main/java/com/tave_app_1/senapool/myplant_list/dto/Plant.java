@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 @AllArgsConstructor
 public class Plant {
-    private Integer plantPK;
+    private Long plantPK;
     private String plantName;
     private byte[] plantImage; // 자료형 변환해줘야함
 }

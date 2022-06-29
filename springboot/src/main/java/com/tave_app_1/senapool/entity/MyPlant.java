@@ -15,7 +15,7 @@ public class MyPlant {
 
     @Id @GeneratedValue
     @Column(name = "plant_pk")
-    private Integer plantPK;
+    private Long plantPK;
 
     /*
     cascade 설정 변경 필요
