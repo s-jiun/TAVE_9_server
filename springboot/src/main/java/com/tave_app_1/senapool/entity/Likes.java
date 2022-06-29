@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@Table(name = "like_table")
+@Table(name = "likes")
 public class Likes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +19,7 @@ public class Likes {
     @JoinColumn(name = "userPK")
     private User User;
 
+<<<<<<< HEAD
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diaryPK")
     private PlantDiary PlantDiary;
@@ -30,4 +31,6 @@ public class Likes {
 
         return like;
     }
+=======
+>>>>>>> develop
 }

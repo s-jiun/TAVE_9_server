@@ -21,7 +21,8 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
+    implementation 'eu.freme-project:diary:0.1'
+    compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -31,15 +32,20 @@ dependencies {
 
 	//mySql
 	runtimeOnly 'mysql:mysql-connector-java'
-	implementation group: 'org.javassist', name: 'javassist', version: '3.15.0-GA'
+	implementation group: 'org.javassist', name: 'javassist', version: '3.29.0-GA'
 
 	//스프링 시큐리티
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
 
 	//jwt
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+	//swagger
+	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
+
+
 
 	//ModelMapper
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.6'
