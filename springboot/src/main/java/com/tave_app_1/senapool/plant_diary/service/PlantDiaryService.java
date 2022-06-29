@@ -1,14 +1,10 @@
 package com.tave_app_1.senapool.plant_diary.service;
 
-import com.tave_app_1.senapool.entity.PlantDiary;
-import com.tave_app_1.senapool.myplant_list.dto.Plant;
 import com.tave_app_1.senapool.myplant_list.repository.MyPlantRepository;
 import com.tave_app_1.senapool.plant_diary.repository.PlantDiaryModuleRepository;
 import com.tave_app_1.senapool.plant_diary.repository.PlantDiaryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
