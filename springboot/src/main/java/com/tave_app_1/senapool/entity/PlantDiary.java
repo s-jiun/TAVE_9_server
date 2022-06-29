@@ -1,9 +1,11 @@
 package com.tave_app_1.senapool.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -47,5 +49,10 @@ public class PlantDiary{
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_pk")
     private User user;
+
+    //좋아요 개수 매핑
+    @JsonIgnoreProperties({"diary"})
+    @OneToMany(mappedBy = "diary")
+    private List<Likes> likesList;
 
 }
