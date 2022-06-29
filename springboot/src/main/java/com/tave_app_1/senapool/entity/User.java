@@ -21,7 +21,7 @@ public class User {
     @Id
     @Column(name = "user_pk")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userPK;
+    private Long userPK;
 
     @Column(name = "user_id",nullable = false)
     private String userId;
@@ -34,7 +34,6 @@ public class User {
 
     @Column(name = "user_image",nullable = true)
     private String userImage;
-
 
     @Column(name = "activated")
     private boolean activated;
