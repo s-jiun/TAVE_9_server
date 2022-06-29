@@ -14,14 +14,14 @@ public class LikesService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void likes(long diaryPK, String loginEmail){
-        User user = userRepository.findByEmail(loginEmail);
+    public void likes(long diaryPK, Long userPK){
+        User user = userRepository.findByUserPK(userPK);
         likesRepository.likes(diaryPK, user.getUserPK());
     }
 
     @Transactional
-    public void unLikes(long diaryPK, String loginEmail){
-        User user = userRepository.findByEmail(loginEmail);
+    public void unLikes(long diaryPK, Long userPK){
+        User user = userRepository.findByUserPK(userPK);
         likesRepository.unLikes(diaryPK, user.getUserPK());
     }
 }

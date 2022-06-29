@@ -22,7 +22,7 @@ public class MyPlantService {
     private final FileUtil fileUtil;
 
     @Transactional(readOnly = true)
-    public PlantListResponseDto makeList(int userPK) {
+    public PlantListResponseDto makeList(long userPK) {
         // userPK로 해당 user 정보 가져오기
         User user = userRepository.findByUserPK(userPK);
         // Entity -> Dto 변환
