@@ -19,7 +19,7 @@ public class FileUtil {
     private final String userFolderPath;
 
     public FileUtil() {
-        this.absolutePath = new File("").getAbsolutePath() + '\\';
+        this.absolutePath = new File("").getAbsolutePath() + File.separator;
         this.plantFolderPath = absolutePath + "src/main/resources/static/images/plant/";
         this.userFolderPath = absolutePath + "src/main/resources/static/images/user/";
     }
