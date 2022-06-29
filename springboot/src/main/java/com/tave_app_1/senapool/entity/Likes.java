@@ -17,19 +17,17 @@ public class Likes {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userPK")
-    private User user;
+    private User User;
 
-    /*@ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diaryPK")
-    private Diary diary;
+    private PlantDiary PlantDiary;
 
-    public static Likes setLike(User user, Diary diary){
+    public static Likes setLike(User user, PlantDiary diary){
         Likes like = new Likes();
         like.setUser(user);
-        like.setDiary(diary);
+        like.setPlantDiary(diary);
 
         return like;
-    }*/
-
-
+    }
 }
