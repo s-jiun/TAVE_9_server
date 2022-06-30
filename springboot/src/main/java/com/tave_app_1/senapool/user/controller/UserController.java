@@ -33,8 +33,7 @@ public class UserController {
     }
 
     @PostMapping("/user/signup") // 회원 가입
-    public ResponseEntity<?> userSignUp(
-            @Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<?> userSignUp(UserDto userDto) {
         log.info("user={}", userDto);
         return userService.join(userDto);
     }
@@ -45,8 +44,9 @@ public class UserController {
     }
 
     @PatchMapping("/user/update") // 회원 정보 수정
-    public User userUpdate(@RequestBody UserUpdateDto userUpdateDto) {
-        return userService.userInfoUpdate(userUpdateDto);
+    public User userUpdate(Authentication authentication, UserDto userDto) {
+        User user = (User) authentication.getPrincipal();
+        return userService.userInfoUpdate(user.getUserPK(), userDto);
     }
 
     //jwt 토큰 테스트
