@@ -20,7 +20,7 @@ public class PlantListResponseDto {
     public PlantListResponseDto(User user){
         userPK = user.getUserPK();
         userId = user.getUserId();
-        userImage = user.getUserImage();
+        userImage = user.getUserImageName();
 
         plantListDto = new PlantListDto(user.getMyPlantList());
     }
