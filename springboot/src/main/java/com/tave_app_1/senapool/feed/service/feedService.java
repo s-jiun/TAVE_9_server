@@ -10,13 +10,13 @@ public class feedService {
     private feedRepository feedRepository;
 
     @Transactional
-    public Page<PlantDiary> getDiaries(long tokenId, Pageable pageable){
-        Page<PlantDiary> plantDiaryList = feedRepository.mainFeed(tokenId, pageable);
+    public Page<PlantDiary> getDiaries(long userPK, Pageable pageable){
+        Page<PlantDiary> plantDiaryList = feedRepository.mainFeed(userPK, pageable);
 
         plantDiaryList.forEach(diary -> {
             diary.updateLikesCount(diary.getLikesList().size());
             diary.getLikesList().forEach(likes -> {
-                if(likes.getUser().getUserPK() == tokenId) diary.updateLikesState(true);
+                if(likes.getUser().getUserPK() == userPK) diary.updateLikesState(true);
             });
         });
 
