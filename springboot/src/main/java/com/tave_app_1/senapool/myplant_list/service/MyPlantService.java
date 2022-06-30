@@ -8,7 +8,7 @@ import com.tave_app_1.senapool.myplant_list.dto.plant_list_response.PlantListRes
 import com.tave_app_1.senapool.myplant_list.dto.plant_update_request.PlantUpdateRequestDto;
 import com.tave_app_1.senapool.myplant_list.repository.MyPlantRepository;
 import com.tave_app_1.senapool.user.repository.UserRepository;
-import com.tave_app_1.senapool.user.util.FileUtil;
+import com.tave_app_1.senapool.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
