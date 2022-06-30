@@ -1,6 +1,5 @@
 package com.tave_app_1.senapool.entity;
 
-
 import lombok.*;
 
 import javax.persistence.*;
@@ -32,11 +31,11 @@ public class PlantDiary{
 
     //업로드 사진
     @Column
-    private String picture;
+    private String diaryImage;
 
     //공개 여부
     @Column
-    private Boolean open;
+    private Boolean publish;
 
     //식물 정보 매핑
     @ManyToOne

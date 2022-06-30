@@ -1,7 +1,9 @@
 package com.tave_app_1.senapool.myplant_list.controller;
 
-import com.tave_app_1.senapool.myplant_list.dto.PlantRegisterRequestDto;
-import com.tave_app_1.senapool.myplant_list.dto.PlantListResponseDto;
+import com.tave_app_1.senapool.myplant_list.dto.diary_list_response.DiaryListResponseDto;
+import com.tave_app_1.senapool.myplant_list.dto.plant_register_request.PlantRegisterRequestDto;
+import com.tave_app_1.senapool.myplant_list.dto.plant_list_response.PlantListResponseDto;
+import com.tave_app_1.senapool.myplant_list.dto.plant_update_request.PlantUpdateRequestDto;
 import com.tave_app_1.senapool.myplant_list.service.MyPlantService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +29,8 @@ public class MyPlantController {
      */
     @ApiOperation(value = "선택한 유저의 나의 식물 리스트로 이동", notes = "'임의의 page' -> '나의 식물 리스트'로 이동할 때 유저 및 식물 정보 받아오기")
     @GetMapping("/myplant-list/{userPK}")
-    public ResponseEntity<?> plantList(@PathVariable("userPK") int userPK){
-        PlantListResponseDto plantListResponseDto = myPlantService.makeList(userPK);
+    public ResponseEntity<?> plantList(@PathVariable("userPK") Long userPK){
+        PlantListResponseDto plantListResponseDto = myPlantService.makePlantList(userPK);
         return new ResponseEntity<PlantListResponseDto>(plantListResponseDto, HttpStatus.OK);
     }
 
@@ -41,7 +43,7 @@ public class MyPlantController {
     // 세션정보로 인증필요
     @ApiOperation(value = "내 식물 등록", notes = "'나의 식물 리스트'에서 식물 등록")
     @PostMapping("/myplant-list/{userPK}")
-    public ResponseEntity<?> plantRegister(@PathVariable("userPK") int userPK,
+    public ResponseEntity<?> plantRegister(@PathVariable("userPK") Long userPK,
                                 PlantRegisterRequestDto plantRegisterRequestDto){
 
         /*
@@ -60,13 +62,14 @@ public class MyPlantController {
      */
     @ApiOperation(value = "내 식물 수정", notes = "'나의 식물일기 리스트'에서 식물 수정")
     @PutMapping("myplant-list/{userPK}/{plantPK}")
-    public ResponseEntity<?> plantUpdate(@PathVariable("userPK") int userPK,
-                              @PathVariable("plantPK") int plantPK){
+    public ResponseEntity<?> plantUpdate(@PathVariable("userPK") Long userPK,
+                                         @PathVariable("plantPK") Long plantPK,
+                                         PlantUpdateRequestDto plantUpdateRequestDto){
 
         /*
         인증 내용 추가
          */
-        myPlantService.updatePlant(userPK, plantPK);
+        myPlantService.updatePlant(plantPK, plantUpdateRequestDto);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -79,13 +82,13 @@ public class MyPlantController {
      */
     @ApiOperation(value = "내 식물 삭제", notes = "'나의 식물일기 리스트'에서 식물 삭제")
     @DeleteMapping("myplant-list/{userPK}/{plantPK}")
-    public ResponseEntity<?> plantDelete(@PathVariable("userPK") int userPK,
-                                         @PathVariable("plantPK") int plantPK){
+    public ResponseEntity<?> plantDelete(@PathVariable("userPK") Long userPK,
+                                         @PathVariable("plantPK") Long plantPK){
 
         /*
         인증 내용 추가
          */
-        myPlantService.deletePlant(userPK, plantPK);
+        myPlantService.deletePlant(plantPK);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -98,11 +101,11 @@ public class MyPlantController {
      */
     @ApiOperation(value = "선택한 식물의 식물일기 리스트로 이동", notes = "'나의 식물 리스트' -> '나의 식물일기 리스트'로 이동할 때 유저 및 식물 정보 받아오기")
     @GetMapping("myplant-list/{userPK}/{plantPK}")
-    public String diaryList(@PathVariable("userPK") int userPK,
-                              @PathVariable("plantPK") int plantPK){
+    public ResponseEntity<?> diaryList(@PathVariable("userPK") Long userPK,
+                              @PathVariable("plantPK") Long plantPK){
 
+        DiaryListResponseDto diaryListResponseDto = myPlantService.makeDiaryList(plantPK, true);
 
-
-        return "ok";
+        return new ResponseEntity<DiaryListResponseDto>(diaryListResponseDto, HttpStatus.OK);
     }
 }

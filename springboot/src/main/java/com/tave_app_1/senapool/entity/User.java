@@ -43,7 +43,7 @@ public class User {
     }
 
     @OneToMany(mappedBy = "user")
-    private List<MyPlant> myPlants;
+    private List<MyPlant> myPlantList;
 
     @ManyToMany
     @JoinTable(
