@@ -34,7 +34,7 @@ public class User {
     private String email;
 
     @Column(name = "user_image",nullable = true)
-    private String userImage;
+    private String userImageName;
 
     @Column(name = "activated")
     private boolean activated;
@@ -46,9 +46,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<MyPlant> myPlantList;
 
-    public User(Claims claims) {
-        this.userPK = Long.valueOf(claims.get("user_pk").toString());
-    }
 
 
     @ManyToMany
