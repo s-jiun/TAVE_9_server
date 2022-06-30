@@ -1,4 +1,4 @@
-package com.tave_app_1.senapool.user.util;
+package com.tave_app_1.senapool.util;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;
