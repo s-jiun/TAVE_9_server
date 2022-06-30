@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Service
@@ -37,13 +38,9 @@ public class MyPlantService {
      */
     @Transactional
     public void joinPlant(PlantRegisterRequestDto plantRegisterRequestDto){
-
-        // 식물 이미지 저장
-        fileUtil.savePlantImage(plantRegisterRequestDto.getFile());
-
         /*
         dummy user
-         */
+        */
         User user = User.builder()
                 .userId("test")
                 .password("1234")
@@ -54,7 +51,8 @@ public class MyPlantService {
         /*
             추후 빌더 형태로 변환
          */
-        String uniqueImageName = fileUtil.getUniqueImageName(plantRegisterRequestDto.getFile());
+        // 식물 이미지 저장
+        String uniqueImageName = fileUtil.savePlantImage(plantRegisterRequestDto.getFile());
         MyPlant myPlant = plantRegisterRequestDto.toEntity(uniqueImageName, user);
         myPlantRepository.save(myPlant);
     }
@@ -63,13 +61,8 @@ public class MyPlantService {
     public void updatePlant(Long plantPK, PlantUpdateRequestDto plantUpdateRequestDto) {
         MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
 
-        // 기존 이미지 삭제
-        fileUtil.deletePlantImage(myPlant.getPlantImage());
-        // 새 이미지 저장
-        fileUtil.savePlantImage(plantUpdateRequestDto.getFile());
-        // 새 이미지 unique name
-        String uniqueImageName = fileUtil.getUniqueImageName(plantUpdateRequestDto.getFile());
-
+        // 기존 이미지 삭제 후, 새 이미지 저장
+        String uniqueImageName = imageChange(plantUpdateRequestDto.getFile(), myPlant.getPlantImage());
         // dirty check 이용한 update
         myPlant.updatePlant(uniqueImageName, plantUpdateRequestDto.getPlantName(), plantUpdateRequestDto.getPlantType(), plantUpdateRequestDto.getWaterPeriod());
     }
@@ -90,5 +83,14 @@ public class MyPlantService {
         // Entity -> Dto 변환
         DiaryListResponseDto diaryListResponseDto = new DiaryListResponseDto(myPlant);
         return diaryListResponseDto;
+    }
+
+    private String imageChange(MultipartFile newImage, String oldImageName) {
+        // 기존 이미지 삭제
+        fileUtil.deletePlantImage(oldImageName);
+        // 새 이미지 저장 후, 저장한 이름 반환
+        String uniqueImageName = fileUtil.savePlantImage(newImage);
+
+        return uniqueImageName;
     }
 }
