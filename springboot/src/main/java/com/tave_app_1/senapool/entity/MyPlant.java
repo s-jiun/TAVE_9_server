@@ -53,7 +53,7 @@ public class MyPlant {
     @JoinColumn(name = "user_pk")
     private User user;
 
-    @OneToMany(mappedBy = "myPlant")
+    @OneToMany(mappedBy = "myPlant", cascade = CascadeType.REMOVE)
     private List<PlantDiary> plantDiaryList;
 
     public MyPlant(User user, String plantName, String plantType, Integer waterPeriod, String plantImage) {

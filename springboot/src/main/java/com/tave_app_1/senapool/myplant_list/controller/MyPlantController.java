@@ -50,6 +50,7 @@ public class MyPlantController {
                                            Authentication authentication){
 
         User user = (User) authentication.getPrincipal();
+
         // 인증 성공
         if (user.getUserPK() == userPK) {
             myPlantService.joinPlant(plantRegisterRequestDto);
@@ -75,6 +76,7 @@ public class MyPlantController {
                                          Authentication authentication){
 
         User user = (User) authentication.getPrincipal();
+
         // 인증 성공
         if (user.getUserPK() == userPK) {
             myPlantService.updatePlant(plantPK, plantUpdateRequestDto);
@@ -99,6 +101,7 @@ public class MyPlantController {
                                          Authentication authentication){
 
         User user = (User) authentication.getPrincipal();
+
         // 인증 성공
         if (user.getUserPK() == userPK) {
             myPlantService.deletePlant(plantPK);
