@@ -1,15 +1,15 @@
-package com.tave_app_1.senapool.weather.controller.user.service;
+package com.tave_app_1.senapool.user.service;
 
 
 import com.tave_app_1.senapool.entity.Authority;
 import com.tave_app_1.senapool.entity.User;
+import com.tave_app_1.senapool.user.repository.UserRepository;
 import com.tave_app_1.senapool.jwt.JwtFilter;
 import com.tave_app_1.senapool.jwt.TokenProvider;
-import com.tave_app_1.senapool.weather.controller.user.dto.TokenDto;
-import com.tave_app_1.senapool.weather.controller.user.dto.UserDto;
-import com.tave_app_1.senapool.weather.controller.user.dto.UserLoginDto;
-import com.tave_app_1.senapool.weather.controller.user.dto.UserUpdateDto;
-import com.tave_app_1.senapool.weather.controller.user.service.repository.UserRepository;
+import com.tave_app_1.senapool.user.dto.TokenDto;
+import com.tave_app_1.senapool.user.dto.UserDto;
+import com.tave_app_1.senapool.user.dto.UserLoginDto;
+import com.tave_app_1.senapool.user.dto.UserUpdateDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -75,6 +75,7 @@ public class UserService {
 
 
     public User userInfoUpdate(UserUpdateDto userUpdateDto) {
+        log.info("유저 정보={}", userUpdateDto);
         User updateUser = userRepository.findByUserPK(userUpdateDto.getUserPk());
         updateUser.setUserId(userUpdateDto.getUserId());
         updateUser.setEmail(userUpdateDto.getEmail());
@@ -82,14 +83,16 @@ public class UserService {
 
         return userRepository.save(updateUser);
     }
+
     
     private ResponseEntity<TokenDto> getTokenDtoResponseEntity(UserLoginDto userLoginDTO) {
+        User user = userRepository.findByEmail(userLoginDTO.getEmail()).get();
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userLoginDTO.getEmail(), userLoginDTO.getPassword());
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = tokenProvider.createToken(authentication);
+        String jwt = tokenProvider.createToken(user.getUserPK(),authentication);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);

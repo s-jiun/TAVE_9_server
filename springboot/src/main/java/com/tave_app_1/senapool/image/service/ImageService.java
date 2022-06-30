@@ -1,6 +1,6 @@
 package com.tave_app_1.senapool.image.service;
 
-import com.tave_app_1.senapool.util.FileUtil;
+import com.tave_app_1.senapool.user.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

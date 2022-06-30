@@ -1,4 +1,4 @@
-package com.tave_app_1.senapool.weather.controller.user.dto;
+package com.tave_app_1.senapool.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
@@ -12,6 +12,9 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
+
+    @NotNull
+    private Long userPk;
 
     @NotNull
     @Size(min = 3, max = 50)
