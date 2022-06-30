@@ -48,7 +48,7 @@ public class MyPlantService {
                 .userId("test")
                 .password("1234")
                 .email("test@naver.com")
-                .userImage("test")
+                .userImageName("test")
                 .build();
 
         /*
