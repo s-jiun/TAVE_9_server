@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "myPlant")
@@ -16,13 +17,6 @@ public class MyPlant {
     @Id @GeneratedValue
     @Column(name = "plant_pk")
     private Long plantPK;
-
-    /*
-    cascade 설정 변경 필요
-     */
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_pk")
-    private User user;
 
     @Column(nullable = false, name = "plant_name")
     private String plantName;
@@ -52,11 +46,28 @@ public class MyPlant {
      startDay, lastWater 추가
      */
 
+    /*
+    cascade 설정 변경 필요
+     */
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_pk")
+    private User user;
+
+    @OneToMany(mappedBy = "myPlant")
+    private List<PlantDiary> plantDiaryList;
+
     public MyPlant(User user, String plantName, String plantType, Integer waterPeriod, String plantImage) {
         this.user = user;
         this.plantName = plantName;
         this.plantType = plantType;
         this.waterPeriod = waterPeriod;
         this.plantImage = plantImage;
+    }
+
+    public void updatePlant(String plantImage, String plantName, String plantType, Integer waterPeriod) {
+        this.plantImage = plantImage;
+        this.plantName = plantName;
+        this.plantType = plantType;
+        this.waterPeriod = waterPeriod;
     }
 }

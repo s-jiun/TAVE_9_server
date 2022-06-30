@@ -1,4 +1,4 @@
-package com.tave_app_1.senapool.myplant_list.dto;
+package com.tave_app_1.senapool.myplant_list.dto.plant_register_request;
 
 import com.tave_app_1.senapool.entity.MyPlant;
 import com.tave_app_1.senapool.entity.User;

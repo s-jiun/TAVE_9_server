@@ -7,7 +7,7 @@ import javax.persistence.Id;
 @Getter
 public class UserUpdateDto {
     @Id
-    private Integer userPk;
+    private Long userPk;
 
     private String userId;
 
