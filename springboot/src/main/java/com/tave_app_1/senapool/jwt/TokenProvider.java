@@ -1,5 +1,7 @@
 package com.tave_app_1.senapool.jwt;
 
+import com.tave_app_1.senapool.entity.User;
+import com.tave_app_1.senapool.user.repository.UserRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -10,13 +12,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -28,13 +28,17 @@ public class TokenProvider implements InitializingBean {
 
     private final String secret;
     private final long tokenValidityInMilliseconds;
+
+
+    private final UserRepository userRepository;
     private Key key;
 
     public TokenProvider (
             @Value("${jwt.secret}") String secret,
-            @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds) {
+            @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds, UserRepository userRepository) {
         this.secret = secret;
         this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -73,9 +77,8 @@ public class TokenProvider implements InitializingBean {
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 
-        User principal = new User(claims.get("user_pk",String.class),"",authorities);
-
-        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+        User user = userRepository.findByUserPK(Long.valueOf(claims.get("user_pk").toString()));
+        return new UsernamePasswordAuthenticationToken(user,token,authorities);
     }
 
     public boolean validateToken(String token) {

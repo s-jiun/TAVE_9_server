@@ -1,5 +1,6 @@
 package com.tave_app_1.senapool.entity;
 
+import io.jsonwebtoken.Claims;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -44,6 +45,11 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<MyPlant> myPlants;
+
+    public User(Claims claims) {
+        this.userPK = Long.valueOf(claims.get("user_pk").toString());
+    }
+
 
     @ManyToMany
     @JoinTable(

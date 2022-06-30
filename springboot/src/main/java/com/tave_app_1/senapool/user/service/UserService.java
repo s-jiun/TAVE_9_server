@@ -75,6 +75,7 @@ public class UserService {
 
 
     public User userInfoUpdate(UserUpdateDto userUpdateDto) {
+        log.info("유저 정보={}", userUpdateDto);
         User updateUser = userRepository.findByUserPK(userUpdateDto.getUserPk());
         updateUser.setUserId(userUpdateDto.getUserId());
         updateUser.setEmail(userUpdateDto.getEmail());
@@ -82,14 +83,16 @@ public class UserService {
 
         return userRepository.save(updateUser);
     }
+
     
     private ResponseEntity<TokenDto> getTokenDtoResponseEntity(UserLoginDto userLoginDTO) {
+        User user = userRepository.findByEmail(userLoginDTO.getEmail()).get();
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userLoginDTO.getEmail(), userLoginDTO.getPassword());
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = tokenProvider.createToken(authentication);
+        String jwt = tokenProvider.createToken(user.getUserPK(),authentication);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
