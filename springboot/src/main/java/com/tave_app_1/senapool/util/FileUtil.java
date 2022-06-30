@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
@@ -50,7 +51,7 @@ public class FileUtil {
         return Paths.get(diaryFolderPath + imageName);
     }
 
-    public void savePlantImage(MultipartFile file) {
+    public String savePlantImage(MultipartFile file) {
         String uniqueImageName = getUniqueImageName(file);
 
         Path filePath = getPlantImagePath(uniqueImageName);
@@ -60,9 +61,10 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return uniqueImageName;
     }
 
-    public void saveUserImage(MultipartFile file) {
+    public String saveUserImage(MultipartFile file) {
         String uniqueImageName = getUniqueImageName(file);
 
         Path filePath = getUserImagePath(uniqueImageName);
@@ -72,9 +74,10 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return uniqueImageName;
     }
 
-    public void saveDiaryImage(MultipartFile file) {
+    public String saveDiaryImage(MultipartFile file) {
         String uniqueImageName = getUniqueImageName(file);
 
         Path filePath = getDiaryImagePath(uniqueImageName);
@@ -84,6 +87,7 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return uniqueImageName;
     }
 
 
