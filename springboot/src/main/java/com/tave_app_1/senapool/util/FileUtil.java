@@ -27,7 +27,7 @@ public class FileUtil {
     }
 
     // uuid 추가한 이미지 이름 반환
-    public String getUniqueImageName(MultipartFile file) {
+    private String getUniqueImageName(MultipartFile file) {
         return UUID.randomUUID() + "_" + file.getOriginalFilename();
     }
 
@@ -36,21 +36,21 @@ public class FileUtil {
      */
 
     // 식물 이미지를 저장할 경로 반환
-    public Path getPlantImagePath(String imageName) {
+    private Path getPlantImagePath(String imageName) {
         return Paths.get(plantFolderPath + imageName);
     }
 
     // 유저 이미지를 저장할 경로 반환
-    public Path getUserImagePath(String imageName) {
+    private Path getUserImagePath(String imageName) {
         return Paths.get(userFolderPath + imageName);
     }
 
     // 일기 이미지를 저장할 경로 반환
-    public Path getDiaryImagePath(String imageName) {
+    private Path getDiaryImagePath(String imageName) {
         return Paths.get(diaryFolderPath + imageName);
     }
 
-    public void savePlantImage(MultipartFile file) {
+    public String savePlantImage(MultipartFile file) {
         String uniqueImageName = getUniqueImageName(file);
 
         Path filePath = getPlantImagePath(uniqueImageName);
@@ -60,9 +60,11 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return uniqueImageName;
     }
 
-    public void saveUserImage(MultipartFile file) {
+    public String saveUserImage(MultipartFile file) {
         String uniqueImageName = getUniqueImageName(file);
 
         Path filePath = getUserImagePath(uniqueImageName);
@@ -72,9 +74,11 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return uniqueImageName;
     }
 
-    public void saveDiaryImage(MultipartFile file) {
+    public String saveDiaryImage(MultipartFile file) {
         String uniqueImageName = getUniqueImageName(file);
 
         Path filePath = getDiaryImagePath(uniqueImageName);
@@ -84,6 +88,8 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return uniqueImageName;
     }
 
 
