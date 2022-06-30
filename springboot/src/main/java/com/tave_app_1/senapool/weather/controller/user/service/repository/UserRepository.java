@@ -1,4 +1,4 @@
-package com.tave_app_1.senapool.user.repository;
+package com.tave_app_1.senapool.weather.controller.user.service.repository;
 
 import com.tave_app_1.senapool.entity.User;
 import org.springframework.data.jpa.repository.EntityGraph;

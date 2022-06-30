@@ -1,7 +1,7 @@
-package com.tave_app_1.senapool.user.service;
+package com.tave_app_1.senapool.weather.controller.user.service;
 
 import com.tave_app_1.senapool.entity.User;
-import com.tave_app_1.senapool.user.repository.UserRepository;
+import com.tave_app_1.senapool.weather.controller.user.service.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,27 +1,19 @@
-package com.tave_app_1.senapool.user.controller;
+package com.tave_app_1.senapool.weather.controller.user.controller;
 
 
 import com.tave_app_1.senapool.entity.User;
-import com.tave_app_1.senapool.jwt.JwtFilter;
 import com.tave_app_1.senapool.jwt.TokenProvider;
-import com.tave_app_1.senapool.user.dto.TokenDto;
-import com.tave_app_1.senapool.user.dto.UserDto;
-import com.tave_app_1.senapool.user.dto.UserLoginDto;
-import com.tave_app_1.senapool.user.dto.UserUpdateDto;
-import com.tave_app_1.senapool.user.service.UserService;
+import com.tave_app_1.senapool.weather.controller.user.dto.UserDto;
+import com.tave_app_1.senapool.weather.controller.user.dto.UserLoginDto;
+import com.tave_app_1.senapool.weather.controller.user.dto.UserUpdateDto;
+import com.tave_app_1.senapool.weather.controller.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Slf4j
 @RestController
