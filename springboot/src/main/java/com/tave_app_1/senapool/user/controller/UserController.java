@@ -8,16 +8,13 @@ import com.tave_app_1.senapool.user.dto.UserLoginDto;
 import com.tave_app_1.senapool.user.dto.UserUpdateDto;
 import com.tave_app_1.senapool.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Slf4j

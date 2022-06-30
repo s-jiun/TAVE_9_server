@@ -5,7 +5,6 @@ import com.tave_app_1.senapool.jwt.JwtAuthenticationEntryPoint;
 import com.tave_app_1.senapool.jwt.JwtSecurityConfig;
 import com.tave_app_1.senapool.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -70,6 +69,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
+                // 접근제한 풀어주기
+                .antMatchers("/", "/**").permitAll()
                 // 해당 uri는 토큰이 없는 상태로 요청이 들어오기 때문에 허용
                 .antMatchers("/user/login").permitAll()
                 .antMatchers("/user/signup").permitAll()

@@ -3,13 +3,13 @@ package com.tave_app_1.senapool.user.service;
 
 import com.tave_app_1.senapool.entity.Authority;
 import com.tave_app_1.senapool.entity.User;
+import com.tave_app_1.senapool.user.repository.UserRepository;
 import com.tave_app_1.senapool.jwt.JwtFilter;
 import com.tave_app_1.senapool.jwt.TokenProvider;
 import com.tave_app_1.senapool.user.dto.TokenDto;
 import com.tave_app_1.senapool.user.dto.UserDto;
 import com.tave_app_1.senapool.user.dto.UserLoginDto;
 import com.tave_app_1.senapool.user.dto.UserUpdateDto;
-import com.tave_app_1.senapool.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

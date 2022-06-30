@@ -1,6 +1,6 @@
-package com.tave_app_1.senapool.images;
+package com.tave_app_1.senapool.image.controller;
 
-import com.tave_app_1.senapool.util.FileUtil;
+import com.tave_app_1.senapool.image.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -12,9 +12,9 @@ import java.net.MalformedURLException;
 
 @RestController
 @RequiredArgsConstructor
-public class ImagesController {
+public class ImageController {
 
-    private final FileUtil fileUtil;
+    private final ImageService imageService;
 
     /**
      * 이미지 다운로드
@@ -23,14 +23,15 @@ public class ImagesController {
      * 작성일 :
      */
     // type = {plant, user}
-    @GetMapping("/images/{type}/{userPK}/{fileName}")
+    @GetMapping("/images/{type}/{fileName}")
     public Resource downloadImage(@PathVariable("type") String type,
                                   @PathVariable("userPK") int userPK,
                                   @PathVariable("fileName") String fileName) throws MalformedURLException {
-        String filePath;
-        if(type.equals("plant")) filePath = fileUtil.getPlantFolderPath();
-        else filePath = fileUtil.getUserFolderPath();
+        /*
+        토큰으로 url 인가처리
+         */
 
+        String filePath = imageService.getFilePath(type);
         return new UrlResource("file:" + filePath + fileName);
     }
 }

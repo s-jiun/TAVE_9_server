@@ -1,4 +1,4 @@
-package com.tave_app_1.senapool.util;
+package com.tave_app_1.senapool.user.util;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;
@@ -17,17 +17,23 @@ public class FileUtil {
     private final String absolutePath;
     private final String plantFolderPath;
     private final String userFolderPath;
+    private final String diaryFolderPath;
 
     public FileUtil() {
-        this.absolutePath = new File("").getAbsolutePath() + '\\';
+        this.absolutePath = new File("").getAbsolutePath() + File.separator;
         this.plantFolderPath = absolutePath + "src/main/resources/static/images/plant/";
         this.userFolderPath = absolutePath + "src/main/resources/static/images/user/";
+        this.diaryFolderPath = absolutePath + "src/main/resources/static/images/diary/";
     }
 
     // uuid 추가한 이미지 이름 반환
     public String getUniqueImageName(MultipartFile file) {
         return UUID.randomUUID() + "_" + file.getOriginalFilename();
     }
+
+    /*
+    향후 중복 리팩토링
+     */
 
     // 식물 이미지를 저장할 경로 반환
     public Path getPlantImagePath(String imageName) {
@@ -37,6 +43,11 @@ public class FileUtil {
     // 유저 이미지를 저장할 경로 반환
     public Path getUserImagePath(String imageName) {
         return Paths.get(userFolderPath + imageName);
+    }
+
+    // 일기 이미지를 저장할 경로 반환
+    public Path getDiaryImagePath(String imageName) {
+        return Paths.get(diaryFolderPath + imageName);
     }
 
     public void savePlantImage(MultipartFile file) {
@@ -60,6 +71,40 @@ public class FileUtil {
             file.transferTo(filePath);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void saveDiaryImage(MultipartFile file) {
+        String uniqueImageName = getUniqueImageName(file);
+
+        Path filePath = getDiaryImagePath(uniqueImageName);
+
+        try {
+            file.transferTo(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void deletePlantImage(String imageName) {
+        File file = new File(plantFolderPath + imageName);
+        if (file.exists()) {
+            file.delete();
+        }
+    }
+
+    public void deleteUserImage(String imageName) {
+        File file = new File(userFolderPath + imageName);
+        if (file.exists()) {
+            file.delete();
+        }
+    }
+
+    public void deleteDiaryImage(String imageName) {
+        File file = new File(diaryFolderPath + imageName);
+        if (file.exists()) {
+            file.delete();
         }
     }
 }

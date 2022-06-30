@@ -44,7 +44,7 @@ public class User {
     }
 
     @OneToMany(mappedBy = "user")
-    private List<MyPlant> myPlants;
+    private List<MyPlant> myPlantList;
 
     public User(Claims claims) {
         this.userPK = Long.valueOf(claims.get("user_pk").toString());
