@@ -1,4 +1,4 @@
-package com.tave_app_1.senapool.myplant_list.dto;
+package com.tave_app_1.senapool.myplant_list.dto.plant_list_response;
 
 import com.tave_app_1.senapool.entity.User;
 import lombok.Data;
@@ -22,6 +22,6 @@ public class PlantListResponseDto {
         userId = user.getUserId();
         userImage = user.getUserImage();
 
-        plantListDto = new PlantListDto(user.getMyPlants());
+        plantListDto = new PlantListDto(user.getMyPlantList());
     }
 }

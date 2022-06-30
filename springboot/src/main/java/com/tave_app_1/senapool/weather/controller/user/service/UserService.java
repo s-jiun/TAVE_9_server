@@ -1,15 +1,15 @@
-package com.tave_app_1.senapool.user.service;
+package com.tave_app_1.senapool.weather.controller.user.service;
 
 
 import com.tave_app_1.senapool.entity.Authority;
 import com.tave_app_1.senapool.entity.User;
 import com.tave_app_1.senapool.jwt.JwtFilter;
 import com.tave_app_1.senapool.jwt.TokenProvider;
-import com.tave_app_1.senapool.user.dto.TokenDto;
-import com.tave_app_1.senapool.user.dto.UserDto;
-import com.tave_app_1.senapool.user.dto.UserLoginDto;
-import com.tave_app_1.senapool.user.dto.UserUpdateDto;
-import com.tave_app_1.senapool.user.repository.UserRepository;
+import com.tave_app_1.senapool.weather.controller.user.dto.TokenDto;
+import com.tave_app_1.senapool.weather.controller.user.dto.UserDto;
+import com.tave_app_1.senapool.weather.controller.user.dto.UserLoginDto;
+import com.tave_app_1.senapool.weather.controller.user.dto.UserUpdateDto;
+import com.tave_app_1.senapool.weather.controller.user.service.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -82,11 +82,7 @@ public class UserService {
 
         return userRepository.save(updateUser);
     }
-
-    public String encryptPassword(String password) {
-        return passwordEncoder.encode(password);
-    }
-
+    
     private ResponseEntity<TokenDto> getTokenDtoResponseEntity(UserLoginDto userLoginDTO) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userLoginDTO.getEmail(), userLoginDTO.getPassword());
