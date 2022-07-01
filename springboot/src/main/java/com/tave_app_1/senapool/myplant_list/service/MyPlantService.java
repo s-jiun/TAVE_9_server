@@ -27,6 +27,7 @@ public class MyPlantService {
     public PlantListResponseDto makePlantList(Long userPK) {
         // userPK로 해당 user 정보 가져오기
         User user = userRepository.findByUserPK(userPK);
+        log.info(user.getMyPlantList().toString());
         // Entity -> Dto 변환
         PlantListResponseDto plantListResponseDto = new PlantListResponseDto(user);
         return plantListResponseDto;
@@ -36,16 +37,17 @@ public class MyPlantService {
     세션정보 넘어온 뒤 user 정보 넣어줘야함
      */
     @Transactional
-    public void joinPlant(PlantRegisterRequestDto plantRegisterRequestDto){
+    public void joinPlant(PlantRegisterRequestDto plantRegisterRequestDto, User user){
         /*
         dummy user
-        */
+
         User user = User.builder()
                 .userId("test")
                 .password("1234")
                 .email("test@naver.com")
                 .userImageName("test")
                 .build();
+        */
 
         /*
             추후 빌더 형태로 변환

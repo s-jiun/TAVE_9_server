@@ -12,12 +12,16 @@ import javax.validation.constraints.NotNull;
 @Data
 public class PlantRegisterRequestDto {
 
+    @NotBlank
     private MultipartFile file;
 
+    @NotBlank
     private String plantName;
 
+    @NotBlank
     private String plantType;
 
+    @NotBlank
     private Integer waterPeriod;
 
     //private Date startDay;

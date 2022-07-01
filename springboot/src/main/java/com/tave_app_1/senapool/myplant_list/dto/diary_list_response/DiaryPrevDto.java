@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class DiaryPrevDto {
 
-    @NotNull
     private Long diaryPK;
 
     private String title;

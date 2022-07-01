@@ -46,10 +46,7 @@ public class MyPlant {
      startDay, lastWater 추가
      */
 
-    /*
-    cascade 설정 변경 필요
-     */
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_pk")
     private User user;
 
