@@ -114,4 +114,13 @@ public class FileUtil {
             file.delete();
         }
     }
+
+    public String imageChange(MultipartFile newImage, String oldImageName) {
+        // 기존 이미지 삭제
+        deletePlantImage(oldImageName);
+        // 새 이미지 저장 후, 저장한 이름 반환
+        String uniqueImageName = savePlantImage(newImage);
+
+        return uniqueImageName;
+    }
 }

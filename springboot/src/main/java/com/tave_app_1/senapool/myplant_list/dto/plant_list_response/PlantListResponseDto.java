@@ -3,6 +3,8 @@ package com.tave_app_1.senapool.myplant_list.dto.plant_list_response;
 import com.tave_app_1.senapool.entity.User;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 public class PlantListResponseDto {
 
