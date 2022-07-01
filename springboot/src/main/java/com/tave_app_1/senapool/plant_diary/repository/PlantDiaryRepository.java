@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PlantDiaryRepository extends JpaRepository<PlantDiary,Long> {
-    List<PlantDiary> findAllByPlant_idOrderByIdAsc(Long id);
-    PlantDiary findAllById(Long id);
-    Optional<PlantDiary> findTopBy_idOrderByCreatedDateDesc(Long id);
+//    List<PlantDiary> findAllByPlant_idOrderByIdAsc(Long id);
+//    PlantDiary findAllById(Long id);
+//    Optional<PlantDiary> findTopBy_idOrderByCreatedDateDesc(Long id);
 }

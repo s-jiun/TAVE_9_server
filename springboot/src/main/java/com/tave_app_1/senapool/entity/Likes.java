@@ -19,7 +19,6 @@ public class Likes {
     @JoinColumn(name = "userPK")
     private User User;
 
-<<<<<<< HEAD
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diaryPK")
     private PlantDiary PlantDiary;
@@ -31,6 +30,5 @@ public class Likes {
 
         return like;
     }
-=======
->>>>>>> develop
+
 }

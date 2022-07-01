@@ -4,7 +4,6 @@ package com.tave_app_1.senapool.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -37,9 +36,9 @@ public class PlantDiary extends BaseTimeEntity{
     @Column
     private Boolean publish;
 
-    //글 올린 날
-    @Column
-    private LocalDateTime createDate;
+//    //글 올린 날
+//    @Column
+//    private LocalDateTime createDate;
 
     //식물 정보 매핑
     @ManyToOne
