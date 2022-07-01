@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Service
@@ -62,16 +61,13 @@ public class MyPlantService {
         MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
 
         // 기존 이미지 삭제 후, 새 이미지 저장
-        String uniqueImageName = imageChange(plantUpdateRequestDto.getFile(), myPlant.getPlantImage());
+        String uniqueImageName = fileUtil.imageChange(plantUpdateRequestDto.getFile(), myPlant.getPlantImage());
         // dirty check 이용한 update
         myPlant.updatePlant(uniqueImageName, plantUpdateRequestDto.getPlantName(), plantUpdateRequestDto.getPlantType(), plantUpdateRequestDto.getWaterPeriod());
     }
 
     @Transactional
     public void deletePlant(Long plantPK) {
-        /*
-        cascade 설정으로 관련 PlantDiary 삭제해야함
-         */
         // 식물삭제
         myPlantRepository.deleteById(plantPK);
     }
@@ -83,14 +79,5 @@ public class MyPlantService {
         // Entity -> Dto 변환
         DiaryListResponseDto diaryListResponseDto = new DiaryListResponseDto(myPlant);
         return diaryListResponseDto;
-    }
-
-    private String imageChange(MultipartFile newImage, String oldImageName) {
-        // 기존 이미지 삭제
-        fileUtil.deletePlantImage(oldImageName);
-        // 새 이미지 저장 후, 저장한 이름 반환
-        String uniqueImageName = fileUtil.savePlantImage(newImage);
-
-        return uniqueImageName;
     }
 }
