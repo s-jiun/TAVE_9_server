@@ -18,7 +18,7 @@ public class PlantDiaryDto {
 
     private String content;
 
-    private String picture;
+    private String diaryImage;
 
     private Boolean publish;
 

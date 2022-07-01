@@ -10,17 +10,17 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Value("${post.path}")
-    private String postUploadFolder;
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry){
-        WebMvcConfigurer.super.addResourceHandlers(registry);;
-
-        registry.addResourceHandler("/upload/**")
-                .addResourceLocations("file:///" + postUploadFolder)
-                .resourceChain(true)
-                .addResolver(new PathResourceResolver());
-    }
+//    @Value("${post.path}")
+//    private String postUploadFolder;
+//
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry){
+//        WebMvcConfigurer.super.addResourceHandlers(registry);;
+//
+//        registry.addResourceHandler("/upload/**")
+//                .addResourceLocations("file:///" + postUploadFolder)
+//                .resourceChain(true)
+//                .addResolver(new PathResourceResolver());
+//    }
 
 }

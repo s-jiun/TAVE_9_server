@@ -29,27 +29,27 @@ public class PlantDiaryService {
     private final UserRepository userRepository;
     private final PlantDiaryRepository plantDiaryRepository;
 
-    @Value("${post.path}")
-    private String uploadUrl;
+//    @Value("${post.path}")
+//    private String uploadUrl;
 
-    @Transactional
-    public void save(PlantDiaryUploadDto plantDiaryUploadDto, MultipartFile multipartFile){
-        UUID uuid = UUID.randomUUID();
-        String imgFileName = uuid + "_" + multipartFile.getOriginalFilename();
-
-        Path imageFilePath = Paths.get(uploadUrl + imgFileName);
-        try{
-            Files.write(imageFilePath,multipartFile.getBytes());
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-
-        plantDiaryRepository.save(PlantDiary.builder()
-                .picture(imgFileName)
-                .title(plantDiaryUploadDto.getTitle())
-                .content(plantDiaryUploadDto.getContent())
-                .build());
-    }
+//    @Transactional
+//    public void save(PlantDiaryUploadDto plantDiaryUploadDto, MultipartFile multipartFile){
+//        UUID uuid = UUID.randomUUID();
+//        String imgFileName = uuid + "_" + multipartFile.getOriginalFilename();
+//
+//        Path imageFilePath = Paths.get(uploadUrl + imgFileName);
+//        try{
+//            Files.write(imageFilePath,multipartFile.getBytes());
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
+//
+//        plantDiaryRepository.save(PlantDiary.builder()
+//                .diaryImage(imgFileName)
+//                .title(plantDiaryUploadDto.getTitle())
+//                .content(plantDiaryUploadDto.getContent())
+//                .build());
+//    }
 
 //    @Transactional
 //    public PlantDiaryDto getPlantDiaryDto(long plantDiartId){

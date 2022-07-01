@@ -16,7 +16,7 @@ public class PlantDiaryInfoDto {
     private String title;
     private String content;
 //    private LocalDateTime createdate;
-    private String picture;
+    private String diaryImage;
     private Boolean publish;
 
 }
