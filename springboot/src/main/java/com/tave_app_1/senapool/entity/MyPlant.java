@@ -1,5 +1,7 @@
 package com.tave_app_1.senapool.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -49,10 +51,13 @@ public class MyPlant {
     /*
     cascade 설정 변경 필요
      */
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_pk")
     private User user;
 
+    @JsonManagedReference
+    @JsonBackReference
     @OneToMany(mappedBy = "myPlant", cascade = CascadeType.REMOVE)
     private List<PlantDiary> plantDiaryList;
 
