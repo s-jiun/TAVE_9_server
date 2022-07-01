@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @PostMapping("/user/login") //로그인
-    public ResponseEntity<?> login(UserLoginDto userLoginDTO) throws NoSuchElementException {
+    public ResponseEntity<?> login(@RequestBody UserLoginDto userLoginDTO) throws NoSuchElementException {
         return userService.login(userLoginDTO);
     }
 
