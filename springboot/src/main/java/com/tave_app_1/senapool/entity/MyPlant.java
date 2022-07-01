@@ -49,12 +49,14 @@ public class MyPlant extends BaseTime{
     @OneToMany(mappedBy = "myPlant", cascade = CascadeType.REMOVE)
     private List<PlantDiary> plantDiaryList;
 
-    public MyPlant(User user, String plantName, String plantType, Integer waterPeriod, String plantImage) {
+    public MyPlant(User user, String plantName, String plantType, Integer waterPeriod, LocalDateTime lastWater, LocalDateTime startDay, String plantImage) {
         this.user = user;
         this.plantName = plantName;
         this.plantType = plantType;
         this.waterPeriod = waterPeriod;
         this.plantImage = plantImage;
+        this.lastWater = lastWater;
+        this.startDay = startDay;
     }
 
     public void updatePlant(String plantImage, String plantName, String plantType, Integer waterPeriod) {
