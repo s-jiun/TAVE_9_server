@@ -1,17 +1,18 @@
 package com.tave_app_1.senapool.entity;
 
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
-//@Setter
-//@EqualsAndHashCode(of = "id")
-//@Builder
-//@AllArgsConstructor
+@Setter
+@EqualsAndHashCode(of = "id")
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class PlantDiary extends BaseTimeEntity{
 
@@ -67,6 +68,25 @@ public class PlantDiary extends BaseTimeEntity{
         this.picture = picture;
         this.title = title;
         this.content = content;
+    }
+
+    //좋아요 개수 매핑
+    @JsonIgnoreProperties({"diary"})
+    @OneToMany(mappedBy = "diary")
+    private List<Likes> likesList;
+
+    @Transient
+    private long likesCount;
+
+    @Transient
+    private boolean likesState;
+
+    public void updateLikesCount(long likesCount) {
+        this.likesCount = likesCount;
+    }
+
+    public void updateLikesState(boolean likesState) {
+        this.likesState = likesState;
     }
 
 }

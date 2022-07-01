@@ -2,7 +2,9 @@ package com.tave_app_1.senapool.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
+import com.tave_app_1.senapool.entity.User;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Size;
 
@@ -26,5 +28,5 @@ public class UserDto {
     @Size(min = 3, max = 50)
     private String email;
 
-    private String userImage;
+    private MultipartFile userImage;
 }

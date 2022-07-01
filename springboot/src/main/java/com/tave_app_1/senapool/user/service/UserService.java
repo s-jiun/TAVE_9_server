@@ -3,13 +3,15 @@ package com.tave_app_1.senapool.user.service;
 
 import com.tave_app_1.senapool.entity.Authority;
 import com.tave_app_1.senapool.entity.User;
+import com.tave_app_1.senapool.user.repository.UserRepository;
 import com.tave_app_1.senapool.jwt.JwtFilter;
 import com.tave_app_1.senapool.jwt.TokenProvider;
 import com.tave_app_1.senapool.user.dto.TokenDto;
 import com.tave_app_1.senapool.user.dto.UserDto;
 import com.tave_app_1.senapool.user.dto.UserLoginDto;
 import com.tave_app_1.senapool.user.dto.UserUpdateDto;
-import com.tave_app_1.senapool.user.repository.UserRepository;
+import com.tave_app_1.senapool.util.FileUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,21 +29,18 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 @Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final FileUtil fileUtil;
+
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.tokenProvider = tokenProvider;
-        this.authenticationManagerBuilder = authenticationManagerBuilder;
-    }
 
     public ResponseEntity<?> join(UserDto userDto) {
         if (userRepository.findOneWithAuthoritiesByEmail(userDto.getEmail()).orElse(null) != null) {
@@ -52,11 +51,12 @@ public class UserService {
                 .authorityName("ROLE_USER")
                 .build();
 
+
         User user = User.builder()
                 .userId(userDto.getUserId())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .email(userDto.getEmail())
-                .userImage(userDto.getUserImage())
+                .userImageName(fileUtil.saveUserImage(userDto.getUserImage()))
                 .authorities(Collections.singleton(authority))
                 .activated(true)
                 .build();
@@ -74,22 +74,31 @@ public class UserService {
     }
 
 
-    public User userInfoUpdate(UserUpdateDto userUpdateDto) {
-        User updateUser = userRepository.findByUserPK(userUpdateDto.getUserPk());
-        updateUser.setUserId(userUpdateDto.getUserId());
-        updateUser.setEmail(userUpdateDto.getEmail());
-        updateUser.setUserImage(updateUser.getUserImage());
+    public User userInfoUpdate(Long userPk,UserDto userDto) {
+        User user = userRepository.findByUserPK(userPk);
 
-        return userRepository.save(updateUser);
+        fileUtil.deleteUserImage(user.getUserImageName());
+
+
+
+        user.setUserId(userDto.getUserId());
+        user.setEmail(userDto.getEmail());
+        user.setUserImageName(fileUtil.saveUserImage(userDto.getUserImage()));
+
+        log.info("업데이트된 유저 정보={}", user);
+
+        return userRepository.save(user);
     }
+
     
     private ResponseEntity<TokenDto> getTokenDtoResponseEntity(UserLoginDto userLoginDTO) {
+        User user = userRepository.findByEmail(userLoginDTO.getEmail()).get();
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userLoginDTO.getEmail(), userLoginDTO.getPassword());
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = tokenProvider.createToken(authentication);
+        String jwt = tokenProvider.createToken(user.getUserPK(),authentication);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);

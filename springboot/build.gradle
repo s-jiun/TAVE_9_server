@@ -9,6 +9,9 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
+	all {
+		exclude module: 'slf4j-log4j12'
+	}
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
@@ -21,8 +24,8 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'eu.freme-project:diary:0.1'
-    compileOnly 'org.projectlombok:lombok'
+	implementation 'eu.freme-project:diary:0.1'
+	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -43,12 +46,8 @@ dependencies {
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
 	//swagger
-	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
-
-
-
-	//ModelMapper
-	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.6'
+	implementation 'io.springfox:springfox-swagger2:2.9.2'
+	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 }
 
 tasks.named('test') {

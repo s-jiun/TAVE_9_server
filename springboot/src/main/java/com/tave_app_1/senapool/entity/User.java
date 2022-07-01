@@ -1,5 +1,7 @@
 package com.tave_app_1.senapool.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -33,7 +35,7 @@ public class User {
     private String email;
 
     @Column(name = "user_image",nullable = true)
-    private String userImage;
+    private String userImageName;
 
     @Column(name = "activated")
     private boolean activated;
@@ -42,8 +44,12 @@ public class User {
         this.password = enPw;
     }
 
+    @JsonManagedReference
+    @JsonBackReference
     @OneToMany(mappedBy = "user")
-    private List<MyPlant> myPlants;
+    private List<MyPlant> myPlantList;
+
+
 
     @ManyToMany
     @JoinTable(
