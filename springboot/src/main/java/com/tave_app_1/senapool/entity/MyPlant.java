@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MyPlant {
+public class MyPlant extends BaseTime{
 
     @Id @GeneratedValue
     @Column(name = "plant_pk")
@@ -34,17 +34,13 @@ public class MyPlant {
      nullable 해제
      */
     @Column(nullable = true, name = "start_day")
-    private String startDay;
+    private LocalDateTime startDay;
 
     /*
      nullable 해제
      */
     @Column(nullable = true, name = "last_water")
     private LocalDateTime lastWater;
-
-    /*
-     startDay, lastWater 추가
-     */
 
     @ManyToOne
     @JoinColumn(name = "user_pk")

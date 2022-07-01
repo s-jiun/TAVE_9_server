@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PlantDiary{
+public class PlantDiary extends BaseTime{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

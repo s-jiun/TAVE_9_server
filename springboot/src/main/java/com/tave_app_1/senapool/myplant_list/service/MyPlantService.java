@@ -33,22 +33,8 @@ public class MyPlantService {
         return plantListResponseDto;
     }
 
-    /*
-    세션정보 넘어온 뒤 user 정보 넣어줘야함
-     */
     @Transactional
     public void joinPlant(PlantRegisterRequestDto plantRegisterRequestDto, User user){
-        /*
-        dummy user
-
-        User user = User.builder()
-                .userId("test")
-                .password("1234")
-                .email("test@naver.com")
-                .userImageName("test")
-                .build();
-        */
-
         /*
             추후 빌더 형태로 변환
          */
