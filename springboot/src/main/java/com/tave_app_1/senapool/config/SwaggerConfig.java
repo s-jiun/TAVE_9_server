@@ -8,16 +8,18 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 // 서버 실행 후 아래주소로 들어가면 api doc 나옴.
-// http://localhost:8080/swagger-ui/index.html#/
+// http://localhost:8080/swagger-ui.html#/
 
 @Configuration
+@EnableSwagger2
 public class SwaggerConfig {
 
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.OAS_30)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.tave_app_1.senapool"))
@@ -30,7 +32,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("Senapool")
                 .description("Senapool API Document")
-                .version("3.0")
+                .version("2.0")
                 .build();
     }
 }

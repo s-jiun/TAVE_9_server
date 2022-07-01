@@ -9,13 +9,13 @@ import java.util.List;
 @Data
 public class PlantListDto {
 
-    private List<PlantDto> plantDtos;
+    private List<PlantDto> plantDtoList;
 
     public PlantListDto(List<MyPlant> plantList){
-        plantDtos = new ArrayList<>(plantList.size());
+        plantDtoList = new ArrayList<>(plantList.size());
 
         for(MyPlant m : plantList){
-            plantDtos.add(new PlantDto(m.getPlantPK(), m.getPlantName(), m.getPlantImage()));
+            plantDtoList.add(new PlantDto(m.getPlantPK(), m.getPlantName(), m.getPlantImage()));
         }
     }
 }

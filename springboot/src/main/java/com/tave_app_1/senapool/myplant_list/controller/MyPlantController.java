@@ -6,7 +6,6 @@ import com.tave_app_1.senapool.myplant_list.dto.plant_register_request.PlantRegi
 import com.tave_app_1.senapool.myplant_list.dto.plant_list_response.PlantListResponseDto;
 import com.tave_app_1.senapool.myplant_list.dto.plant_update_request.PlantUpdateRequestDto;
 import com.tave_app_1.senapool.myplant_list.service.MyPlantService;
-import com.tave_app_1.senapool.util.FileUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,28 +27,29 @@ public class MyPlantController {
      * 유저 식물 리스트
      * [GET] /myplant-list/{userPK}
      * 작성자 : 장동호
-     * 수정일 : 2022-06-20
+     * 수정일 : 2022-07-01
      */
-    @ApiOperation(value = "선택한 유저의 나의 식물 리스트로 이동", notes = "'임의의 page' -> '나의 식물 리스트'로 이동할 때 유저 및 식물 정보 받아오기")
-    @GetMapping("/myplant-list/{userPK}")
+    @ApiOperation(value = "선택한 유저의 '나의 식물 리스트'로 이동", notes = "'임의의 page' -> '나의 식물 리스트'로 이동할 때 유저 및 식물 정보 받아오기", response = PlantListResponseDto.class)
+    @GetMapping(value = "/myplant-list/{userPK}")
     public ResponseEntity<?> plantList(@PathVariable("userPK") Long userPK){
         PlantListResponseDto plantListResponseDto = myPlantService.makePlantList(userPK);
-        return new ResponseEntity<PlantListResponseDto>(plantListResponseDto, HttpStatus.OK);
+        return ResponseEntity.ok(plantListResponseDto);
     }
 
     /**
      * 내 식물 등록
      * [POST] /myplant-list/{userPK}
      * 작성자 : 장동호
-     * 수정일 : 2022-06-30
+     * 수정일 : 2022-07-01
      */
-    @ApiOperation(value = "내 식물 등록", notes = "'나의 식물 리스트'에서 식물 등록")
+    @ApiOperation(value = "내 식물 등록", notes = "'나의 식물 리스트'에서 식물 등록", response = ResponseEntity.class)
     @PostMapping("/myplant-list/{userPK}")
     public ResponseEntity<?> plantRegister(@PathVariable("userPK") Long userPK,
                                            PlantRegisterRequestDto plantRegisterRequestDto,
                                            Authentication authentication){
 
         User user = (User) authentication.getPrincipal();
+
         // 인증 성공
         if (user.getUserPK() == userPK) {
             myPlantService.joinPlant(plantRegisterRequestDto);
@@ -65,9 +65,9 @@ public class MyPlantController {
      * 내 식물 수정
      * [PUT] /myplant-list/{userPK}/{plantPK}
      * 작성자 : 장동호
-     * 수정일 : 2022-06-30
+     * 수정일 : 2022-07-01
      */
-    @ApiOperation(value = "내 식물 수정", notes = "'나의 식물일기 리스트'에서 식물 수정")
+    @ApiOperation(value = "내 식물 수정", notes = "'나의 식물일기 리스트'에서 식물 수정", response = ResponseEntity.class)
     @PutMapping("myplant-list/{userPK}/{plantPK}")
     public ResponseEntity<?> plantUpdate(@PathVariable("userPK") Long userPK,
                                          @PathVariable("plantPK") Long plantPK,
@@ -75,6 +75,7 @@ public class MyPlantController {
                                          Authentication authentication){
 
         User user = (User) authentication.getPrincipal();
+
         // 인증 성공
         if (user.getUserPK() == userPK) {
             myPlantService.updatePlant(plantPK, plantUpdateRequestDto);
@@ -90,15 +91,16 @@ public class MyPlantController {
      * 내 식물 삭제
      * [DELETE] /myplant-list/{userPK}/{plantPK}
      * 작성자 : 장동호
-     * 수정일 : 2022-06-30
+     * 수정일 : 2022-07-01
      */
-    @ApiOperation(value = "내 식물 삭제", notes = "'나의 식물일기 리스트'에서 식물 삭제")
+    @ApiOperation(value = "내 식물 삭제", notes = "'나의 식물일기 리스트'에서 식물 삭제", response = ResponseEntity.class)
     @DeleteMapping("myplant-list/{userPK}/{plantPK}")
     public ResponseEntity<?> plantDelete(@PathVariable("userPK") Long userPK,
                                          @PathVariable("plantPK") Long plantPK,
                                          Authentication authentication){
 
         User user = (User) authentication.getPrincipal();
+
         // 인증 성공
         if (user.getUserPK() == userPK) {
             myPlantService.deletePlant(plantPK);
@@ -114,9 +116,9 @@ public class MyPlantController {
      * 선택한 식물의 식물일기 리스트로 이동
      * [GET] /myplant-list/{userPK}/{plantPK}
      * 작성자 : 장동호
-     * 수정일 : 2022-06-30
+     * 수정일 : 2022-07-01
      */
-    @ApiOperation(value = "선택한 식물의 식물일기 리스트로 이동", notes = "'나의 식물 리스트' -> '나의 식물일기 리스트'로 이동할 때 유저 및 식물 정보 받아오기")
+    @ApiOperation(value = "선택한 식물의 식물일기 리스트로 이동", notes = "'나의 식물 리스트' -> '나의 식물일기 리스트'로 이동할 때 유저 및 식물 정보 받아오기", response = DiaryListResponseDto.class)
     @GetMapping("myplant-list/{userPK}/{plantPK}")
     public ResponseEntity<?> diaryList(@PathVariable("userPK") Long userPK,
                               @PathVariable("plantPK") Long plantPK){
