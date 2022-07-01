@@ -1,6 +1,7 @@
 package com.tave_app_1.senapool.entity;
 
-import io.jsonwebtoken.Claims;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -43,6 +44,8 @@ public class User {
         this.password = enPw;
     }
 
+    @JsonManagedReference
+    @JsonBackReference
     @OneToMany(mappedBy = "user")
     private List<MyPlant> myPlantList;
 
