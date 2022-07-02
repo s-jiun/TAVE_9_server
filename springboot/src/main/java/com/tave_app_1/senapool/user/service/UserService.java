@@ -85,8 +85,6 @@ public class UserService {
 
         fileUtil.deleteUserImage(user.getUserImageName());
 
-
-
         user.setUserId(userDto.getUserId());
         user.setEmail(userDto.getEmail());
         user.setUserImageName(fileUtil.saveUserImage(userDto.getUserImage()));
