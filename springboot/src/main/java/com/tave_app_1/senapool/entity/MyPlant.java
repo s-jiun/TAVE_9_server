@@ -1,5 +1,7 @@
 package com.tave_app_1.senapool.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -42,10 +44,13 @@ public class MyPlant extends BaseTime{
     @Column(nullable = true, name = "last_water")
     private LocalDateTime lastWater;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_pk")
     private User user;
 
+    @JsonManagedReference
+    @JsonBackReference
     @OneToMany(mappedBy = "myPlant", cascade = CascadeType.REMOVE)
     private List<PlantDiary> plantDiaryList;
 

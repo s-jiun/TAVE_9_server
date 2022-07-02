@@ -1,5 +1,6 @@
 package com.tave_app_1.senapool.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
@@ -41,10 +42,12 @@ public class PlantDiary extends BaseTime{
 
     //식물 정보 매핑
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "plant_pk")
     private MyPlant myPlant;
 
     //유저 정보 매핑
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_pk")
     private User user;
