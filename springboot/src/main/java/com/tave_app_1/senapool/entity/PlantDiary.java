@@ -54,6 +54,7 @@ public class PlantDiary extends BaseTime{
 
     //좋아요 개수 매핑
     @JsonIgnoreProperties({"diary"})
+    @JsonBackReference
     @OneToMany(mappedBy = "diary")
     private List<Likes> likesList;
 
