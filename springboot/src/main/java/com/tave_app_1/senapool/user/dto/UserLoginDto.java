@@ -10,7 +10,7 @@ public class UserLoginDto {
 
     @NotNull
     @Size(min = 3, max = 50)
-    private String email;
+    private String userId;
 
     @NotNull
     @Size(min = 8, max = 50)

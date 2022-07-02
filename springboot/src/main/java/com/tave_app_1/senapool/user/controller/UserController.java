@@ -6,8 +6,6 @@ import com.tave_app_1.senapool.jwt.TokenProvider;
 import com.tave_app_1.senapool.user.dto.UserDto;
 import com.tave_app_1.senapool.user.dto.UserLoginDto;
 import com.tave_app_1.senapool.user.dto.UserPasswordDto;
-import com.tave_app_1.senapool.user.dto.UserUpdateDto;
-import com.tave_app_1.senapool.user.service.EmailService;
 import com.tave_app_1.senapool.user.service.EmailServiceImpl;
 import com.tave_app_1.senapool.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -60,6 +58,12 @@ public class UserController {
     public User userUpdate(Authentication authentication, UserDto userDto) {
         User user = (User) authentication.getPrincipal();
         return userService.userInfoUpdate(user.getUserPK(), userDto);
+    }
+
+    @PostMapping("/user/temPassword")
+    public ResponseEntity<?> setTemPW(@RequestBody String email) throws Exception {
+        String temPW = emailServiceImpl.sendSimpleMessage(email);
+        return userService.setTemPassword(email, temPW);
     }
 
     //jwt 토큰 테스트
