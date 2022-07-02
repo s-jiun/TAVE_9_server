@@ -30,10 +30,12 @@ public class PlantInfoDto {
      */
     public PlantInfoDto(MyPlant myPlant) {
         this.plantPK = myPlant.getPlantPK();
-        this.plantImage = myPlant.getPlantImage();
         this.plantName = myPlant.getPlantName();
         this.plantType = myPlant.getPlantType();
         this.waterPeriod = myPlant.getWaterPeriod();
         this.period = ChronoUnit.DAYS.between(myPlant.getStartDay(), LocalDateTime.now());
+
+        if(myPlant.getPlantImage().isBlank()) this.plantImage = "Default.png";
+        else this.plantImage = myPlant.getPlantImage();
     }
 }

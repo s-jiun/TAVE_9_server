@@ -47,7 +47,7 @@ public class MyPlantController {
     @ApiOperation(value = "내 식물 등록", notes = "'나의 식물 리스트'에서 식물 등록", response = ResponseEntity.class)
     @PostMapping("/myplant-list/{userPK}")
     public ResponseEntity<?> plantRegister(@PathVariable("userPK") Long userPK,
-                                           PlantRegisterRequestDto plantRegisterRequestDto,
+                                           @Valid PlantRegisterRequestDto plantRegisterRequestDto,
                                            Authentication authentication){
 
         /*

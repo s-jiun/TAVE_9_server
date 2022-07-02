@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Data
 public class PlantRegisterRequestDto {
 
-    @NotBlank
     private MultipartFile file;
 
     @NotBlank
@@ -23,7 +22,7 @@ public class PlantRegisterRequestDto {
     @NotBlank
     private String plantType;
 
-    @NotBlank
+    @NotNull
     private Integer waterPeriod;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

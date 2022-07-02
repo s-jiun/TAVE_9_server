@@ -39,8 +39,8 @@ public class MyPlantService {
             추후 빌더 형태로 변환
          */
         // 식물 이미지 저장
-        String uniqueImageName = fileUtil.savePlantImage(plantRegisterRequestDto.getFile());
-        MyPlant myPlant = plantRegisterRequestDto.toEntity(uniqueImageName, user);
+        MyPlant myPlant;
+        myPlant = makePlantEntity(plantRegisterRequestDto, user);
         myPlantRepository.save(myPlant);
     }
 
@@ -67,5 +67,18 @@ public class MyPlantService {
         // Entity -> Dto 변환
         DiaryListResponseDto diaryListResponseDto = new DiaryListResponseDto(myPlant);
         return diaryListResponseDto;
+    }
+
+    private MyPlant makePlantEntity(PlantRegisterRequestDto plantRegisterRequestDto, User user) {
+        MyPlant myPlant;
+
+        if(plantRegisterRequestDto.getFile().isEmpty()){
+            myPlant = plantRegisterRequestDto.toEntity("", user);
+        }else{
+            String uniqueImageName = fileUtil.savePlantImage(plantRegisterRequestDto.getFile());
+            myPlant = plantRegisterRequestDto.toEntity(uniqueImageName, user);
+        }
+
+        return myPlant;
     }
 }
