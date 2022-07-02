@@ -6,7 +6,10 @@ import com.tave_app_1.senapool.jwt.TokenProvider;
 import com.tave_app_1.senapool.user.dto.UserDto;
 import com.tave_app_1.senapool.user.dto.UserLoginDto;
 import com.tave_app_1.senapool.user.dto.UserUpdateDto;
+import com.tave_app_1.senapool.user.service.EmailService;
+import com.tave_app_1.senapool.user.service.EmailServiceImpl;
 import com.tave_app_1.senapool.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,18 +22,16 @@ import java.util.NoSuchElementException;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
+    private final EmailServiceImpl emailServiceImpl;
+
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public UserController(UserService userService, TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
-        this.userService = userService;
-        this.tokenProvider = tokenProvider;
-        this.authenticationManagerBuilder = authenticationManagerBuilder;
-    }
 
     @PostMapping("/user/signup") // 회원 가입
     public ResponseEntity<?> userSignUp(UserDto userDto) {
@@ -38,6 +39,19 @@ public class UserController {
         return userService.join(userDto);
     }
 
+    @PostMapping("/mailConfirm")
+    public void emailConfirm(@RequestBody String email) throws Exception {
+        log.info("인증 요청 이메일={}",email);
+        emailServiceImpl.sendSimpleMessage(email);
+    }
+    @PostMapping("/verifyCode")
+    public int verifyCode(@RequestBody  String code) {
+        if(emailServiceImpl.ePw.equals(code)) {
+            return 1;
+        }
+        else
+            return 0;
+    }
     @PostMapping("/user/login") //로그인
     public ResponseEntity<?> login(@RequestBody UserLoginDto userLoginDTO) throws NoSuchElementException {
         return userService.login(userLoginDTO);
