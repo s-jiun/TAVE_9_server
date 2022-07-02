@@ -9,7 +9,6 @@ import com.tave_app_1.senapool.jwt.TokenProvider;
 import com.tave_app_1.senapool.user.dto.TokenDto;
 import com.tave_app_1.senapool.user.dto.UserDto;
 import com.tave_app_1.senapool.user.dto.UserLoginDto;
-import com.tave_app_1.senapool.user.dto.UserUpdateDto;
 import com.tave_app_1.senapool.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -92,6 +91,18 @@ public class UserService {
         log.info("업데이트된 유저 정보={}", user);
 
         return userRepository.save(user);
+    }
+
+    public ResponseEntity<?> setTemPassword(String email, String temPassword) {
+        User user = userRepository.findByEmail(email).get();
+        if ((user.equals(null)) ) {
+            return new ResponseEntity<>("가입된 이메일이 존재하지 않습니다.",HttpStatus.NOT_FOUND);
+        }
+        else {
+            user.setPassword(passwordEncoder.encode(temPassword));
+            userRepository.save(user);
+            return new ResponseEntity<>("임시 비밀번호가 발급되었습니다.", HttpStatus.OK);
+        }
     }
 
     

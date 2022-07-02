@@ -63,6 +63,12 @@ public class UserController {
         return userService.userInfoUpdate(user.getUserPK(), userDto);
     }
 
+    @PostMapping("/user/temPassword")
+    public ResponseEntity<?> setTemPW(@RequestBody String email) throws Exception {
+        String temPW = emailServiceImpl.sendSimpleMessage(email);
+        return userService.setTemPassword(email, temPW);
+    }
+
     //jwt 토큰 테스트
     @GetMapping("/jwt")
     public void jwtResponse(Authentication authentication) {
