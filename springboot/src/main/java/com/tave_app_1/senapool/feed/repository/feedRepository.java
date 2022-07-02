@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface feedRepository extends JpaRepository<PlantDiary, Long> {
     @Query(value = "SELECT * FROM plant_diary ORDER BY diary_pk DESC", nativeQuery = true)
-    Page<PlantDiary> mainFeed(long tokenId, Pageable pageable);
+    Page<PlantDiary> mainFeed(long userPK, Pageable pageable);
 }

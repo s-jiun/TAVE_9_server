@@ -3,6 +3,8 @@ package com.tave_app_1.senapool.myplant_list.dto.plant_list_response;
 import com.tave_app_1.senapool.entity.User;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 public class PlantListResponseDto {
 
@@ -20,7 +22,8 @@ public class PlantListResponseDto {
     public PlantListResponseDto(User user){
         userPK = user.getUserPK();
         userId = user.getUserId();
-        userImage = user.getUserImageName();
+        if(user.getUserImageName().isBlank()) userImage = "Default.png";
+        else userImage = user.getUserImageName();
 
         plantListDto = new PlantListDto(user.getMyPlantList());
     }

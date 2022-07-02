@@ -1,6 +1,7 @@
 package com.tave_app_1.senapool.util;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+@Slf4j
 @Getter
 @Component
 public class FileUtil {
@@ -28,7 +30,7 @@ public class FileUtil {
     }
 
     // uuid 추가한 이미지 이름 반환
-    public String getUniqueImageName(MultipartFile file) {
+    private String getUniqueImageName(MultipartFile file) {
         return UUID.randomUUID() + "_" + file.getOriginalFilename();
     }
 
@@ -37,17 +39,17 @@ public class FileUtil {
      */
 
     // 식물 이미지를 저장할 경로 반환
-    public Path getPlantImagePath(String imageName) {
+    private Path getPlantImagePath(String imageName) {
         return Paths.get(plantFolderPath + imageName);
     }
 
     // 유저 이미지를 저장할 경로 반환
-    public Path getUserImagePath(String imageName) {
+    private Path getUserImagePath(String imageName) {
         return Paths.get(userFolderPath + imageName);
     }
 
     // 일기 이미지를 저장할 경로 반환
-    public Path getDiaryImagePath(String imageName) {
+    private Path getDiaryImagePath(String imageName) {
         return Paths.get(diaryFolderPath + imageName);
     }
 
@@ -61,6 +63,7 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return uniqueImageName;
     }
 
@@ -74,6 +77,7 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return uniqueImageName;
     }
 
@@ -87,6 +91,7 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return uniqueImageName;
     }
 
@@ -110,5 +115,14 @@ public class FileUtil {
         if (file.exists()) {
             file.delete();
         }
+    }
+
+    public String imageChange(MultipartFile newImage, String oldImageName) {
+        // 기존 이미지 삭제
+        deletePlantImage(oldImageName);
+        // 새 이미지 저장 후, 저장한 이름 반환
+        String uniqueImageName = savePlantImage(newImage);
+
+        return uniqueImageName;
     }
 }

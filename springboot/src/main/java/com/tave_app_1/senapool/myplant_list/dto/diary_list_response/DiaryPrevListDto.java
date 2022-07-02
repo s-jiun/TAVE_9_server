@@ -15,7 +15,11 @@ public class DiaryPrevListDto {
         diaryPrevDtoList = new ArrayList<>(plantDiaryList.size());
 
         for (PlantDiary m : plantDiaryList) {
-            diaryPrevDtoList.add(new DiaryPrevDto(m.getId(), m.getTitle(), m.getDiaryImage(), m.getPublish()));
+            String diaryImage;
+            if(m.getDiaryImage().isBlank()) diaryImage = "Default.png";
+            else diaryImage = m.getDiaryImage();
+
+            diaryPrevDtoList.add(new DiaryPrevDto(m.getId(), m.getTitle(), diaryImage, m.getPublish(), m.getCreatedAt()));
         }
     }
 }

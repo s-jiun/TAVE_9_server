@@ -27,35 +27,20 @@ public class MyPlantService {
     public PlantListResponseDto makePlantList(Long userPK) {
         // userPK로 해당 user 정보 가져오기
         User user = userRepository.findByUserPK(userPK);
+        log.info(user.getMyPlantList().toString());
         // Entity -> Dto 변환
         PlantListResponseDto plantListResponseDto = new PlantListResponseDto(user);
         return plantListResponseDto;
     }
 
-    /*
-    세션정보 넘어온 뒤 user 정보 넣어줘야함
-     */
     @Transactional
-    public void joinPlant(PlantRegisterRequestDto plantRegisterRequestDto){
-
-        // 식물 이미지 저장
-        fileUtil.savePlantImage(plantRegisterRequestDto.getFile());
-
-        /*
-        dummy user
-         */
-        User user = User.builder()
-                .userId("test")
-                .password("1234")
-                .email("test@naver.com")
-                .userImageName("test")
-                .build();
-
+    public void joinPlant(PlantRegisterRequestDto plantRegisterRequestDto, User user){
         /*
             추후 빌더 형태로 변환
          */
-        String uniqueImageName = fileUtil.getUniqueImageName(plantRegisterRequestDto.getFile());
-        MyPlant myPlant = plantRegisterRequestDto.toEntity(uniqueImageName, user);
+        // 식물 이미지 저장
+        MyPlant myPlant;
+        myPlant = makePlantEntity(plantRegisterRequestDto, user);
         myPlantRepository.save(myPlant);
     }
 
@@ -63,22 +48,14 @@ public class MyPlantService {
     public void updatePlant(Long plantPK, PlantUpdateRequestDto plantUpdateRequestDto) {
         MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
 
-        // 기존 이미지 삭제
-        fileUtil.deletePlantImage(myPlant.getPlantImage());
-        // 새 이미지 저장
-        fileUtil.savePlantImage(plantUpdateRequestDto.getFile());
-        // 새 이미지 unique name
-        String uniqueImageName = fileUtil.getUniqueImageName(plantUpdateRequestDto.getFile());
-
+        // 기존 이미지 삭제 후, 새 이미지 저장
+        String uniqueImageName = fileUtil.imageChange(plantUpdateRequestDto.getFile(), myPlant.getPlantImage());
         // dirty check 이용한 update
         myPlant.updatePlant(uniqueImageName, plantUpdateRequestDto.getPlantName(), plantUpdateRequestDto.getPlantType(), plantUpdateRequestDto.getWaterPeriod());
     }
 
     @Transactional
     public void deletePlant(Long plantPK) {
-        /*
-        cascade 설정으로 관련 PlantDiary 삭제해야함
-         */
         // 식물삭제
         myPlantRepository.deleteById(plantPK);
     }
@@ -90,5 +67,18 @@ public class MyPlantService {
         // Entity -> Dto 변환
         DiaryListResponseDto diaryListResponseDto = new DiaryListResponseDto(myPlant);
         return diaryListResponseDto;
+    }
+
+    private MyPlant makePlantEntity(PlantRegisterRequestDto plantRegisterRequestDto, User user) {
+        MyPlant myPlant;
+
+        if(plantRegisterRequestDto.getFile().isEmpty()){
+            myPlant = plantRegisterRequestDto.toEntity("", user);
+        }else{
+            String uniqueImageName = fileUtil.savePlantImage(plantRegisterRequestDto.getFile());
+            myPlant = plantRegisterRequestDto.toEntity(uniqueImageName, user);
+        }
+
+        return myPlant;
     }
 }
