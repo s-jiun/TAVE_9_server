@@ -41,7 +41,7 @@ public class PlantDiary extends BaseTime{
     private Boolean publish;
 
     //식물 정보 매핑
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JsonBackReference
     @JoinColumn(name = "plant_pk")
     private MyPlant myPlant;
@@ -55,7 +55,7 @@ public class PlantDiary extends BaseTime{
     //좋아요 개수 매핑
     @JsonIgnoreProperties({"diary"})
     @JsonBackReference
-    @OneToMany(mappedBy = "diary")
+    @OneToMany(mappedBy = "diary", cascade = CascadeType.REMOVE)
     private List<Likes> likesList;
 
     @Transient

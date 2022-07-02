@@ -60,6 +60,12 @@ public class MyPlantService {
         myPlantRepository.deleteById(plantPK);
     }
 
+    @Transactional
+    public void deleteUserPlantAll(User user){
+        //특정 유저의 모든 식물 삭제
+        myPlantRepository.deleteByUser(user);
+    }
+
     @Transactional(readOnly = true)
     public DiaryListResponseDto makeDiaryList(Long plantPK, Boolean publish) {
         // plantPK로 해당 plant 정보 가져오기
