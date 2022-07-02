@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -36,13 +37,13 @@ public class MyPlant extends BaseTime{
      nullable 해제
      */
     @Column(nullable = true, name = "start_day")
-    private LocalDateTime startDay;
+    private LocalDate startDay;
 
     /*
      nullable 해제
      */
     @Column(nullable = true, name = "last_water")
-    private LocalDateTime lastWater;
+    private LocalDate lastWater;
 
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.REMOVE)
@@ -54,7 +55,7 @@ public class MyPlant extends BaseTime{
     @OneToMany(mappedBy = "myPlant", cascade = CascadeType.REMOVE)
     private List<PlantDiary> plantDiaryList;
 
-    public MyPlant(User user, String plantName, String plantType, Integer waterPeriod, LocalDateTime lastWater, LocalDateTime startDay, String plantImage) {
+    public MyPlant(User user, String plantName, String plantType, Integer waterPeriod, LocalDate lastWater, LocalDate startDay, String plantImage) {
         this.user = user;
         this.plantName = plantName;
         this.plantType = plantType;

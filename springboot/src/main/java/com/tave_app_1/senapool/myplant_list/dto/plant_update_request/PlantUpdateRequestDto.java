@@ -1,5 +1,6 @@
 package com.tave_app_1.senapool.myplant_list.dto.plant_update_request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tave_app_1.senapool.entity.MyPlant;
 import com.tave_app_1.senapool.entity.User;
 import lombok.Data;
@@ -8,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -25,11 +27,11 @@ public class PlantUpdateRequestDto {
     @NotNull
     private Integer waterPeriod;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime lastWater;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate lastWater;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime startDay;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate startDay;
 
     /*
      추가 정보 넣어야함
