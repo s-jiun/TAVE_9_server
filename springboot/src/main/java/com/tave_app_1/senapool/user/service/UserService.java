@@ -3,13 +3,15 @@ package com.tave_app_1.senapool.user.service;
 
 import com.tave_app_1.senapool.entity.Authority;
 import com.tave_app_1.senapool.entity.User;
-import com.tave_app_1.senapool.user.repository.UserRepository;
 import com.tave_app_1.senapool.jwt.JwtFilter;
 import com.tave_app_1.senapool.jwt.TokenProvider;
+import com.tave_app_1.senapool.myplant_list.service.MyPlantService;
+import com.tave_app_1.senapool.plant_diary.service.PlantDiaryService;
 import com.tave_app_1.senapool.user.dto.TokenDto;
 import com.tave_app_1.senapool.user.dto.UserDto;
 import com.tave_app_1.senapool.user.dto.UserLoginDto;
-import com.tave_app_1.senapool.user.dto.UserUpdateDto;
+import com.tave_app_1.senapool.user.dto.UserPasswordDto;
+import com.tave_app_1.senapool.user.repository.UserRepository;
 import com.tave_app_1.senapool.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +42,9 @@ public class UserService {
 
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    private final PlantDiaryService plantDiaryService;
+    private final MyPlantService myPlantService;
 
 
     public ResponseEntity<?> join(UserDto userDto) {
@@ -111,4 +116,15 @@ public class UserService {
 
         return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
     }
+
+    @Transactional
+    public void deleteUser(User user, UserPasswordDto passwordDto) throws Exception{
+        if(passwordEncoder.matches(passwordDto.getPassword(), user.getPassword())){
+            plantDiaryService.deleteUserDiaryAll(user);
+            myPlantService.deleteUserPlantAll(user);
+            fileUtil.deleteUserImage(user.getUserImageName());
+            userRepository.delete(user);
+        }
+    }
+
 }

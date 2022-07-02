@@ -46,7 +46,7 @@ public class User {
 
     @JsonManagedReference
     @JsonBackReference
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<MyPlant> myPlantList;
 
 
