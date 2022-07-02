@@ -76,7 +76,7 @@ public class UserService {
     }
 
     public ResponseEntity<?> login(UserLoginDto userLoginDto) {
-        Optional<User> loginUser = userRepository.findByEmail(userLoginDto.getEmail());
+        Optional<User> loginUser = userRepository.findByUserId(userLoginDto.getUserId());
         if ((loginUser.orElse(null) == null) || !passwordEncoder.matches(userLoginDto.getPassword(), loginUser.get().getPassword())) {
             return new ResponseEntity<>("아이디가 없거나 비밀번호가 일치하지 않음",HttpStatus.NOT_FOUND);
         }
@@ -113,9 +113,9 @@ public class UserService {
 
     
     private ResponseEntity<TokenDto> getTokenDtoResponseEntity(UserLoginDto userLoginDTO) {
-        User user = userRepository.findByEmail(userLoginDTO.getEmail()).get();
+        User user = userRepository.findByUserId(userLoginDTO.getUserId()).get();
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(userLoginDTO.getEmail(), userLoginDTO.getPassword());
+                new UsernamePasswordAuthenticationToken(user.getEmail(), userLoginDTO.getPassword());
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
