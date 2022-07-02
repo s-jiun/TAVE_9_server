@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
@@ -48,7 +49,7 @@ public class MyPlantController {
     @PostMapping("/myplant-list/{userPK}")
     public ResponseEntity<?> plantRegister(@PathVariable("userPK") Long userPK,
                                            @Valid PlantRegisterRequestDto plantRegisterRequestDto,
-                                           Authentication authentication){
+                                           @ApiIgnore Authentication authentication){
 
         /*
         Controller 에서 Entity 다루고 있음.
@@ -77,7 +78,7 @@ public class MyPlantController {
     public ResponseEntity<?> plantUpdate(@PathVariable("userPK") Long userPK,
                                          @PathVariable("plantPK") Long plantPK,
                                          PlantUpdateRequestDto plantUpdateRequestDto,
-                                         Authentication authentication){
+                                         @ApiIgnore Authentication authentication){
 
         User user = (User) authentication.getPrincipal();
 
@@ -102,7 +103,7 @@ public class MyPlantController {
     @DeleteMapping("myplant-list/{userPK}/{plantPK}")
     public ResponseEntity<?> plantDelete(@PathVariable("userPK") Long userPK,
                                          @PathVariable("plantPK") Long plantPK,
-                                         Authentication authentication){
+                                         @ApiIgnore Authentication authentication){
 
         User user = (User) authentication.getPrincipal();
 
