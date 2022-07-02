@@ -5,8 +5,7 @@ import com.tave_app_1.senapool.entity.User;
 import com.tave_app_1.senapool.jwt.TokenProvider;
 import com.tave_app_1.senapool.user.dto.UserDto;
 import com.tave_app_1.senapool.user.dto.UserLoginDto;
-import com.tave_app_1.senapool.user.dto.UserUpdateDto;
-import com.tave_app_1.senapool.user.service.EmailService;
+import com.tave_app_1.senapool.user.dto.UserPasswordDto;
 import com.tave_app_1.senapool.user.service.EmailServiceImpl;
 import com.tave_app_1.senapool.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -74,5 +71,11 @@ public class UserController {
     public void jwtResponse(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         log.info("토큰 유저 정보={}",user.getUserId());
+    }
+
+    @DeleteMapping("/user/delete")
+    public void deleteUser(Authentication authentication, @RequestBody UserPasswordDto passwordDto) throws Exception{
+        User user = (User) authentication.getPrincipal();
+        userService.deleteUser(user, passwordDto);
     }
 }
