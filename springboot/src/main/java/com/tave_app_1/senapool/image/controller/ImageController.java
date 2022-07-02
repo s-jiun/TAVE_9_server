@@ -22,7 +22,7 @@ public class ImageController {
 
     /**
      * 이미지 다운로드
-     * [GET] /images/{type}/{userPK}/{fileName}
+     * [GET] /images/{type}/{fileName}
      * 작성자 : 장동호
      * 수정일 : 2022-07-01
      */
@@ -30,11 +30,7 @@ public class ImageController {
     @ApiOperation(value = "이미지 다운로드", notes = "선택한 이미지 다운로드", response = UrlResource.class)
     @GetMapping("/images/{type}/{fileName}")
     public ResponseEntity<?> downloadImage(@PathVariable("type") @NotBlank String type,
-                                                  @PathVariable("userPK") @NotBlank int userPK,
-                                                  @PathVariable("fileName") @NotBlank String fileName) throws MalformedURLException {
-        /*
-        토큰으로 url 인가처리
-         */
+                                           @PathVariable("fileName") @NotBlank String fileName) throws MalformedURLException {
 
         String filePath = imageService.getFilePath(type);
         return new ResponseEntity<Resource>(new UrlResource("file:" + filePath + fileName), HttpStatus.OK);
