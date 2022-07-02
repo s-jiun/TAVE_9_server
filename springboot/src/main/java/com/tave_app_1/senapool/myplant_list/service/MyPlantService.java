@@ -27,32 +27,20 @@ public class MyPlantService {
     public PlantListResponseDto makePlantList(Long userPK) {
         // userPK로 해당 user 정보 가져오기
         User user = userRepository.findByUserPK(userPK);
+        log.info(user.getMyPlantList().toString());
         // Entity -> Dto 변환
         PlantListResponseDto plantListResponseDto = new PlantListResponseDto(user);
         return plantListResponseDto;
     }
 
-    /*
-    세션정보 넘어온 뒤 user 정보 넣어줘야함
-     */
     @Transactional
-    public void joinPlant(PlantRegisterRequestDto plantRegisterRequestDto){
-        /*
-        dummy user
-        */
-        User user = User.builder()
-                .userId("test")
-                .password("1234")
-                .email("test@naver.com")
-                .userImageName("test")
-                .build();
-
+    public void joinPlant(PlantRegisterRequestDto plantRegisterRequestDto, User user){
         /*
             추후 빌더 형태로 변환
          */
         // 식물 이미지 저장
-        String uniqueImageName = fileUtil.savePlantImage(plantRegisterRequestDto.getFile());
-        MyPlant myPlant = plantRegisterRequestDto.toEntity(uniqueImageName, user);
+        MyPlant myPlant;
+        myPlant = makePlantEntity(plantRegisterRequestDto, user);
         myPlantRepository.save(myPlant);
     }
 
@@ -79,5 +67,18 @@ public class MyPlantService {
         // Entity -> Dto 변환
         DiaryListResponseDto diaryListResponseDto = new DiaryListResponseDto(myPlant);
         return diaryListResponseDto;
+    }
+
+    private MyPlant makePlantEntity(PlantRegisterRequestDto plantRegisterRequestDto, User user) {
+        MyPlant myPlant;
+
+        if(plantRegisterRequestDto.getFile().isEmpty()){
+            myPlant = plantRegisterRequestDto.toEntity("", user);
+        }else{
+            String uniqueImageName = fileUtil.savePlantImage(plantRegisterRequestDto.getFile());
+            myPlant = plantRegisterRequestDto.toEntity(uniqueImageName, user);
+        }
+
+        return myPlant;
     }
 }

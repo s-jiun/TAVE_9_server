@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 // http://localhost:8080/swagger-ui/index.html#/
 
 @Slf4j
@@ -45,14 +47,17 @@ public class MyPlantController {
     @ApiOperation(value = "내 식물 등록", notes = "'나의 식물 리스트'에서 식물 등록", response = ResponseEntity.class)
     @PostMapping("/myplant-list/{userPK}")
     public ResponseEntity<?> plantRegister(@PathVariable("userPK") Long userPK,
-                                           PlantRegisterRequestDto plantRegisterRequestDto,
+                                           @Valid PlantRegisterRequestDto plantRegisterRequestDto,
                                            Authentication authentication){
 
+        /*
+        Controller 에서 Entity 다루고 있음.
+         */
         User user = (User) authentication.getPrincipal();
 
         // 인증 성공
         if (user.getUserPK() == userPK) {
-            myPlantService.joinPlant(plantRegisterRequestDto);
+            myPlantService.joinPlant(plantRegisterRequestDto, user);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         // 인증 실패

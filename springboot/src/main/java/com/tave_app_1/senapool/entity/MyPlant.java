@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MyPlant {
+public class MyPlant extends BaseTime{
 
     @Id @GeneratedValue
     @Column(name = "plant_pk")
@@ -36,7 +36,7 @@ public class MyPlant {
      nullable 해제
      */
     @Column(nullable = true, name = "start_day")
-    private String startDay;
+    private LocalDateTime startDay;
 
     /*
      nullable 해제
@@ -44,15 +44,8 @@ public class MyPlant {
     @Column(nullable = true, name = "last_water")
     private LocalDateTime lastWater;
 
-    /*
-     startDay, lastWater 추가
-     */
-
-    /*
-    cascade 설정 변경 필요
-     */
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_pk")
     private User user;
 
@@ -61,12 +54,14 @@ public class MyPlant {
     @OneToMany(mappedBy = "myPlant", cascade = CascadeType.REMOVE)
     private List<PlantDiary> plantDiaryList;
 
-    public MyPlant(User user, String plantName, String plantType, Integer waterPeriod, String plantImage) {
+    public MyPlant(User user, String plantName, String plantType, Integer waterPeriod, LocalDateTime lastWater, LocalDateTime startDay, String plantImage) {
         this.user = user;
         this.plantName = plantName;
         this.plantType = plantType;
         this.waterPeriod = waterPeriod;
         this.plantImage = plantImage;
+        this.lastWater = lastWater;
+        this.startDay = startDay;
     }
 
     public void updatePlant(String plantImage, String plantName, String plantType, Integer waterPeriod) {

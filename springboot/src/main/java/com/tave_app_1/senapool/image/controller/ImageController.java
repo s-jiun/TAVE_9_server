@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.NotBlank;
 import java.net.MalformedURLException;
 
 @RestController
@@ -28,9 +29,9 @@ public class ImageController {
     // type = {plant, user, diary}
     @ApiOperation(value = "이미지 다운로드", notes = "선택한 이미지 다운로드", response = UrlResource.class)
     @GetMapping("/images/{type}/{fileName}")
-    public ResponseEntity<?> downloadImage(@PathVariable("type") String type,
-                                                  @PathVariable("userPK") int userPK,
-                                                  @PathVariable("fileName") String fileName) throws MalformedURLException {
+    public ResponseEntity<?> downloadImage(@PathVariable("type") @NotBlank String type,
+                                                  @PathVariable("userPK") @NotBlank int userPK,
+                                                  @PathVariable("fileName") @NotBlank String fileName) throws MalformedURLException {
         /*
         토큰으로 url 인가처리
          */

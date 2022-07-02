@@ -51,12 +51,18 @@ public class UserService {
                 .authorityName("ROLE_USER")
                 .build();
 
+        /*
+        image 설정 안했을 경우 처리.
+         */
+        String userImage;
+        if(userDto.getUserImage().isEmpty()) userImage = "";
+        else userImage = fileUtil.saveUserImage(userDto.getUserImage());
 
         User user = User.builder()
                 .userId(userDto.getUserId())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .email(userDto.getEmail())
-                .userImageName(fileUtil.saveUserImage(userDto.getUserImage()))
+                .userImageName(userImage)
                 .authorities(Collections.singleton(authority))
                 .activated(true)
                 .build();
