@@ -13,7 +13,7 @@ public class UserLoginDto {
     private String userId;
 
     @NotNull
-    @Size(min = 8, max = 50)
+    @Size(min = 3, max = 50)
     private String password;
 
 }
