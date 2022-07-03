@@ -61,6 +61,13 @@ public class PlantDiary extends BaseTime{
     @JoinColumn(name = "user_pk")
     private User user;
 
+    public void update(String title, String content,String diaryImage,Boolean publish) {
+        this.title=title;
+        this.content=content;
+        this.diaryImage=diaryImage;
+        this.publish=publish;
+    }
+
     //좋아요 개수 매핑
     @JsonIgnoreProperties({"diary"})
     @JsonBackReference
