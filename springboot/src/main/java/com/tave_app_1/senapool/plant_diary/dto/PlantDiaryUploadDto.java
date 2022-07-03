@@ -11,9 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Data
 public class PlantDiaryUploadDto {
-//    private long userPK;
-//    private long plantPK;
+
     private String title;
+
     private String content;
-    private MultipartFile diaryImage;
+
+    private MultipartFile file;
 }

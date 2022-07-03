@@ -6,6 +6,7 @@ import com.tave_app_1.senapool.entity.PlantDiary;
 import com.tave_app_1.senapool.entity.User;
 import com.tave_app_1.senapool.likes.repository.LikesRepository;
 import com.tave_app_1.senapool.myplant_list.dto.plant_list_response.PlantListResponseDto;
+import com.tave_app_1.senapool.myplant_list.dto.plant_register_request.PlantRegisterRequestDto;
 import com.tave_app_1.senapool.myplant_list.dto.plant_update_request.PlantUpdateRequestDto;
 import com.tave_app_1.senapool.myplant_list.repository.MyPlantRepository;
 import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryDto;
@@ -20,12 +21,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -44,8 +39,8 @@ public class PlantDiaryService {
     public void save(PlantDiaryUploadDto plantDiaryUploadDto,long userPK,long plantPK){
 
         String plantDiaryImage;
-        if (plantDiaryUploadDto.getDiaryImage().isEmpty()) plantDiaryImage="";
-        else plantDiaryImage = fileUtil.saveDiaryImage(plantDiaryUploadDto.getDiaryImage());
+        if (plantDiaryUploadDto.getFile().isEmpty()) plantDiaryImage="";
+        else plantDiaryImage = fileUtil.saveDiaryImage(plantDiaryUploadDto.getFile());
 
         User user = userRepository.findByUserPK(userPK);
         MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
