@@ -3,8 +3,10 @@ package com.tave_app_1.senapool.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -19,10 +21,7 @@ public class PlantDiary extends BaseTime{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "diary_pk")
-    private Long id;
-
-//    @Column(nullable = false)
-//    private Long num;
+    private Long plantDiaryPK;
 
     //일기 제목
     @Column(nullable = false)
@@ -36,9 +35,19 @@ public class PlantDiary extends BaseTime{
     @Column
     private String diaryImage;
 
+
     //공개 여부
     @Column
     private Boolean publish;
+
+    //생성 시간을 지정
+    @Column
+    private LocalDateTime createDate;
+
+    @PrePersist //DB에 insert시 이 함수와 함께 실행
+    public void createDate(){
+        this.createDate = LocalDateTime.now();
+    }
 
     //식물 정보 매핑
     @ManyToOne(cascade = CascadeType.REMOVE)
@@ -51,6 +60,13 @@ public class PlantDiary extends BaseTime{
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_pk")
     private User user;
+
+    public void update(String title, String content,String diaryImage,Boolean publish) {
+        this.title=title;
+        this.content=content;
+        this.diaryImage=diaryImage;
+        this.publish=publish;
+    }
 
     //좋아요 개수 매핑
     @JsonIgnoreProperties({"diary"})
