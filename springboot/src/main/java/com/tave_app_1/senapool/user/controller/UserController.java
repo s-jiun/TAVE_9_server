@@ -66,10 +66,10 @@ public class UserController {
     }
 
     @ApiOperation(value = "임시 비밀번호 발급", notes = "이메일에 전송")
-    @PostMapping("/user/temPassword")
+    @PatchMapping("/user/temPassword")
     public ResponseEntity<?> setTemPW(@RequestBody String email) throws Exception {
-        String temPW = emailServiceImpl.sendSimpleMessage(email);
-        return userService.setTemPassword(email, temPW);
+        emailServiceImpl.sendTempPwMessage(email);
+        return userService.setTemPassword(email, emailServiceImpl.tempPw);
     }
 
     @ApiOperation(value = "회원 탈퇴", notes = "'설정 페이지'에서 회원 탈퇴 기능")
