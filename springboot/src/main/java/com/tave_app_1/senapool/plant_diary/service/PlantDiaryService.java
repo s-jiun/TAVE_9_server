@@ -59,7 +59,7 @@ public class PlantDiaryService {
 
 
     @Transactional
-    public void update(Long plantDiaryPK, PlantDiaryUpdateDto plantDiaryUpdateDto){
+    public void update(long plantDiaryPK, PlantDiaryUpdateDto plantDiaryUpdateDto){
         PlantDiary plantDiary = plantDiaryRepository.findByPlantDiaryPK(plantDiaryPK);
         String uniqueImageName = fileUtil.imageChange(plantDiaryUpdateDto.getFile(),plantDiary.getDiaryImage());
         plantDiary.update(plantDiaryUpdateDto.getTitle(),plantDiaryUpdateDto.getContent(),uniqueImageName,plantDiaryUpdateDto.getPublish());

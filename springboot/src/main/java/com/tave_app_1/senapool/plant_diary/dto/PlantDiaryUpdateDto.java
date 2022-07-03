@@ -14,7 +14,7 @@ public class PlantDiaryUpdateDto {
 
     private MultipartFile file;
 
-    private Long plantDiaryPK;
+//    private long plantDiaryPK;
 
     private String title;
 
