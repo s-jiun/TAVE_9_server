@@ -25,11 +25,13 @@ public class PlantDiaryController {
 
     private final PlantDiaryService plantDiaryService;
 
+    //일기 업로드 화면으로 이동
     @GetMapping("/myplant-diary/{userPK}/{plantPK}")
     public String upload(){
         return "/myplant-diary/{userPK}/{plantPK}";
     }
 
+//    //일기 업로드 후 식물 리스트 화면으로 이동
 //    @PostMapping("/myplant-diary/{userPK}/{plantPK}")
 //    public String uploadPlantDiary(PlantDiaryUploadDto plantDiaryUploadDto, @RequestParam("uploadImgUrl")MultipartFile multipartFile,
 //                                   RedirectAttributes redirectAttributes, User user){
