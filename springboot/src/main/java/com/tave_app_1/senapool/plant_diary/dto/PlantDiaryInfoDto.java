@@ -1,6 +1,7 @@
 package com.tave_app_1.senapool.plant_diary.dto;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -12,11 +13,11 @@ import java.time.LocalDateTime;
 @Data
 public class PlantDiaryInfoDto {
 
-    private long id;
+//    private long plantDiaryPK;
     private String title;
     private String content;
 //    private LocalDateTime createdate;
-    private String diaryImage;
+    private MultipartFile diaryImage;
     private Boolean publish;
 
 }

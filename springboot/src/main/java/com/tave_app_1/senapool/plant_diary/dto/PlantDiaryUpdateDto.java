@@ -8,12 +8,13 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
 @Getter
 @Data
-public class PlantDiaryDto {
+public class PlantDiaryUpdateDto {
 
-    private long plantDiaryPK;
+    private MultipartFile file;
+
+//    private long plantDiaryPK;
 
     private String title;
 
@@ -23,8 +24,5 @@ public class PlantDiaryDto {
 
     private Boolean publish;
 
-    private LocalDateTime createDate;
-
-    private  LocalDateTime modifiedDate;
-
+    private LocalDateTime modifiedDate;
 }

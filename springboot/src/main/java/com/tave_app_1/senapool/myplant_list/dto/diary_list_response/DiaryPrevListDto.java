@@ -19,7 +19,7 @@ public class DiaryPrevListDto {
             if(m.getDiaryImage().isBlank()) diaryImage = "Default.png";
             else diaryImage = m.getDiaryImage();
 
-            diaryPrevDtoList.add(new DiaryPrevDto(m.getId(), m.getTitle(), diaryImage, m.getPublish(), m.getCreatedAt()));
+            diaryPrevDtoList.add(new DiaryPrevDto(m.getPlantDiaryPK(), m.getTitle(), diaryImage, m.getPublish(), m.getCreatedAt()));
         }
     }
 }
