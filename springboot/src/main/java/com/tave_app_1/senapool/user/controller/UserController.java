@@ -2,7 +2,6 @@ package com.tave_app_1.senapool.user.controller;
 
 
 import com.tave_app_1.senapool.entity.User;
-import com.tave_app_1.senapool.jwt.TokenProvider;
 import com.tave_app_1.senapool.user.dto.UserDto;
 import com.tave_app_1.senapool.user.dto.UserLoginDto;
 import com.tave_app_1.senapool.user.dto.UserPasswordDto;
@@ -12,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,21 +25,20 @@ public class UserController {
 
     private final EmailServiceImpl emailServiceImpl;
 
-    private final TokenProvider tokenProvider;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
-
+    @ApiOperation(value = "본인 인증 메일 전송", notes = "코드 전송")
     @PostMapping("/user/signup") // 회원 가입
     public ResponseEntity<?> userSignUp(UserDto userDto) {
         log.info("user={}", userDto);
         return userService.join(userDto);
     }
 
+    @ApiOperation(value = "본인 인증 메일 전송", notes = "코드 전송")
     @PostMapping("/mailConfirm")
     public void emailConfirm(@RequestBody String email) throws Exception {
         log.info("인증 요청 이메일={}",email);
         emailServiceImpl.sendSimpleMessage(email);
     }
+    @ApiOperation(value = "본인 인증 코드 일치 여부 확인", notes = "일치하지 않으면 회원 가입 요청을 못하게 프론트에서 처리")
     @PostMapping("/verifyCode")
     public int verifyCode(@RequestBody  String code) {
         if(emailServiceImpl.ePw.equals(code)) {
@@ -50,28 +47,25 @@ public class UserController {
         else
             return 0;
     }
-    @PostMapping("/user/login") //로그인
+
+    @ApiOperation(value = "로그인", notes = "유저 id로 로그인")
+    @PostMapping("/user/login")
     public ResponseEntity<?> login(@RequestBody UserLoginDto userLoginDTO) throws NoSuchElementException {
         return userService.login(userLoginDTO);
     }
 
-    @PatchMapping("/user/update") // 회원 정보 수정
+    @ApiOperation(value = "회원 정보 수정", notes = "토큰 헤더에 넣어서 요청")
+    @PatchMapping("/user/update")
     public User userUpdate(Authentication authentication, UserDto userDto) {
         User user = (User) authentication.getPrincipal();
         return userService.userInfoUpdate(user.getUserPK(), userDto);
     }
 
+    @ApiOperation(value = "임시 비밀번호 발급", notes = "이메일에 전송")
     @PostMapping("/user/temPassword")
     public ResponseEntity<?> setTemPW(@RequestBody String email) throws Exception {
         String temPW = emailServiceImpl.sendSimpleMessage(email);
         return userService.setTemPassword(email, temPW);
-    }
-
-    //jwt 토큰 테스트
-    @GetMapping("/jwt")
-    public void jwtResponse(Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        log.info("토큰 유저 정보={}",user.getUserId());
     }
 
     @ApiOperation(value = "회원 탈퇴", notes = "'설정 페이지'에서 회원 탈퇴 기능")
