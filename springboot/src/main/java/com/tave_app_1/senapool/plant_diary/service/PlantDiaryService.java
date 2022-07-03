@@ -6,6 +6,7 @@ import com.tave_app_1.senapool.entity.PlantDiary;
 import com.tave_app_1.senapool.entity.User;
 import com.tave_app_1.senapool.likes.repository.LikesRepository;
 import com.tave_app_1.senapool.myplant_list.dto.plant_list_response.PlantListResponseDto;
+import com.tave_app_1.senapool.myplant_list.dto.plant_update_request.PlantUpdateRequestDto;
 import com.tave_app_1.senapool.myplant_list.repository.MyPlantRepository;
 import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryDto;
 import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryUpdateDto;
@@ -56,26 +57,14 @@ public class PlantDiaryService {
                 .build());
     }
 
-//    @Transactional
-//    public PlantDiaryDto getPlantDiaryDto(long plantDiaryId){
-//        PlantDiary plantDiary = plantDiaryRepository.findById(plantDiaryId).get();
-//
-//        PlantDiaryDto plantDiaryDto = PlantDiaryDto.builder()
-//                .id(plantDiaryId)
-//                .title(plantDiary.getTitle())
-//                .content(plantDiary.getContent())
-//                .diaryImage(plantDiary.getDiaryImage())
-//                .publish(plantDiary.getPublish())
-//                .build();
-//
-//        return plantDiaryDto;
-//    }
 
     @Transactional
-    public void update(PlantDiaryUpdateDto plantDiaryUpdateDto){
-        PlantDiary plantDiary = plantDiaryRepository.findById(plantDiaryUpdateDto.getId()).get();
-        plantDiary.update(plantDiaryUpdateDto.getTitle(),plantDiaryUpdateDto.getContent(),plantDiaryUpdateDto.getDiaryImage(),plantDiaryUpdateDto.getPublish());
+    public void update(Long plantDiaryPK, PlantDiaryUpdateDto plantDiaryUpdateDto){
+        PlantDiary plantDiary = plantDiaryRepository.findByPlantDiaryPK(plantDiaryPK);
+        String uniqueImageName = fileUtil.imageChange(plantDiaryUpdateDto.getFile(),plantDiary.getDiaryImage());
+        plantDiary.update(plantDiaryUpdateDto.getTitle(),plantDiaryUpdateDto.getContent(),uniqueImageName,plantDiaryUpdateDto.getPublish());
     }
+
 
     @Transactional
     public void delete(Long plantPK) {

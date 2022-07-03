@@ -21,7 +21,7 @@ public class PlantDiary extends BaseTime{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "diary_pk")
-    private Long id;
+    private Long plantDiaryPK;
 
     //일기 제목
     @Column(nullable = false)

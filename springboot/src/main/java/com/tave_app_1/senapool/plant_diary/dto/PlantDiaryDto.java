@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Data
 public class PlantDiaryDto {
 
-    private Long id;
+    private Long plantDiaryPK;
 
     private String title;
 
