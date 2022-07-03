@@ -48,7 +48,8 @@ public class UserService {
 
 
     public ResponseEntity<?> join(UserDto userDto) {
-        if (userRepository.findOneWithAuthoritiesByEmail(userDto.getEmail()).orElse(null) != null) {
+        Optional<User> findUser = userRepository.findByUserId(userDto.getUserId());
+        if (findUser.orElse(null) != null) {
             return new ResponseEntity<>("이미 가입되어 있는 회원입니다.",HttpStatus.BAD_REQUEST);
         }
 

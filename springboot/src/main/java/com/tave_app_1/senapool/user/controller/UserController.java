@@ -25,7 +25,9 @@ public class UserController {
 
     private final EmailServiceImpl emailServiceImpl;
 
-    @ApiOperation(value = "본인 인증 메일 전송", notes = "코드 전송")
+    @ApiOperation(
+            value = "회원가입",
+            notes = "이메일 인증 후 회원가입이 되어야함, response 200 ok: 성공, 400 bad_request: 실패(메세지: 이미 가입되어 있는 회원입니다.")
     @PostMapping("/user/signup") // 회원 가입
     public ResponseEntity<?> userSignUp(UserDto userDto) {
         log.info("user={}", userDto);
@@ -38,7 +40,9 @@ public class UserController {
         log.info("인증 요청 이메일={}",email);
         emailServiceImpl.sendSimpleMessage(email);
     }
-    @ApiOperation(value = "본인 인증 코드 일치 여부 확인", notes = "일치하지 않으면 회원 가입 요청을 못하게 프론트에서 처리")
+    @ApiOperation(
+            value = "본인 인증 코드 일치 여부 확인",
+            notes = "response 1: 일치함 -> 회원가입 진행, 0: 불일치 -> 이메일 인증이 될 때까지(1이 올때까지) 회원가입 진행 하면 안됨")
     @PostMapping("/verifyCode")
     public int verifyCode(@RequestBody  String code) {
         if(emailServiceImpl.ePw.equals(code)) {
