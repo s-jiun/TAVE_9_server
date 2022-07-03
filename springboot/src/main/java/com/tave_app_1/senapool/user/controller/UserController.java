@@ -8,6 +8,7 @@ import com.tave_app_1.senapool.user.dto.UserLoginDto;
 import com.tave_app_1.senapool.user.dto.UserPasswordDto;
 import com.tave_app_1.senapool.user.service.EmailServiceImpl;
 import com.tave_app_1.senapool.user.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -73,6 +74,7 @@ public class UserController {
         log.info("토큰 유저 정보={}",user.getUserId());
     }
 
+    @ApiOperation(value = "회원 탈퇴", notes = "'설정 페이지'에서 회원 탈퇴 기능")
     @DeleteMapping("/user/delete")
     public void deleteUser(Authentication authentication, @RequestBody UserPasswordDto passwordDto) throws Exception{
         User user = (User) authentication.getPrincipal();
