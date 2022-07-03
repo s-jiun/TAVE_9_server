@@ -6,7 +6,6 @@ import com.tave_app_1.senapool.myplant_list.dto.plant_update_request.PlantUpdate
 import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryInfoDto;
 import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryUpdateDto;
 import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryUploadDto;
-import com.tave_app_1.senapool.plant_diary.handler.ex.CustomValidationException;
 import com.tave_app_1.senapool.plant_diary.service.PlantDiaryService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +30,6 @@ import javax.validation.Valid;
 public class PlantDiaryController {
 
     private final PlantDiaryService plantDiaryService;
-
 
     //일기 등록
     @ApiOperation(value = "식물 일기 등록", response = ResponseEntity.class)
