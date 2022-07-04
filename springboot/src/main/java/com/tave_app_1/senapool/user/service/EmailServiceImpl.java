@@ -22,6 +22,7 @@ public class EmailServiceImpl implements EmailService{
 
     public static String ePw;
     public static String tempPw;
+    public static String findUserPw;
 
     private MimeMessage createMessage(String to)throws Exception{
         ePw = createKey();
@@ -74,6 +75,34 @@ public class EmailServiceImpl implements EmailService{
         msgg+= "<div style='font-size:130%'>";
         msgg+= "CODE : <strong>";
         msgg+= tempPw+"</strong><div><br/> ";
+        msgg+= "</div>";
+        message.setText(msgg, "utf-8", "html");//내용
+        message.setFrom(new InternetAddress("senapool0521@gmail.com","Senapool"));//보내는 사람
+
+        return message;
+    }
+
+    private MimeMessage createFindUserMessage(String userId,String to)throws Exception{
+        System.out.println("보내는 대상 : "+ to);
+        System.out.println("인증 번호 : "+ userId);
+        MimeMessage  message = emailSender.createMimeMessage();
+
+        message.addRecipients(RecipientType.TO, to);//보내는 대상
+        message.setSubject("Senapool 아이디 찾기");//제목
+
+        String msgg="";
+        msgg+= "<div style='margin:100px;'>";
+        msgg+= "<h1> 안녕하세요 세나풀입니다. </h1>";
+        msgg+= "<br>";
+        msgg+= "<p>이메일을 받으신 계정으로 가입되어 있는 아이디입니다.<p>";
+        msgg+= "<br>";
+        msgg+= "<p>감사합니다!<p>";
+        msgg+= "<br>";
+        msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
+        msgg+= "<h3 style='color:blue;'>아래 아이디를 확인해주세요.</h3>";
+        msgg+= "<div style='font-size:130%'>";
+        msgg+= "ID : <strong>";
+        msgg+= userId+"</strong><div><br/> ";
         msgg+= "</div>";
         message.setText(msgg, "utf-8", "html");//내용
         message.setFrom(new InternetAddress("senapool0521@gmail.com","Senapool"));//보내는 사람
@@ -135,4 +164,18 @@ public class EmailServiceImpl implements EmailService{
         }
         return this.tempPw;
     }
+
+    @Override
+    public String sendFindUserMessage(String userId,String to)throws Exception {
+        // TODO Auto-generated method stub
+        MimeMessage message = createFindUserMessage(userId,to);
+        try{//예외처리
+            emailSender.send(message);
+        }catch(MailException es){
+            es.printStackTrace();
+            throw new IllegalArgumentException();
+        }
+        return userId;
+    }
 }
+
