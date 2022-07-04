@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -60,6 +61,17 @@ public class PlantDiary extends BaseTime{
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_pk")
     private User user;
+
+    public PlantDiary(User user,MyPlant myPlant,String title,String content,Boolean publish,LocalDateTime createDate,String diaryImage){
+        this.user = user;
+        this.myPlant = myPlant;
+        this.title = title;
+        this.content = content;
+        this.publish = publish;
+        this.createDate = createDate;
+        this.diaryImage = diaryImage;
+    }
+
 
     public void update(String title, String content,String diaryImage,Boolean publish) {
         this.title=title;
