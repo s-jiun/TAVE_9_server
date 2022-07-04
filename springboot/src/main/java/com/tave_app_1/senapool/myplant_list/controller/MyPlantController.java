@@ -10,9 +10,9 @@ import com.tave_app_1.senapool.myplant_list.dto.plant_update_request.PlantUpdate
 import com.tave_app_1.senapool.myplant_list.service.MyPlantService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -35,9 +35,12 @@ public class MyPlantController {
      * 수정일 : 2022-07-01
      */
     @ApiOperation(value = "선택한 유저의 '나의 식물 리스트'로 이동", notes = "'임의의 page' -> '나의 식물 리스트'로 이동할 때 유저 및 식물 정보 받아오기")
-    @ApiResponse(code = 200, message = "요청에 성공하였습니다.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 2000, message = "요청에 성공하였습니다."),
+            @ApiResponse(code = 4002, message = "잘못된 요청입니다.")
+    })
     @GetMapping(value = "/myplant-list/{userPK}")
-    public ErrorResponse<?> plantList(@PathVariable("userPK") Long userPK){
+    public ErrorResponse<PlantListResponseDto> plantList(@PathVariable("userPK") Long userPK){
         PlantListResponseDto plantListResponseDto = myPlantService.makePlantList(userPK);
         return new ErrorResponse<>(plantListResponseDto);
     }
@@ -48,7 +51,13 @@ public class MyPlantController {
      * 작성자 : 장동호
      * 수정일 : 2022-07-01
      */
-    @ApiOperation(value = "내 식물 등록", notes = "'나의 식물 리스트'에서 식물 등록(multipart/form-data)", response = ResponseEntity.class)
+    @ApiOperation(value = "내 식물 등록", notes = "'나의 식물 리스트'에서 식물 등록(multipart/form-data)")
+    @ApiResponses(value = {
+            @ApiResponse(code = 2000, message = "요청에 성공하였습니다."),
+            @ApiResponse(code = 4000, message = "입력값을 확인해주세요."),
+            @ApiResponse(code = 4001, message = "토큰이 없거나, 유효하지 않습니다. 로그인을 해주세요."),
+            @ApiResponse(code = 4002, message = "잘못된 요청입니다.")
+    })
     @PostMapping("/myplant-list/{userPK}")
     public ErrorResponse<?> plantRegister(@PathVariable("userPK") Long userPK,
                                            @Valid PlantRegisterRequestDto plantRegisterRequestDto,
@@ -67,7 +76,7 @@ public class MyPlantController {
             }
             // 인증 실패
             else {
-                return new ErrorResponse<>(ErrorCode.NO_AUTHORITY);
+                return new ErrorResponse<>(ErrorCode.INVALID_REQUEST);
             }
         } catch (Exception e) {
             return new ErrorResponse<>(ErrorCode.INVALID_JWT);
@@ -80,7 +89,13 @@ public class MyPlantController {
      * 작성자 : 장동호
      * 수정일 : 2022-07-01
      */
-    @ApiOperation(value = "내 식물 수정", notes = "'나의 식물일기 리스트'에서 식물 수정(multipart/form-data)", response = ResponseEntity.class)
+    @ApiOperation(value = "내 식물 수정", notes = "'나의 식물일기 리스트'에서 식물 수정(multipart/form-data)")
+    @ApiResponses(value = {
+            @ApiResponse(code = 2000, message = "요청에 성공하였습니다."),
+            @ApiResponse(code = 4000, message = "입력값을 확인해주세요."),
+            @ApiResponse(code = 4001, message = "토큰이 없거나, 유효하지 않습니다. 로그인을 해주세요."),
+            @ApiResponse(code = 4002, message = "잘못된 요청입니다.")
+    })
     @PutMapping("myplant-list/{userPK}/{plantPK}")
     public ErrorResponse<?> plantUpdate(@PathVariable("userPK") Long userPK,
                                          @PathVariable("plantPK") Long plantPK,
@@ -98,7 +113,7 @@ public class MyPlantController {
             }
             // 인증 실패
             else {
-                return new ErrorResponse<>(ErrorCode.NO_AUTHORITY);
+                return new ErrorResponse<>(ErrorCode.INVALID_REQUEST);
             }
         }catch (Exception e) {
             return new ErrorResponse<>(ErrorCode.INVALID_JWT);
@@ -111,7 +126,13 @@ public class MyPlantController {
      * 작성자 : 장동호
      * 수정일 : 2022-07-01
      */
-    @ApiOperation(value = "내 식물 삭제", notes = "'나의 식물일기 리스트'에서 식물 삭제", response = ResponseEntity.class)
+    @ApiOperation(value = "내 식물 삭제", notes = "'나의 식물일기 리스트'에서 식물 삭제")
+    @ApiResponses(value = {
+            @ApiResponse(code = 2000, message = "요청에 성공하였습니다."),
+            @ApiResponse(code = 4000, message = "입력값을 확인해주세요."),
+            @ApiResponse(code = 4001, message = "토큰이 없거나, 유효하지 않습니다. 로그인을 해주세요."),
+            @ApiResponse(code = 4002, message = "잘못된 요청입니다.")
+    })
     @DeleteMapping("myplant-list/{userPK}/{plantPK}")
     public ErrorResponse<?> plantDelete(@PathVariable("userPK") Long userPK,
                                          @PathVariable("plantPK") Long plantPK,
@@ -127,7 +148,7 @@ public class MyPlantController {
             }
             // 인증 실패
             else {
-                return new ErrorResponse<>(ErrorCode.NO_AUTHORITY);
+                return new ErrorResponse<>(ErrorCode.INVALID_REQUEST);
             }
         }catch (Exception e) {
             return new ErrorResponse<>(ErrorCode.INVALID_JWT);
@@ -140,9 +161,14 @@ public class MyPlantController {
      * 작성자 : 장동호
      * 수정일 : 2022-07-01
      */
-    @ApiOperation(value = "선택한 식물의 '식물일기 리스트'로 이동", notes = "'나의 식물 리스트' -> '나의 식물일기 리스트'로 이동할 때 유저 및 식물 정보 (multipart/form-data)", response = DiaryListResponseDto.class)
+    @ApiOperation(value = "선택한 식물의 '식물일기 리스트'로 이동", notes = "'나의 식물 리스트' -> '나의 식물일기 리스트'로 이동할 때 유저 및 식물 정보")
+    @ApiResponses(value = {
+            @ApiResponse(code = 2000, message = "요청에 성공하였습니다."),
+            @ApiResponse(code = 4001, message = "토큰이 없거나, 유효하지 않습니다. 로그인을 해주세요."),
+            @ApiResponse(code = 4002, message = "잘못된 요청입니다.")
+    })
     @GetMapping("myplant-list/{userPK}/{plantPK}")
-    public ErrorResponse<?> diaryList(@PathVariable("userPK") Long userPK,
+    public ErrorResponse<DiaryListResponseDto> diaryList(@PathVariable("userPK") Long userPK,
                                        @PathVariable("plantPK") Long plantPK,
                                       @ApiIgnore Authentication authentication){
 

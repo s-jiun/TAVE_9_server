@@ -29,7 +29,7 @@ public class MyPlantService {
         // userPK로 해당 user 정보 가져오기
         User user = userRepository.findByUserPK(userPK);
         // user 정보 존재여부 확인
-        if(user.equals(null)) throw new CustomException("데이터베이스에서 해당 유저 정보를 발견하지 못했습니다.");
+        if(user == null) throw new CustomException("데이터베이스에서 해당 유저 정보를 발견하지 못했습니다.");
         log.info(user.getMyPlantList().toString());
         // Entity -> Dto 변환
         return new PlantListResponseDto(user);
@@ -73,7 +73,7 @@ public class MyPlantService {
         // plantPK로 해당 plant 정보 가져오기
         MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
         // plant 정보 존재여부 확인
-        if(myPlant.equals(null)) throw new CustomException("데이터베이스에서 해당 식물 정보를 발견하지 못했습니다.");
+        if(myPlant == null) throw new CustomException("데이터베이스에서 해당 식물 정보를 발견하지 못했습니다.");
         // Entity -> Dto 변환
         return new DiaryListResponseDto(myPlant, publish);
     }
