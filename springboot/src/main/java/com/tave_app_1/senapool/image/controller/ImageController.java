@@ -27,7 +27,7 @@ public class ImageController {
      * 수정일 : 2022-07-01
      */
     // type = {plant, user, diary}
-    @ApiOperation(value = "이미지 다운로드", notes = "선택한 이미지 다운로드", response = UrlResource.class)
+    @ApiOperation(value = "이미지 다운로드", notes = "선택한 이미지 다운로드 - type = {plant, user, diary}", response = UrlResource.class)
     @GetMapping("/images/{type}/{fileName}")
     public ResponseEntity<?> downloadImage(@PathVariable("type") @NotBlank String type,
                                            @PathVariable("fileName") @NotBlank String fileName) throws MalformedURLException {

@@ -45,7 +45,7 @@ public class MyPlantController {
      * 작성자 : 장동호
      * 수정일 : 2022-07-01
      */
-    @ApiOperation(value = "내 식물 등록", notes = "'나의 식물 리스트'에서 식물 등록", response = ResponseEntity.class)
+    @ApiOperation(value = "내 식물 등록", notes = "'나의 식물 리스트'에서 식물 등록(multipart/form-data)", response = ResponseEntity.class)
     @PostMapping("/myplant-list/{userPK}")
     public ResponseEntity<?> plantRegister(@PathVariable("userPK") Long userPK,
                                            @Valid PlantRegisterRequestDto plantRegisterRequestDto,
@@ -73,11 +73,11 @@ public class MyPlantController {
      * 작성자 : 장동호
      * 수정일 : 2022-07-01
      */
-    @ApiOperation(value = "내 식물 수정", notes = "'나의 식물일기 리스트'에서 식물 수정", response = ResponseEntity.class)
+    @ApiOperation(value = "내 식물 수정", notes = "'나의 식물일기 리스트'에서 식물 수정(multipart/form-data)", response = ResponseEntity.class)
     @PutMapping("myplant-list/{userPK}/{plantPK}")
     public ResponseEntity<?> plantUpdate(@PathVariable("userPK") Long userPK,
                                          @PathVariable("plantPK") Long plantPK,
-                                         PlantUpdateRequestDto plantUpdateRequestDto,
+                                         @Valid PlantUpdateRequestDto plantUpdateRequestDto,
                                          @ApiIgnore Authentication authentication){
 
         User user = (User) authentication.getPrincipal();
@@ -124,10 +124,10 @@ public class MyPlantController {
      * 작성자 : 장동호
      * 수정일 : 2022-07-01
      */
-    @ApiOperation(value = "선택한 식물의 식물일기 리스트로 이동", notes = "'나의 식물 리스트' -> '나의 식물일기 리스트'로 이동할 때 유저 및 식물 정보 받아오기", response = DiaryListResponseDto.class)
+    @ApiOperation(value = "선택한 식물의 식물일기 리스트로 이동", notes = "'나의 식물 리스트' -> '나의 식물일기 리스트'로 이동할 때 유저 및 식물 정보 (multipart/form-data)", response = DiaryListResponseDto.class)
     @GetMapping("myplant-list/{userPK}/{plantPK}")
     public ResponseEntity<?> diaryList(@PathVariable("userPK") Long userPK,
-                              @PathVariable("plantPK") Long plantPK){
+                                       @PathVariable("plantPK") Long plantPK){
 
         DiaryListResponseDto diaryListResponseDto = myPlantService.makeDiaryList(plantPK, true);
 
