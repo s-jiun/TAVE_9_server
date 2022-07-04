@@ -5,10 +5,12 @@ import com.tave_app_1.senapool.entity.MyPlant;
 import com.tave_app_1.senapool.entity.PlantDiary;
 import com.tave_app_1.senapool.entity.User;
 import com.tave_app_1.senapool.likes.repository.LikesRepository;
+import com.tave_app_1.senapool.myplant_list.dto.diary_list_response.DiaryListResponseDto;
 import com.tave_app_1.senapool.myplant_list.dto.plant_list_response.PlantListResponseDto;
 import com.tave_app_1.senapool.myplant_list.dto.plant_register_request.PlantRegisterRequestDto;
 import com.tave_app_1.senapool.myplant_list.dto.plant_update_request.PlantUpdateRequestDto;
 import com.tave_app_1.senapool.myplant_list.repository.MyPlantRepository;
+import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryDetailDto;
 import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryDto;
 import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryUpdateDto;
 import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryUploadDto;
@@ -65,6 +67,18 @@ public class PlantDiaryService {
     public void delete(Long plantPK) {
         // 일기 삭제
         plantDiaryRepository.deleteById(plantPK);
+    }
+
+
+    @Transactional(readOnly = true)
+    public PlantDiaryDetailDto makeDiaryDetail(Long diaryPK, Boolean publish) {
+
+        PlantDiary plantDiary = plantDiaryRepository.findByPlantDiaryPK(diaryPK);
+
+        // Entity -> Dto 변환
+        PlantDiaryDetailDto plantDiaryDetailDto = new PlantDiaryDetailDto(plantDiary);
+
+        return plantDiaryDetailDto;
     }
 
 

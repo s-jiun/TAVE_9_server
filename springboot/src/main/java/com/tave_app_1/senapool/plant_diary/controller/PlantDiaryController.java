@@ -1,8 +1,10 @@
 package com.tave_app_1.senapool.plant_diary.controller;
 
 import com.tave_app_1.senapool.entity.User;
+import com.tave_app_1.senapool.myplant_list.dto.diary_list_response.DiaryListResponseDto;
 import com.tave_app_1.senapool.myplant_list.dto.plant_register_request.PlantRegisterRequestDto;
 import com.tave_app_1.senapool.myplant_list.dto.plant_update_request.PlantUpdateRequestDto;
+import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryDetailDto;
 import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryInfoDto;
 import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryUpdateDto;
 import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryUploadDto;
@@ -89,6 +91,16 @@ public class PlantDiaryController {
         else{
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+    }
+
+
+    @ApiOperation(value = "식물일기 자세히 보기", response = DiaryListResponseDto.class)
+    @GetMapping("/myplant-diary/{diaryPK}")
+    public ResponseEntity<?> diaryList(@PathVariable("diaryPK") Long diaryPK){
+
+        PlantDiaryDetailDto plantDiaryDetailDto = plantDiaryService.makeDiaryDetail(diaryPK, true);
+
+        return new ResponseEntity<PlantDiaryDetailDto>(plantDiaryDetailDto, HttpStatus.OK);
     }
 
 }
