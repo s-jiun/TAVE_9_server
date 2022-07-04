@@ -81,6 +81,11 @@ public class PlantDiaryService {
         return plantDiaryDetailDto;
     }
 
+    @Transactional
+    public void deleteMyPlantDiaryAll(MyPlant myPlant){
+        plantDiaryRepository.deleteByMyPlant(myPlant);
+    }
+
 
     @Transactional
     public void deleteUserDiaryAll(User user){
