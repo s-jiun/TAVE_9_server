@@ -32,7 +32,7 @@ public class MyPlantController {
      * 유저 식물 리스트
      * [GET] /myplant-list/{userPK}
      * 작성자 : 장동호
-     * 수정일 : 2022-07-01
+     * 수정일 : 2022-07-04
      */
     @ApiOperation(value = "선택한 유저의 '나의 식물 리스트'로 이동", notes = "'임의의 page' -> '나의 식물 리스트'로 이동할 때 유저 및 식물 정보 받아오기")
     @ApiResponses(value = {
@@ -49,7 +49,7 @@ public class MyPlantController {
      * 내 식물 등록
      * [POST] /myplant-list/{userPK}
      * 작성자 : 장동호
-     * 수정일 : 2022-07-01
+     * 수정일 : 2022-07-04
      */
     @ApiOperation(value = "내 식물 등록", notes = "'나의 식물 리스트'에서 식물 등록(multipart/form-data)")
     @ApiResponses(value = {
@@ -87,7 +87,7 @@ public class MyPlantController {
      * 내 식물 수정
      * [PUT] /myplant-list/{userPK}/{plantPK}
      * 작성자 : 장동호
-     * 수정일 : 2022-07-01
+     * 수정일 : 2022-07-04
      */
     @ApiOperation(value = "내 식물 수정", notes = "'나의 식물일기 리스트'에서 식물 수정(multipart/form-data)")
     @ApiResponses(value = {
@@ -124,7 +124,7 @@ public class MyPlantController {
      * 내 식물 삭제
      * [DELETE] /myplant-list/{userPK}/{plantPK}
      * 작성자 : 장동호
-     * 수정일 : 2022-07-01
+     * 수정일 : 2022-07-04
      */
     @ApiOperation(value = "내 식물 삭제", notes = "'나의 식물일기 리스트'에서 식물 삭제")
     @ApiResponses(value = {
@@ -159,7 +159,7 @@ public class MyPlantController {
      * 선택한 식물의 식물일기 리스트로 이동
      * [GET] /myplant-list/{userPK}/{plantPK}
      * 작성자 : 장동호
-     * 수정일 : 2022-07-01
+     * 수정일 : 2022-07-04
      */
     @ApiOperation(value = "선택한 식물의 '식물일기 리스트'로 이동", notes = "'나의 식물 리스트' -> '나의 식물일기 리스트'로 이동할 때 유저 및 식물 정보")
     @ApiResponses(value = {

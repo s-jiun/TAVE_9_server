@@ -12,6 +12,8 @@ public class ImageService {
 
     public String getFilePath(String type) {
         if(type.equals("plant")) return fileUtil.getPlantFolderPath();
-        else return fileUtil.getUserFolderPath();
+        else if(type.equals("user")) return fileUtil.getUserFolderPath();
+        else if(type.equals("diary")) return fileUtil.getDiaryFolderPath();
+        else return "bad request";
     }
 }
