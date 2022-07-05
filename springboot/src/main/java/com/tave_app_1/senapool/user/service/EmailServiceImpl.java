@@ -26,8 +26,6 @@ public class EmailServiceImpl implements EmailService{
 
     private MimeMessage createMessage(String to)throws Exception{
         ePw = createKey();
-        System.out.println("보내는 대상 : "+ to);
-        System.out.println("인증 번호 : "+ePw);
         MimeMessage  message = emailSender.createMimeMessage();
 
         message.addRecipients(RecipientType.TO, to);//보내는 대상
@@ -55,8 +53,6 @@ public class EmailServiceImpl implements EmailService{
 
     private MimeMessage createTempPwMessage(String to)throws Exception{
         tempPw = createKey();
-        System.out.println("보내는 대상 : "+ to);
-        System.out.println("인증 번호 : "+tempPw);
         MimeMessage  message = emailSender.createMimeMessage();
 
         message.addRecipients(RecipientType.TO, to);//보내는 대상
@@ -83,8 +79,6 @@ public class EmailServiceImpl implements EmailService{
     }
 
     private MimeMessage createFindUserMessage(String userId,String to)throws Exception{
-        System.out.println("보내는 대상 : "+ to);
-        System.out.println("인증 번호 : "+ userId);
         MimeMessage  message = emailSender.createMimeMessage();
 
         message.addRecipients(RecipientType.TO, to);//보내는 대상
@@ -111,7 +105,6 @@ public class EmailServiceImpl implements EmailService{
     }
 
     public static String createKey() {
-        log.info("이메일 인증 코드 생성 메소드 호출");
 
         StringBuffer key = new StringBuffer();
         Random rnd = new Random();
@@ -155,7 +148,6 @@ public class EmailServiceImpl implements EmailService{
     public String sendTempPwMessage(String to)throws Exception {
         // TODO Auto-generated method stub
         MimeMessage message = createTempPwMessage(to);
-        log.info("tempPw={}",tempPw);
         try{//예외처리
             emailSender.send(message);
         }catch(MailException es){
