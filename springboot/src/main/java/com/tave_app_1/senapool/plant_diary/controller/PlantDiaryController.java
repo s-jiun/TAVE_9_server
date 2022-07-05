@@ -1,9 +1,10 @@
 package com.tave_app_1.senapool.plant_diary.controller;
 
+import com.tave_app_1.senapool.entity.MyPlant;
 import com.tave_app_1.senapool.entity.User;
-import com.tave_app_1.senapool.myplant_list.dto.plant_register_request.PlantRegisterRequestDto;
-import com.tave_app_1.senapool.myplant_list.dto.plant_update_request.PlantUpdateRequestDto;
-import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryInfoDto;
+import com.tave_app_1.senapool.myplant_list.dto.diary_list_response.DiaryListResponseDto;
+import com.tave_app_1.senapool.myplant_list.repository.MyPlantRepository;
+import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryDetailDto;
 import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryUpdateDto;
 import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryUploadDto;
 import com.tave_app_1.senapool.plant_diary.service.PlantDiaryService;
@@ -30,6 +31,7 @@ import javax.validation.Valid;
 public class PlantDiaryController {
 
     private final PlantDiaryService plantDiaryService;
+    private final MyPlantRepository myPlantRepository;
 
     //일기 등록
     @ApiOperation(value = "식물 일기 등록", response = ResponseEntity.class)
@@ -38,11 +40,12 @@ public class PlantDiaryController {
                                            @Valid PlantDiaryUploadDto plantDiaryUploadDto,
                                            @ApiIgnore Authentication authentication){
 
-        com.tave_app_1.senapool.entity.User user = (com.tave_app_1.senapool.entity.User) authentication.getPrincipal();
+        User user = (User) authentication.getPrincipal();
 
         // 인증 성공
         if (user.getUserPK() == userPK) {
-            plantDiaryService.save(plantDiaryUploadDto, userPK,plantPK);
+            MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
+            plantDiaryService.uploadDiary(plantDiaryUploadDto, user,myPlant);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         // 인증 실패
@@ -61,7 +64,7 @@ public class PlantDiaryController {
 
         // 인증 성공
         if (user.getUserPK() == userPK) {
-            plantDiaryService.update(diaryPK,plantDiaryUpdateDto);
+            plantDiaryService.updateDiary(diaryPK,plantDiaryUpdateDto);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         // 인증 실패
@@ -78,7 +81,7 @@ public class PlantDiaryController {
     public ResponseEntity<?> plantDiaryDelete(@PathVariable("userPK") Long userPK,@PathVariable("diaryPK") Long diaryPK,
                                          @ApiIgnore Authentication authentication){
 
-        com.tave_app_1.senapool.entity.User user = (User) authentication.getPrincipal();
+        User user = (User) authentication.getPrincipal();
 
         // 인증 성공
         if (user.getUserPK() == userPK) {
@@ -89,6 +92,16 @@ public class PlantDiaryController {
         else{
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+    }
+
+
+    @ApiOperation(value = "식물일기 자세히 보기", response = DiaryListResponseDto.class)
+    @GetMapping("/myplant-diary/{diaryPK}")
+    public ResponseEntity<?> diaryList(@PathVariable("diaryPK") Long diaryPK){
+
+        PlantDiaryDetailDto plantDiaryDetailDto = plantDiaryService.makeDiaryDetail(diaryPK, true);
+
+        return new ResponseEntity<PlantDiaryDetailDto>(plantDiaryDetailDto, HttpStatus.OK);
     }
 
 }

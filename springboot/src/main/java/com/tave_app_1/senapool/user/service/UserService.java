@@ -50,7 +50,7 @@ public class UserService {
     public ResponseEntity<?> join(UserDto userDto) {
         Optional<User> findUser = userRepository.findByUserId(userDto.getUserId());
         if (findUser.orElse(null) != null) {
-            return new ResponseEntity<>("이미 가입되어 있는 회원입니다.",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("이미 사용중인 아이디입니다.",HttpStatus.BAD_REQUEST);
         }
 
         Authority authority = Authority.builder()
@@ -72,8 +72,8 @@ public class UserService {
                 .authorities(Collections.singleton(authority))
                 .activated(true)
                 .build();
-
-        return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
+        userRepository.save(user);
+        return new ResponseEntity<>("회원가입 성공", HttpStatus.OK);
     }
 
     public ResponseEntity<?> login(UserLoginDto userLoginDto) {
@@ -86,7 +86,7 @@ public class UserService {
     }
 
 
-    public User userInfoUpdate(Long userPk,UserDto userDto) {
+    public ResponseEntity<?> userInfoUpdate(Long userPk,UserDto userDto) {
         User user = userRepository.findByUserPK(userPk);
 
         fileUtil.deleteUserImage(user.getUserImageName());
@@ -97,19 +97,24 @@ public class UserService {
 
         log.info("업데이트된 유저 정보={}", user);
 
-        return userRepository.save(user);
+        return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }
 
     public ResponseEntity<?> setTemPassword(String email, String temPassword) {
         User user = userRepository.findByEmail(email).get();
-        if ((user.equals(null)) ) {
-            return new ResponseEntity<>("가입된 이메일이 존재하지 않습니다.",HttpStatus.NOT_FOUND);
-        }
-        else {
-            user.setPassword(passwordEncoder.encode(temPassword));
-            userRepository.save(user);
-            return new ResponseEntity<>("임시 비밀번호가 발급되었습니다.", HttpStatus.OK);
-        }
+        user.setPassword(passwordEncoder.encode(temPassword));
+        userRepository.save(user);
+        return new ResponseEntity<>("임시 비밀번호가 발급되었습니다.", HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> changePassword(User user, String password) {
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+        return new ResponseEntity<>("비밀번호가 변경되었습니다.", HttpStatus.OK);
+    }
+
+    public Optional<User> findUserId(String email) {
+        return userRepository.findByEmail(email);
     }
 
     

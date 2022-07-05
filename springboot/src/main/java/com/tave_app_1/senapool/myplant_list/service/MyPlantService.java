@@ -8,6 +8,8 @@ import com.tave_app_1.senapool.myplant_list.dto.plant_register_request.PlantRegi
 import com.tave_app_1.senapool.myplant_list.dto.plant_list_response.PlantListResponseDto;
 import com.tave_app_1.senapool.myplant_list.dto.plant_update_request.PlantUpdateRequestDto;
 import com.tave_app_1.senapool.myplant_list.repository.MyPlantRepository;
+import com.tave_app_1.senapool.plant_diary.repository.PlantDiaryRepository;
+import com.tave_app_1.senapool.plant_diary.service.PlantDiaryService;
 import com.tave_app_1.senapool.user.repository.UserRepository;
 import com.tave_app_1.senapool.util.FileUtil;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class MyPlantService {
 
     private final MyPlantRepository myPlantRepository;
     private final UserRepository userRepository;
+    private final PlantDiaryService plantDiaryService;
     private final FileUtil fileUtil;
 
     @Transactional(readOnly = true)
@@ -60,6 +63,10 @@ public class MyPlantService {
     public void deletePlant(Long plantPK) {
         // 식물삭제
         myPlantRepository.deleteById(plantPK);
+
+        // 식물 삭제 시 관련된 다이어리도 삭제
+        MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
+        plantDiaryService.deleteMyPlantDiaryAll(myPlant);
     }
 
     @Transactional

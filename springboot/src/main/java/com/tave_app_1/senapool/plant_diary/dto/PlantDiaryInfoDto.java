@@ -1,22 +1,33 @@
 package com.tave_app_1.senapool.plant_diary.dto;
 
+
+import com.tave_app_1.senapool.entity.PlantDiary;
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.extern.slf4j.Slf4j;
 
-import java.time.LocalDateTime;
-
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
-@Getter
+@Slf4j
 @Data
 public class PlantDiaryInfoDto {
 
+    private long diaryPK;
+
     private String title;
+
     private String content;
-//    private LocalDateTime createdate;
-    private MultipartFile diaryImage;
+
+    private String diaryImage;
+
     private Boolean publish;
+
+
+    public PlantDiaryInfoDto(PlantDiary plantDiary) {
+        this.diaryPK = plantDiary.getPlantDiaryPK();
+        this.title = plantDiary.getTitle();
+        this.content = plantDiary.getContent();
+        this.publish = plantDiary.getPublish();
+
+        if(plantDiary.getDiaryImage().isBlank()) this.diaryImage = "Default.png";
+        else this.diaryImage = plantDiary.getDiaryImage();
+    }
 
 }

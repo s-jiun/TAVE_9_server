@@ -12,4 +12,5 @@ public interface PlantDiaryRepository extends JpaRepository<PlantDiary,Long> {
 
     PlantDiary findByPlantDiaryPK(Long plantDiaryPK);
     Optional <PlantDiary> deleteByUser(User userPK);
+    Optional <PlantDiary> deleteByMyPlant(MyPlant myPlant);
 }
