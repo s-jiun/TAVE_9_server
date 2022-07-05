@@ -5,6 +5,7 @@ import com.tave_app_1.senapool.entity.PlantDiary;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.persistence.PrePersist;
 import java.time.LocalDateTime;
 
 
@@ -22,15 +23,15 @@ public class PlantDiaryDto {
 
     private Boolean publish;
 
-    //하나만 필요한가?
     private LocalDateTime createDate;
-    private  LocalDateTime modifiedDate;
+
 
     public PlantDiaryDto(PlantDiary plantDiary) {
         this.plantDiaryPK = plantDiary.getPlantDiaryPK();
         this.title = plantDiary.getTitle();
         this.content = plantDiary.getContent();
         this.publish = plantDiary.getPublish();
+        this.createDate = plantDiary.getCreateDate();
 
         if(plantDiary.getDiaryImage().isBlank()) this.diaryImage = "Default.png";
         else this.diaryImage = plantDiary.getDiaryImage();
