@@ -2,6 +2,7 @@ package com.tave_app_1.senapool.myplant_list.service;
 
 import com.tave_app_1.senapool.entity.MyPlant;
 import com.tave_app_1.senapool.entity.User;
+import com.tave_app_1.senapool.exception.CustomException;
 import com.tave_app_1.senapool.myplant_list.dto.diary_list_response.DiaryListResponseDto;
 import com.tave_app_1.senapool.myplant_list.dto.plant_register_request.PlantRegisterRequestDto;
 import com.tave_app_1.senapool.myplant_list.dto.plant_list_response.PlantListResponseDto;
@@ -30,10 +31,11 @@ public class MyPlantService {
     public PlantListResponseDto makePlantList(Long userPK) {
         // userPK로 해당 user 정보 가져오기
         User user = userRepository.findByUserPK(userPK);
+        // user 정보 존재여부 확인
+        if(user == null) throw new CustomException("데이터베이스에서 해당 유저 정보를 발견하지 못했습니다.");
         log.info(user.getMyPlantList().toString());
         // Entity -> Dto 변환
-        PlantListResponseDto plantListResponseDto = new PlantListResponseDto(user);
-        return plantListResponseDto;
+        return new PlantListResponseDto(user);
     }
 
     @Transactional
@@ -77,10 +79,16 @@ public class MyPlantService {
     public DiaryListResponseDto makeDiaryList(Long plantPK, Boolean publish) {
         // plantPK로 해당 plant 정보 가져오기
         MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
+        // plant 정보 존재여부 확인
+        if(myPlant == null) throw new CustomException("데이터베이스에서 해당 식물 정보를 발견하지 못했습니다.");
         // Entity -> Dto 변환
-        DiaryListResponseDto diaryListResponseDto = new DiaryListResponseDto(myPlant);
-        return diaryListResponseDto;
+        return new DiaryListResponseDto(myPlant, publish);
     }
+
+
+    // ----------------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------
+
 
     private MyPlant makePlantEntity(PlantRegisterRequestDto plantRegisterRequestDto, User user) {
         MyPlant myPlant;

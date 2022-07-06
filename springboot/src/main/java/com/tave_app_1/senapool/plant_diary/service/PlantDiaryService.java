@@ -19,6 +19,7 @@ import com.tave_app_1.senapool.user.repository.UserRepository;
 import com.tave_app_1.senapool.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.h2.table.Plan;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,29 +38,36 @@ public class PlantDiaryService {
     private final FileUtil fileUtil;
 
 
+//    @Transactional
+//    public void save(PlantDiaryUploadDto plantDiaryUploadDto,long userPK,long plantPK){
+//
+//        String plantDiaryImage;
+//        if (plantDiaryUploadDto.getFile().isEmpty()) plantDiaryImage="";
+//        else plantDiaryImage = fileUtil.saveDiaryImage(plantDiaryUploadDto.getFile());
+//
+//        User user = userRepository.findByUserPK(userPK);
+//        MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
+//        plantDiaryRepository.save(PlantDiary.builder()
+//                .diaryImage(plantDiaryImage)
+//                .title(plantDiaryUploadDto.getTitle())
+//                .content(plantDiaryUploadDto.getContent())
+//                .user(user).myPlant(myPlant)
+//                .build());
+//    }
+
     @Transactional
-    public void save(PlantDiaryUploadDto plantDiaryUploadDto,long userPK,long plantPK){
-
-        String plantDiaryImage;
-        if (plantDiaryUploadDto.getFile().isEmpty()) plantDiaryImage="";
-        else plantDiaryImage = fileUtil.saveDiaryImage(plantDiaryUploadDto.getFile());
-
-        User user = userRepository.findByUserPK(userPK);
-        MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
-        plantDiaryRepository.save(PlantDiary.builder()
-                .diaryImage(plantDiaryImage)
-                .title(plantDiaryUploadDto.getTitle())
-                .content(plantDiaryUploadDto.getContent())
-                .user(user).myPlant(myPlant)
-                .build());
+    public void uploadDiary(PlantDiaryUploadDto plantDiaryUploadDto,User user,MyPlant myPlant){
+        PlantDiary plantDiary;
+        plantDiary = makePlantDiaryEntity(plantDiaryUploadDto,user,myPlant);
+        plantDiaryRepository.save(plantDiary);
     }
 
 
     @Transactional
-    public void update(long plantDiaryPK, PlantDiaryUpdateDto plantDiaryUpdateDto){
+    public void updateDiary(long plantDiaryPK, PlantDiaryUpdateDto plantDiaryUpdateDto){
         PlantDiary plantDiary = plantDiaryRepository.findByPlantDiaryPK(plantDiaryPK);
         String uniqueImageName = fileUtil.imageChange(plantDiaryUpdateDto.getFile(),plantDiary.getDiaryImage());
-        plantDiary.update(plantDiaryUpdateDto.getTitle(),plantDiaryUpdateDto.getContent(),uniqueImageName,plantDiaryUpdateDto.getPublish());
+        plantDiary.update(plantDiaryUpdateDto.getTitle(),plantDiaryUpdateDto.getContent(),uniqueImageName,plantDiaryUpdateDto.getPublish(),plantDiaryUpdateDto.getCreateDate());
     }
 
 
@@ -75,11 +83,26 @@ public class PlantDiaryService {
 
         PlantDiary plantDiary = plantDiaryRepository.findByPlantDiaryPK(diaryPK);
 
-        // Entity -> Dto 변환
         PlantDiaryDetailDto plantDiaryDetailDto = new PlantDiaryDetailDto(plantDiary);
 
         return plantDiaryDetailDto;
     }
+
+    //Entity 만들기
+    private PlantDiary makePlantDiaryEntity(PlantDiaryUploadDto plantDiaryUploadDto, User user, MyPlant myPlant) {
+
+        PlantDiary plantDiary;
+
+        if(plantDiaryUploadDto.getFile().isEmpty()){
+            plantDiary = plantDiaryUploadDto.toEntity("", user,myPlant);
+        }else{
+            String uniqueImageName = fileUtil.saveDiaryImage(plantDiaryUploadDto.getFile());
+            plantDiary = plantDiaryUploadDto.toEntity(uniqueImageName, user,myPlant);
+        }
+
+        return plantDiary;
+    }
+
 
     @Transactional
     public void deleteMyPlantDiaryAll(MyPlant myPlant){
