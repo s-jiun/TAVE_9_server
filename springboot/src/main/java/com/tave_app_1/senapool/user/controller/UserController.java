@@ -37,7 +37,7 @@ public class UserController {
     )
     @PostMapping("/user/signup") // 회원 가입
     public ResponseEntity<?> userSignUp(UserDto userDto) throws IOException {
-        log.info("user={}", userDto);
+
         return userService.join(userDto);
     }
 
@@ -48,14 +48,18 @@ public class UserController {
     }
     )
     @PostMapping("/mailConfirm")
-    public ResponseEntity<String> emailConfirm(@RequestBody EmailDto emailDto) throws Exception {
+    public ResponseEntity<?> emailConfirm(@RequestBody EmailDto emailDto) throws Exception {
 
         Optional<User> user = userService.findUserId(emailDto.getEmail());
+        ResponseMessage responseMessage = new ResponseMessage();
+
         if (user.isEmpty()) {
             emailServiceImpl.sendSimpleMessage(emailDto.getEmail());
-            return new ResponseEntity<>("인증코드가 전송 되었습니다.",HttpStatus.OK);
+            responseMessage.setMessage("인증코드가 전송 되었습니다.");
+            return new ResponseEntity<>(responseMessage,HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("이미 가입된 아이디가 존재합니다.",HttpStatus.BAD_REQUEST);
+            responseMessage.setMessage("이미 가입된 아이디가 존재합니다.");
+            return new ResponseEntity<>(responseMessage,HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -93,7 +97,7 @@ public class UserController {
     }
     )
     @PatchMapping("/user/update")
-    public ResponseEntity<?> userUpdate(Authentication authentication, UserDto userDto) {
+    public ResponseEntity<?> userUpdate(Authentication authentication, UserDto userDto) throws IOException {
         User user = (User) authentication.getPrincipal();
         return userService.userInfoUpdate(user.getUserPK(), userDto);
     }
@@ -107,7 +111,7 @@ public class UserController {
     @PatchMapping("/user/temPassword")
     public ResponseEntity<?> setTemPW(@RequestBody EmailDto emailDto) throws Exception {
         Optional<User> userId = userService.findUserId(emailDto.getEmail());
-        log.info("이메일로 찾은 유저={}",userId.get().getUserId());
+
         if (userId.orElse(null) == null) {
             return new ResponseEntity<>("이메일로 가입된 아이디가 존재하지 않습니다.", HttpStatus.NOT_FOUND);
         }
@@ -134,7 +138,6 @@ public class UserController {
     )
     @GetMapping("/user/findId")
     public ResponseEntity<?> findUserId(@RequestBody EmailDto emailDto) throws Exception {
-
         Optional<User> user = userService.findUserId(emailDto.getEmail());
         if (user.isEmpty()) {
             return new ResponseEntity<>("이메일로 가입된 아이디가 존재하지 않습니다.", HttpStatus.NOT_FOUND);
