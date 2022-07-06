@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.context.annotation.PropertySource;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.Set;
 @AllArgsConstructor // @Builder 를 이용하기 위해서 항상 같이 처리해야 컴파일 에러가 발생하지 않는다
 @NoArgsConstructor
 @DynamicUpdate
+@PropertySource("classpath:application.properties")
 public class User {
 
     @Id

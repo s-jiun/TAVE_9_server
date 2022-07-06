@@ -3,6 +3,7 @@ package com.tave_app_1.senapool.image.controller;
 import com.tave_app_1.senapool.image.service.ImageService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.net.MalformedURLException;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class ImageController {
 
     private final ImageService imageService;
@@ -32,6 +34,7 @@ public class ImageController {
     public ResponseEntity<?> downloadImage(@PathVariable("type") @NotBlank String type,
                                            @PathVariable("fileName") @NotBlank String fileName) throws MalformedURLException {
 
+        log.info("이미지 호출");
         String filePath = imageService.getFilePath(type);
         return new ResponseEntity<Resource>(new UrlResource("file:" + filePath + fileName), HttpStatus.OK);
     }
