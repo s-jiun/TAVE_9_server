@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.context.annotation.PropertySource;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Set;
 
@@ -28,13 +29,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userPK;
 
-    @Column(name = "user_id",nullable = false)
+    @Column(name = "user_id",nullable = false, unique = true)
+    @NotEmpty
     private String userId;
 
     @Column(name = "password")
+    @NotEmpty
     private String password;
 
-    @Column(name = "email",nullable = false)
+    @Column(name = "email",nullable = false, unique = true)
+    @NotEmpty
     private String email;
 
     @Column(name = "user_image",nullable = true)
