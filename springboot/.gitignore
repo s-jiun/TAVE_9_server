@@ -38,6 +38,5 @@ out/
 
 .DS_Store
 
-application.properties
-
+resources/application.properties
 src/main/resources/application.proterties
