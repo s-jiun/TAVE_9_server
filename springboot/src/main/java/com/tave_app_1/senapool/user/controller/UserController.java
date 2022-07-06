@@ -1,6 +1,8 @@
 package com.tave_app_1.senapool.user.controller;
 
 import com.tave_app_1.senapool.entity.User;
+import com.tave_app_1.senapool.exception.ErrorCode;
+import com.tave_app_1.senapool.exception.ErrorResponse;
 import com.tave_app_1.senapool.user.dto.*;
 import com.tave_app_1.senapool.user.service.EmailServiceImpl;
 import com.tave_app_1.senapool.user.service.UserService;
@@ -12,9 +14,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -31,35 +36,41 @@ public class UserController {
             value = "회원가입",
             notes = "이메일 인증 후 회원가입이 되어야함")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "String 반환: 회원가입 성공"),
-            @ApiResponse(code = 400, message = "String 반환: 이미 사용중인 아이디입니다.")
+            @ApiResponse(code = 2000, message = "요청 성공"),
+            @ApiResponse(code = 4000, message = "입력값을 확인해주세요"),
+            @ApiResponse(code = 4004, message = "이메일로 가입된 아이디가 존재합니다.")
     }
     )
     @PostMapping("/user/signup") // 회원 가입
-    public ResponseEntity<?> userSignUp(UserDto userDto) throws IOException {
-
-        return userService.join(userDto);
+    public ErrorResponse<?> userSignUp(UserDto userDto) throws Exception {
+        Optional<User> findUser = userService.findUserById(userDto.getUserId());
+        try {
+            if (findUser.isPresent()) {
+                return new ErrorResponse<>(ErrorCode.DUPLICATE_EMAIL);
+            }
+            userService.join(userDto);
+            return new ErrorResponse<>(ErrorCode.SUCCESS);
+        } catch (ConstraintViolationException e) {
+            return new ErrorResponse<>(ErrorCode.INVALID_INPUT_VALUE);
+        }
     }
 
     @ApiOperation(value = "본인 인증 메일 전송", notes = "코드 전송")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "String 반환: 인증코드가 전송 되었습니다"),
-            @ApiResponse(code = 400, message = "String 반환: 이미 가입된 아이디가 존재합니다.")
+            @ApiResponse(code = 2000, message = "요청 성공"),
+            @ApiResponse(code = 4004, message = "이메일로 가입된 아이디가 존재합니다.")
     }
     )
     @PostMapping("/mailConfirm")
-    public ResponseEntity<?> emailConfirm(@RequestBody EmailDto emailDto) throws Exception {
+    public ErrorResponse<?> emailConfirm(@RequestBody EmailDto emailDto) throws Exception {
 
         Optional<User> user = userService.findUserId(emailDto.getEmail());
-        ResponseMessage responseMessage = new ResponseMessage();
 
         if (user.isEmpty()) {
             emailServiceImpl.sendSimpleMessage(emailDto.getEmail());
-            responseMessage.setMessage("인증코드가 전송 되었습니다.");
-            return new ResponseEntity<>(responseMessage,HttpStatus.OK);
+            return new ErrorResponse<>(ErrorCode.SUCCESS);
         } else {
-            responseMessage.setMessage("이미 가입된 아이디가 존재합니다.");
-            return new ResponseEntity<>(responseMessage,HttpStatus.BAD_REQUEST);
+            return new ErrorResponse<>(ErrorCode.DUPLICATE_EMAIL);
         }
     }
 
@@ -67,83 +78,105 @@ public class UserController {
     @ApiOperation(
             value = "본인 인증 코드 일치 여부 확인")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Int 반환: 1 -> 일치, 회원가입 진행", response = Integer.class),
-            @ApiResponse(code = 400 , message = "Int 반환: 0 -> 불일치, 일치할때까지 회원가입 안되게 해야함", response = Integer.class)
+            @ApiResponse(code = 2000, message = "요청 성공"),
+            @ApiResponse(code = 4005 , message = "코드가 일치하지 않습니다.")
     }
     )
     @PostMapping("/verifyCode")
-    public ResponseEntity<Integer> verifyCode(@RequestBody VerifyCodeDto verifyCodeDto) {
+    public ErrorResponse<?> verifyCode(@RequestBody VerifyCodeDto verifyCodeDto) {
         if(emailServiceImpl.ePw.equals(verifyCodeDto.getCode())) {
-            return new ResponseEntity<>(1,HttpStatus.OK);
+            return new ErrorResponse<>(ErrorCode.SUCCESS);
         }
         else
-            return new ResponseEntity<>(0,HttpStatus.BAD_REQUEST);
+            return new ErrorResponse<>(ErrorCode.NOT_MATCH_CODE);
     }
 
     @ApiOperation(value = "로그인", notes = "유저 id로 로그인")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "JSON 반환: token: token 값"),
-            @ApiResponse(code = 404, message = "String 반환: 아이디가 없거나 비밀번호가 일치하지 않음")
+            @ApiResponse(code = 2000, message = "요청 성공"),
+            @ApiResponse(code = 4003, message = "아이디와 비밀번호가 일치하지 않습니다.")
     }
     )
     @PostMapping("/user/login")
-    public ResponseEntity<?> login(@RequestBody UserLoginDto userLoginDTO) throws NoSuchElementException {
-        return userService.login(userLoginDTO);
+    public ErrorResponse<?> login(@RequestBody UserLoginDto userLoginDTO) throws NoSuchElementException {
+        TokenDto loginToken = userService.login(userLoginDTO);
+        if (loginToken.getToken() == null) {
+            return new ErrorResponse<>(ErrorCode.ACCESS_DENIED_LOGIN);
+        }
+        else {
+            return new ErrorResponse<>(loginToken);
+        }
     }
 
     @ApiOperation(value = "회원 정보 수정", notes = "토큰 헤더에 넣어서 요청")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "User 정보 반환"),
+            @ApiResponse(code = 2000, message = "요청 성공"),
     }
     )
     @PatchMapping("/user/update")
-    public ResponseEntity<?> userUpdate(Authentication authentication, UserDto userDto) throws IOException {
-        User user = (User) authentication.getPrincipal();
-        return userService.userInfoUpdate(user.getUserPK(), userDto);
+    public ErrorResponse<?> userUpdate(Authentication authentication, UserUpdateDto userUpdateDto) throws IOException {
+        try {
+            User user = (User) authentication.getPrincipal();
+            userService.userInfoUpdate(user, userUpdateDto);
+            return new ErrorResponse<>(ErrorCode.SUCCESS);
+
+        } catch (ConstraintViolationException e) {
+            return new ErrorResponse<>(ErrorCode.INVALID_INPUT_VALUE);
+        }
     }
 
     @ApiOperation(value = "임시 비밀번호 발급", notes = "이메일에 전송")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "String 반환: 임시 비밀번호가 발급되었습니다."),
-            @ApiResponse(code = 404, message = "String 반화: 이메일로 가입된 아이디가 존재하지 않습니다.")
+            @ApiResponse(code = 2000, message = "요청 성공"),
+            @ApiResponse(code = 4006, message = "이메일로 가입된 아이디가 존재하지 않습니다.")
     }
     )
     @PatchMapping("/user/temPassword")
-    public ResponseEntity<?> setTemPW(@RequestBody EmailDto emailDto) throws Exception {
+    public ErrorResponse<?> setTemPW(@RequestBody EmailDto emailDto) throws Exception {
         Optional<User> userId = userService.findUserId(emailDto.getEmail());
 
         if (userId.orElse(null) == null) {
-            return new ResponseEntity<>("이메일로 가입된 아이디가 존재하지 않습니다.", HttpStatus.NOT_FOUND);
+            return new ErrorResponse<>(ErrorCode.NOT_FOUND_ID);
         }
+
         emailServiceImpl.sendTempPwMessage(emailDto.getEmail());
-        return userService.setTemPassword(emailDto.getEmail(), emailServiceImpl.tempPw);
+        userService.setTemPassword(emailDto.getEmail(), emailServiceImpl.tempPw);
+
+        return new ErrorResponse<>(ErrorCode.SUCCESS);
     }
 
     @ApiOperation(value = "비밀번호 변경", notes = "토큰과 비밀번호 담아서 요청")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "String 반환: 비밀번호가 변경되었습니다."),
+            @ApiResponse(code = 2000, message = "요청 성공"),
+            @ApiResponse(code = 4001, message = "토큰이 없거나, 유효하지 않습니다. 로그인을 해주세요.")
     }
     )
     @PatchMapping("/user/changePw")
-    public ResponseEntity<?> changePw(Authentication authentication,@RequestBody PasswordDto passwordDto) {
-        User user = (User) authentication.getPrincipal();
-        return userService.changePassword(user, passwordDto.getPassword());
+    public ErrorResponse<?> changePw(Authentication authentication,@RequestBody PasswordDto passwordDto) {
+        try {
+            User user = (User) authentication.getPrincipal();
+            userService.changePassword(user, passwordDto.getPassword());
+
+            return new ErrorResponse<>(ErrorCode.SUCCESS);
+        } catch (Exception e) {
+            return new ErrorResponse<>(ErrorCode.INVALID_JWT);
+        }
     }
 
     @ApiOperation(value = "아이디 찾기", notes = "이메일로 가입되어 있는 userId 전송")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "String 반환: 아이디가 전송되었습니다"),
-            @ApiResponse(code = 404, message = "String 반환: 이메일로 가입된 아이디가 존재하지 않습니다.")
+            @ApiResponse(code = 2000, message = "요청 성공"),
+            @ApiResponse(code = 4006, message = "이메일로 가입된 아이디가 존재하지 않습니다.")
     }
     )
     @GetMapping("/user/findId")
-    public ResponseEntity<?> findUserId(@RequestBody EmailDto emailDto) throws Exception {
+    public ErrorResponse<?> findUserId(@RequestBody EmailDto emailDto) throws Exception {
         Optional<User> user = userService.findUserId(emailDto.getEmail());
         if (user.isEmpty()) {
-            return new ResponseEntity<>("이메일로 가입된 아이디가 존재하지 않습니다.", HttpStatus.NOT_FOUND);
+            return new ErrorResponse<>(ErrorCode.NOT_FOUND_ID);
         } else {
             emailServiceImpl.sendFindUserMessage(user.get().getUserId(),emailDto.getEmail());
-            return new ResponseEntity<>("아이디가 전송되었습니다.",HttpStatus.OK);
+            return new ErrorResponse<>(ErrorCode.SUCCESS);
         }
     }
     @ApiOperation(value = "회원 탈퇴", notes = "'설정 페이지'에서 회원 탈퇴 기능")

@@ -1,18 +1,16 @@
 package com.tave_app_1.senapool.user.dto;
 
-import lombok.Getter;
+import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Id;
 
-@Getter
+@Data
 public class UserUpdateDto {
-    @Id
-    private Long userPk;
 
     private String userId;
 
-    private String email;
-    private String userImage;
+    private MultipartFile userImage;
 
 
 }
