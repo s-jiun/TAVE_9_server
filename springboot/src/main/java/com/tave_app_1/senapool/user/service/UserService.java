@@ -79,13 +79,16 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public TokenDto login(UserLoginDto userLoginDto) {
+    public ResponseLoginUserDto login(UserLoginDto userLoginDto) throws Exception {
         Optional<User> loginUser = userRepository.findByUserId(userLoginDto.getUserId());
         if ((loginUser.orElse(null) == null) || !passwordEncoder.matches(userLoginDto.getPassword(), loginUser.get().getPassword())) {
-            return new TokenDto(null);
+            throw new Exception("아이디와 비밀번호가 일치하지 않음");
         }
-        else
-            return getTokenDtoResponseEntity(userLoginDto);
+        else {
+            User user = loginUser.get();
+            TokenDto tokenDtoResponseEntity = getTokenDtoResponseEntity(userLoginDto);
+            return new ResponseLoginUserDto(tokenDtoResponseEntity, user);
+        }
     }
 
 

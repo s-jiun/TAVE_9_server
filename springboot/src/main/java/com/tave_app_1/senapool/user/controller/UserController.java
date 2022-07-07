@@ -94,12 +94,12 @@ public class UserController {
     )
     @PostMapping("/user/login")
     public ErrorResponse<?> login(@RequestBody UserLoginDto userLoginDTO) throws NoSuchElementException {
-        TokenDto loginToken = userService.login(userLoginDTO);
-        if (loginToken.getToken() == null) {
+
+        try {
+            ResponseLoginUserDto user = userService.login(userLoginDTO);
+            return new ErrorResponse<>(user);
+        } catch (Exception e) {
             return new ErrorResponse<>(ErrorCode.ACCESS_DENIED_LOGIN);
-        }
-        else {
-            return new ErrorResponse<>(loginToken);
         }
     }
 
