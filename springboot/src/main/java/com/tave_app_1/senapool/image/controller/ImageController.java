@@ -19,9 +19,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class ImageController {
 
     private final ImageService imageService;
@@ -38,6 +38,7 @@ public class ImageController {
     public ResponseEntity<Resource> downloadImage(@PathVariable("type") @NotBlank String type,
                                                   @PathVariable("fileName") @NotBlank String fileName, HttpServletRequest request) throws MalformedURLException {
 
+        log.info("이미지 호출");
         String filePath = imageService.getFilePath(type);
         Resource resource = new UrlResource("file:" + filePath + fileName);
 
