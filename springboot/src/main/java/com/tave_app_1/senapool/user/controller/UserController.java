@@ -11,12 +11,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
@@ -181,8 +176,13 @@ public class UserController {
     }
     @ApiOperation(value = "회원 탈퇴", notes = "'설정 페이지'에서 회원 탈퇴 기능")
     @DeleteMapping("/user/delete")
-    public void deleteUser(Authentication authentication, @RequestBody UserPasswordDto passwordDto) throws Exception{
-        User user = (User) authentication.getPrincipal();
-        userService.deleteUser(user, passwordDto);
+    public ErrorResponse<?> deleteUser(Authentication authentication, @RequestBody UserPasswordDto passwordDto) throws Exception{
+        try {
+            User user = (User) authentication.getPrincipal();
+            userService.deleteUser(user, passwordDto);
+            return new ErrorResponse<>(ErrorCode.SUCCESS);
+        } catch (Exception e) {
+            return new ErrorResponse<>(ErrorCode.INVALID_REQUEST);
+        }
     }
 }

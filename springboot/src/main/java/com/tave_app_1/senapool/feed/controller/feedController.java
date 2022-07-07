@@ -2,6 +2,8 @@ package com.tave_app_1.senapool.feed.controller;
 
 import com.tave_app_1.senapool.entity.PlantDiary;
 import com.tave_app_1.senapool.entity.User;
+import com.tave_app_1.senapool.exception.ErrorCode;
+import com.tave_app_1.senapool.exception.ErrorResponse;
 import com.tave_app_1.senapool.feed.service.feedService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +23,12 @@ public class feedController {
 
     @ApiOperation(value = "식물 일기 불러오기", notes = "'식물일기 피드'에 들어갈 식물 일기들을 불러오는 api")
     @GetMapping("/plant-diary")
-    public Page<PlantDiary> mainFeed(Authentication authentication, @PageableDefault(size=3)Pageable pageable){
-        User user  = (User) authentication.getPrincipal();
-        return feedService.getDiaries(user.getUserPK(), pageable);
+    public ErrorResponse<Page<PlantDiary>> mainFeed(Authentication authentication, @PageableDefault(size=3)Pageable pageable){
+        try {
+            User user  = (User) authentication.getPrincipal();
+            return new ErrorResponse<>(feedService.getDiaries(user.getUserPK(), pageable));
+        } catch (Exception e) {
+            return new ErrorResponse<>(ErrorCode.INVALID_REQUEST);
+        }
     }
 }
