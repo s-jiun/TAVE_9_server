@@ -17,7 +17,9 @@ public class feedService {
     public Page<PlantDiary> getDiaries(long userPK, Pageable pageable){
         Page<PlantDiary> plantDiaryList = feedRepository.mainFeed(userPK, pageable);
 
-        plantDiaryList.forEach(diary -> {
+        plantDiaryList.filter(diary ->
+            diary.getPublish().equals(true)
+        ).forEach(diary -> {
             diary.updateLikesCount(diary.getLikesList().size());
             diary.getLikesList().forEach(likes -> {
                 if(likes.getUser().getUserPK() == userPK) diary.updateLikesState(true);
