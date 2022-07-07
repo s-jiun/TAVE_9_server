@@ -36,7 +36,6 @@ public class PlantDiary extends BaseTime{
     @Column
     private String diaryImage;
 
-
     //공개 여부
     @Column
     private Boolean publish;
@@ -73,11 +72,12 @@ public class PlantDiary extends BaseTime{
     }
 
 
-    public void update(String title, String content,String diaryImage,Boolean publish) {
+    public void update(String title, String content,String diaryImage,Boolean publish,LocalDateTime createDate) {
         this.title=title;
         this.content=content;
         this.diaryImage=diaryImage;
         this.publish=publish;
+        this.createDate = createDate;
     }
 
     //좋아요 개수 매핑

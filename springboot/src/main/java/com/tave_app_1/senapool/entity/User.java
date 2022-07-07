@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.context.annotation.PropertySource;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Set;
 
@@ -19,6 +21,7 @@ import java.util.Set;
 @AllArgsConstructor // @Builder 를 이용하기 위해서 항상 같이 처리해야 컴파일 에러가 발생하지 않는다
 @NoArgsConstructor
 @DynamicUpdate
+@PropertySource("classpath:application.properties")
 public class User {
 
     @Id
@@ -26,13 +29,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userPK;
 
-    @Column(name = "user_id",nullable = false)
+    @Column(name = "user_id",nullable = false, unique = true)
+    @NotEmpty
     private String userId;
 
     @Column(name = "password")
+    @NotEmpty
     private String password;
 
-    @Column(name = "email",nullable = false)
+    @Column(name = "email",nullable = false, unique = true)
+    @NotEmpty
     private String email;
 
     @Column(name = "user_image",nullable = true)

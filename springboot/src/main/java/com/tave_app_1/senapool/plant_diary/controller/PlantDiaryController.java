@@ -2,6 +2,8 @@ package com.tave_app_1.senapool.plant_diary.controller;
 
 import com.tave_app_1.senapool.entity.MyPlant;
 import com.tave_app_1.senapool.entity.User;
+import com.tave_app_1.senapool.exception.ErrorCode;
+import com.tave_app_1.senapool.exception.ErrorResponse;
 import com.tave_app_1.senapool.myplant_list.dto.diary_list_response.DiaryListResponseDto;
 import com.tave_app_1.senapool.myplant_list.repository.MyPlantRepository;
 import com.tave_app_1.senapool.plant_diary.dto.PlantDiaryDetailDto;
@@ -33,64 +35,78 @@ public class PlantDiaryController {
     private final PlantDiaryService plantDiaryService;
     private final MyPlantRepository myPlantRepository;
 
+
+
     //일기 등록
-    @ApiOperation(value = "식물 일기 등록", response = ResponseEntity.class)
+    @ApiOperation(value = "식물 일기 등록")
     @PostMapping("/myplant-diary/{userPK}/{plantPK}")
-    public ResponseEntity<?> plantDiaryUpload(@PathVariable("userPK") Long userPK, @PathVariable("plantPK") Long plantPK,
-                                           @Valid PlantDiaryUploadDto plantDiaryUploadDto,
-                                           @ApiIgnore Authentication authentication){
+    public ErrorResponse<?> plantDiaryUpload(@PathVariable("userPK") Long userPK, @PathVariable("plantPK") Long plantPK,
+                                             @Valid PlantDiaryUploadDto plantDiaryUploadDto,
+                                             @ApiIgnore Authentication authentication){
 
         User user = (User) authentication.getPrincipal();
 
-        // 인증 성공
-        if (user.getUserPK() == userPK) {
-            MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
-            plantDiaryService.uploadDiary(plantDiaryUploadDto, user,myPlant);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        // 인증 실패
-        else{
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        try {
+            // 인증 성공
+            if (user.getUserPK() == userPK) {
+                MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
+                plantDiaryService.uploadDiary(plantDiaryUploadDto, user, myPlant);
+                return new ErrorResponse<>(ErrorCode.SUCCESS);
+            }
+            // 인증 실패
+            else {
+                return new ErrorResponse<>(ErrorCode.INVALID_REQUEST);
+            }
+        } catch (Exception e) {
+            return new ErrorResponse<>(ErrorCode.INVALID_JWT);
         }
     }
 
     //일기 수정
-    @ApiOperation(value = "식물 일기 수정", response = ResponseEntity.class)
+    @ApiOperation(value = "식물 일기 수정")
     @PutMapping("/myplant-diary/{userPK}/{diaryPK}")
-    public ResponseEntity<?> plantDiaryUpdate(@PathVariable("userPK") Long userPK,@PathVariable("diaryPK") Long diaryPK,
+    public ErrorResponse<?> plantDiaryUpdate(@PathVariable("userPK") Long userPK,@PathVariable("diaryPK") Long diaryPK,
                                               PlantDiaryUpdateDto plantDiaryUpdateDto,
                                          @ApiIgnore Authentication authentication){
         User user = (User) authentication.getPrincipal();
 
-        // 인증 성공
-        if (user.getUserPK() == userPK) {
-            plantDiaryService.updateDiary(diaryPK,plantDiaryUpdateDto);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        // 인증 실패
-        else{
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        try {
+            // 인증 성공
+            if (user.getUserPK() == userPK) {
+                plantDiaryService.updateDiary(diaryPK, plantDiaryUpdateDto);
+                return new ErrorResponse<>(ErrorCode.SUCCESS);
+            }
+            // 인증 실패
+            else {
+                return new ErrorResponse<>(ErrorCode.INVALID_REQUEST);
+            }
+        } catch (Exception e) {
+            return new ErrorResponse<>(ErrorCode.INVALID_JWT);
         }
 
     }
 
 
     // 식물 일기 삭제
-    @ApiOperation(value = "식물 일기 삭제", response = ResponseEntity.class)
+    @ApiOperation(value = "식물 일기 삭제")
     @DeleteMapping("/myplant-diary/{userPK}/{diaryPK}")
-    public ResponseEntity<?> plantDiaryDelete(@PathVariable("userPK") Long userPK,@PathVariable("diaryPK") Long diaryPK,
+    public ErrorResponse<?> plantDiaryDelete(@PathVariable("userPK") Long userPK,@PathVariable("diaryPK") Long diaryPK,
                                          @ApiIgnore Authentication authentication){
 
         User user = (User) authentication.getPrincipal();
 
-        // 인증 성공
-        if (user.getUserPK() == userPK) {
-            plantDiaryService.delete(diaryPK);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        // 인증 실패
-        else{
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        try {
+            // 인증 성공
+            if (user.getUserPK() == userPK) {
+                plantDiaryService.delete(diaryPK);
+                return new ErrorResponse<>(ErrorCode.SUCCESS);
+            }
+            // 인증 실패
+            else {
+                return new ErrorResponse<>(ErrorCode.INVALID_REQUEST);
+            }
+        }  catch (Exception e) {
+            return new ErrorResponse<>(ErrorCode.INVALID_JWT);
         }
     }
 
