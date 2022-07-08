@@ -23,13 +23,10 @@ public class FileUtil {
     private final String diaryFolderPath;
 
     public FileUtil() {
-        this.absolutePath = new File("").getAbsolutePath() + File.separator;
-        //this.plantFolderPath = absolutePath + "src/main/resources/static/images/plant/";
-        //this.userFolderPath = absolutePath + "src/main/resources/static/images/user/";
-        //this.diaryFolderPath = absolutePath + "src/main/resources/static/images/diary/";
-        this.plantFolderPath = absolutePath + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "static" + File.separator + "images" + File.separator + "plant" + File.separator;
-        this.userFolderPath = absolutePath + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "static" + File.separator + "images" + File.separator + "user" + File.separator;
-        this.diaryFolderPath = absolutePath + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "static" + File.separator + "images" + File.separator + "diary" + File.separator;
+        this.absolutePath = "/home/ec2-user/app/step1/TAVE_9_server/springboot/";
+        this.plantFolderPath = absolutePath + "src/main/resources/static/images/plant/";
+        this.userFolderPath = absolutePath + "src/main/resources/static/images/user/";
+        this.diaryFolderPath = absolutePath + "src/main/resources/static/images/diary/";
     }
 
     // uuid 추가한 이미지 이름 반환
