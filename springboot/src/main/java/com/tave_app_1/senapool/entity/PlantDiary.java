@@ -3,10 +3,8 @@ package com.tave_app_1.senapool.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -92,6 +90,9 @@ public class PlantDiary extends BaseTime{
     @Transient
     private boolean likesState;
 
+    @Transient
+    private String diaryImageUrl;
+
     public void updateLikesCount(long likesCount) {
         this.likesCount = likesCount;
     }
@@ -99,5 +100,7 @@ public class PlantDiary extends BaseTime{
     public void updateLikesState(boolean likesState) {
         this.likesState = likesState;
     }
+
+    public void updateDiaryImageUrl(String diaryImageUrl) { this.diaryImageUrl = diaryImageUrl; }
 
 }

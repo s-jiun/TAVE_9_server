@@ -22,6 +22,7 @@ public class feedService {
             diary.getLikesList().forEach(likes -> {
                 if(likes.getUser().getUserPK() == userPK) diary.updateLikesState(true);
             });
+            diary.updateDiaryImageUrl("http://ec2-3-39-104-218.ap-northeast-2.compute.amazonaws.com:8080/images/diary/" + diary.getDiaryImage());
         });
 
         return plantDiaryList;
