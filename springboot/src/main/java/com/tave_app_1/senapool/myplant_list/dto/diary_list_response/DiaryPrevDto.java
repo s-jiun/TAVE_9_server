@@ -14,6 +14,8 @@ public class DiaryPrevDto {
 
     private String title;
 
+    private String content;
+
     private String image;
 
     private Boolean publish;

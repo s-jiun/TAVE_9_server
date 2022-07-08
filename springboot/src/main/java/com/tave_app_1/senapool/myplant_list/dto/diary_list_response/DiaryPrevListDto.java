@@ -23,7 +23,7 @@ public class DiaryPrevListDto {
                     if (m.getDiaryImage().isBlank()) diaryImage = "Default.png";
                     else diaryImage = "http://ec2-3-39-104-218.ap-northeast-2.compute.amazonaws.com:8080/images/diary/" + m.getDiaryImage();
 
-                    diaryPrevDtoList.add(new DiaryPrevDto(m.getPlantDiaryPK(), m.getTitle(), diaryImage, m.getPublish(), m.getCreatedAt()));
+                    diaryPrevDtoList.add(new DiaryPrevDto(m.getPlantDiaryPK(), m.getTitle(),m.getContent(), diaryImage, m.getPublish(), m.getCreatedAt()));
                 }
             }
             // 내 일기 목록을 볼 때는 목록 전부를 가져온다.
@@ -32,7 +32,7 @@ public class DiaryPrevListDto {
                 if (m.getDiaryImage().isBlank()) diaryImage = "Default.png";
                 else diaryImage = "http://ec2-3-39-104-218.ap-northeast-2.compute.amazonaws.com:8080/images/diary/" + m.getDiaryImage();
 
-                diaryPrevDtoList.add(new DiaryPrevDto(m.getPlantDiaryPK(), m.getTitle(), diaryImage, m.getPublish(), m.getCreatedAt()));
+                diaryPrevDtoList.add(new DiaryPrevDto(m.getPlantDiaryPK(), m.getTitle(), m.getContent(),diaryImage, m.getPublish(), m.getCreatedAt()));
             }
         }
     }
