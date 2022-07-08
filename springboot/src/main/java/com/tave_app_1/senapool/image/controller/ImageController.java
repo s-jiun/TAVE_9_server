@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-//@RestController
+@RestController
 @RequiredArgsConstructor
 @Slf4j
 public class ImageController {
@@ -31,7 +31,7 @@ public class ImageController {
      */
     // type = {plant, user, diary}
     @ApiOperation(value = "이미지 다운로드", notes = "선택한 이미지 다운로드 - type = {plant, user, diary}")
-    @RequestMapping("/images/{type}/{fileName}")
+    @GetMapping("/images/{type}/{fileName}")
     public ResponseEntity<Resource> downloadImage(@PathVariable("type") String type,
                                                   @PathVariable("fileName") String fileName, HttpServletRequest request) throws MalformedURLException {
 
