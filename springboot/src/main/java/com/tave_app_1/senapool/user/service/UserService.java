@@ -12,7 +12,6 @@ import com.tave_app_1.senapool.user.repository.UserRepository;
 import com.tave_app_1.senapool.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,12 +22,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -162,7 +158,9 @@ public class UserService {
         if(passwordEncoder.matches(passwordDto.getPassword(), user.getPassword())){
             plantDiaryService.deleteUserDiaryAll(user);
             myPlantService.deleteUserPlantAll(user);
-            fileUtil.deleteUserImage(user.getUserImageName());
+            if (!user.getUserImageName().equals("Default.png")) {
+                fileUtil.deleteUserImage(user.getUserImageName());
+            }
             userRepository.delete(user);
         }
     }
