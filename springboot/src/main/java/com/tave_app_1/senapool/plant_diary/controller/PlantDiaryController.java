@@ -28,8 +28,8 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.Valid;
 
 @Slf4j
+@RestController
 @RequiredArgsConstructor
-@Controller
 public class PlantDiaryController {
 
     private final PlantDiaryService plantDiaryService;
@@ -44,9 +44,8 @@ public class PlantDiaryController {
                                              @Valid PlantDiaryUploadDto plantDiaryUploadDto,
                                              @ApiIgnore Authentication authentication){
 
-        User user = (User) authentication.getPrincipal();
-
         try {
+            User user = (User) authentication.getPrincipal();
             // 인증 성공
             if (user.getUserPK() == userPK) {
                 MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
@@ -66,11 +65,13 @@ public class PlantDiaryController {
     @ApiOperation(value = "식물 일기 수정")
     @PutMapping("/myplant-diary/{userPK}/{diaryPK}")
     public ErrorResponse<?> plantDiaryUpdate(@PathVariable("userPK") Long userPK,@PathVariable("diaryPK") Long diaryPK,
-                                              PlantDiaryUpdateDto plantDiaryUpdateDto,
+                                             @Valid PlantDiaryUpdateDto plantDiaryUpdateDto,
                                          @ApiIgnore Authentication authentication){
-        User user = (User) authentication.getPrincipal();
 
         try {
+
+            User user = (User) authentication.getPrincipal();
+
             // 인증 성공
             if (user.getUserPK() == userPK) {
                 plantDiaryService.updateDiary(diaryPK, plantDiaryUpdateDto);
@@ -93,9 +94,8 @@ public class PlantDiaryController {
     public ErrorResponse<?> plantDiaryDelete(@PathVariable("userPK") Long userPK,@PathVariable("diaryPK") Long diaryPK,
                                          @ApiIgnore Authentication authentication){
 
-        User user = (User) authentication.getPrincipal();
-
         try {
+            User user = (User) authentication.getPrincipal();
             // 인증 성공
             if (user.getUserPK() == userPK) {
                 plantDiaryService.delete(diaryPK);
@@ -113,11 +113,12 @@ public class PlantDiaryController {
 
     @ApiOperation(value = "식물일기 자세히 보기", response = DiaryListResponseDto.class)
     @GetMapping("/myplant-diary/{diaryPK}")
-    public ResponseEntity<?> diaryList(@PathVariable("diaryPK") Long diaryPK){
+    public ErrorResponse<?> diaryList(@PathVariable("diaryPK") Long diaryPK){
 
-        PlantDiaryDetailDto plantDiaryDetailDto = plantDiaryService.makeDiaryDetail(diaryPK, true);
+        PlantDiaryDetailDto plantDiaryDetailDto = plantDiaryService.makeDiaryDetail(diaryPK);
 
-        return new ResponseEntity<PlantDiaryDetailDto>(plantDiaryDetailDto, HttpStatus.OK);
+        return new ErrorResponse<>(plantDiaryDetailDto);
     }
+
 
 }

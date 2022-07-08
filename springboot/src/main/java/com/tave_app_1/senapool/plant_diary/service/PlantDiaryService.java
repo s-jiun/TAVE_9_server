@@ -4,6 +4,7 @@ package com.tave_app_1.senapool.plant_diary.service;
 import com.tave_app_1.senapool.entity.MyPlant;
 import com.tave_app_1.senapool.entity.PlantDiary;
 import com.tave_app_1.senapool.entity.User;
+import com.tave_app_1.senapool.exception.CustomException;
 import com.tave_app_1.senapool.likes.repository.LikesRepository;
 import com.tave_app_1.senapool.myplant_list.dto.diary_list_response.DiaryListResponseDto;
 import com.tave_app_1.senapool.myplant_list.dto.plant_list_response.PlantListResponseDto;
@@ -24,6 +25,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -64,12 +67,11 @@ public class PlantDiaryService {
 
 
     @Transactional
-    public void updateDiary(long plantDiaryPK, PlantDiaryUpdateDto plantDiaryUpdateDto){
+    public void updateDiary(long plantDiaryPK, PlantDiaryUpdateDto plantDiaryUpdateDto) throws IOException {
         PlantDiary plantDiary = plantDiaryRepository.findByPlantDiaryPK(plantDiaryPK);
         String uniqueImageName = fileUtil.imageChange(plantDiaryUpdateDto.getFile(),plantDiary.getDiaryImage());
         plantDiary.update(plantDiaryUpdateDto.getTitle(),plantDiaryUpdateDto.getContent(),uniqueImageName,plantDiaryUpdateDto.getPublish(),plantDiaryUpdateDto.getCreateDate());
     }
-
 
     @Transactional
     public void delete(Long plantPK) {
@@ -79,14 +81,16 @@ public class PlantDiaryService {
 
 
     @Transactional(readOnly = true)
-    public PlantDiaryDetailDto makeDiaryDetail(Long diaryPK, Boolean publish) {
+    public PlantDiaryDetailDto makeDiaryDetail(Long diaryPK) {
 
         PlantDiary plantDiary = plantDiaryRepository.findByPlantDiaryPK(diaryPK);
 
-        PlantDiaryDetailDto plantDiaryDetailDto = new PlantDiaryDetailDto(plantDiary);
+        if(plantDiary==null) throw new CustomException("데이터베이스에서 해당 식물 일기를 발견하지 못했습니다.");
 
-        return plantDiaryDetailDto;
+        return new PlantDiaryDetailDto(plantDiary);
     }
+
+
 
     //Entity 만들기
     private PlantDiary makePlantDiaryEntity(PlantDiaryUploadDto plantDiaryUploadDto, User user, MyPlant myPlant) {
