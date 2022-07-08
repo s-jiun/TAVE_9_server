@@ -71,7 +71,7 @@ public class UserService {
                 .userId(userDto.getUserId())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .email(userDto.getEmail())
-                .userImageName(outputFileName)
+                .userImageName("http://ec2-3-39-104-218.ap-northeast-2.compute.amazonaws.com:8080/images/user/"+outputFileName)
                 .authorities(Collections.singleton(authority))
                 .activated(true)
                 .build();
