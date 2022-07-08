@@ -24,9 +24,9 @@ public class FileUtil {
 
     public FileUtil() {
         // Local 경로.
-        //this.absolutePath = new File("").getAbsolutePath() + File.separator;
+         this.absolutePath = new File("").getAbsolutePath() + File.separator;
         // ec2 서버 경로.
-        this.absolutePath = "/home/ec2-user/app/step1/TAVE_9_server/springboot/";
+        //this.absolutePath = "/home/ec2-user/app/step1/TAVE_9_server/springboot/";
         this.plantFolderPath = absolutePath + "src/main/resources/static/images/plant/";
         this.userFolderPath = absolutePath + "src/main/resources/static/images/user/";
         this.diaryFolderPath = absolutePath + "src/main/resources/static/images/diary/";
