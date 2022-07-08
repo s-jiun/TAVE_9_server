@@ -22,7 +22,9 @@ public enum ErrorCode {
 
     NOT_MATCH_CODE(false, 4005, "코드가 일치하지 않습니다."),
 
-    NOT_FOUND_ID(false, 4006, "이메일로 가입된 아이디가 존재하지 않습니다.");
+    NOT_FOUND_ID(false, 4006, "이메일로 가입된 아이디가 존재하지 않습니다."),
+
+    DUPLICATE_ID(false, 4007, "중복된 아이디 입니다.");
 
 
 

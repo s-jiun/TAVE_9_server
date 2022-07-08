@@ -6,11 +6,17 @@ import lombok.Data;
 @Data
 public class ResponseLoginUserDto {
 
-    private TokenDto tokenDto;
-    private User user;
+    private String token;
+    private Long userPk;
+    private String userId;
+    private String email;
+    private String userImageUrl;
 
-    public ResponseLoginUserDto(TokenDto tokenDto, User user) {
-        this.tokenDto = tokenDto;
-        this.user = user;
+    public ResponseLoginUserDto(String token, Long userPk, String userId, String email, String userImageUrl) {
+        this.token = token;
+        this.userPk = userPk;
+        this.userId = userId;
+        this.email = email;
+        this.userImageUrl = userImageUrl;
     }
 }

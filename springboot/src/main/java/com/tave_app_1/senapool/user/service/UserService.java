@@ -71,7 +71,7 @@ public class UserService {
                 .userId(userDto.getUserId())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .email(userDto.getEmail())
-                .userImageName("http://ec2-3-39-104-218.ap-northeast-2.compute.amazonaws.com:8080/images/user/"+outputFileName)
+                .userImageName(outputFileName)
                 .authorities(Collections.singleton(authority))
                 .activated(true)
                 .build();
@@ -87,12 +87,21 @@ public class UserService {
         else {
             User user = loginUser.get();
             TokenDto tokenDtoResponseEntity = getTokenDtoResponseEntity(userLoginDto);
-            return new ResponseLoginUserDto(tokenDtoResponseEntity, user);
+            return new ResponseLoginUserDto(
+                    tokenDtoResponseEntity.getToken(),
+                    user.getUserPK(),
+                    user.getUserId(),
+                    user.getEmail(),
+                    "http://ec2-3-39-104-218.ap-northeast-2.compute.amazonaws.com:8080/images/user/" + user.getUserImageName());
         }
     }
 
 
-    public void userInfoUpdate(User user, UserUpdateDto userUpdateDto) throws IOException {
+    public void userInfoUpdate(User user, UserUpdateDto userUpdateDto) throws Exception {
+        Optional<User> findUser = userRepository.findByUserId(userUpdateDto.getUserId());
+        if (findUser.isPresent() && !user.getUserId().equals(userUpdateDto.getUserId())) {
+            throw new Exception("아이디가 존재합니다.");
+        }
 
         //Default.png가 아니면 삭제되게 수정해야함
         if (!user.getUserImageName().equals("Default.png")) {
