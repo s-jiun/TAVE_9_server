@@ -50,14 +50,14 @@ public class PlantDiary extends BaseTime{
     }
 
     //식물 정보 매핑
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "plant_pk")
     private MyPlant myPlant;
 
     //유저 정보 매핑
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_pk")
     private User user;
 

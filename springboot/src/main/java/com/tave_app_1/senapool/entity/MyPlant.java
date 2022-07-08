@@ -46,7 +46,7 @@ public class MyPlant extends BaseTime{
     private LocalDate lastWater;
 
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "user_pk")
     private User user;
 
