@@ -9,12 +9,10 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,7 +31,7 @@ public class ImageController {
     @ApiOperation(value = "이미지 다운로드", notes = "선택한 이미지 다운로드 - type = {plant, user, diary}")
     @GetMapping("/images/{type}/{fileName}")
     public ResponseEntity<Resource> downloadImage(@PathVariable("type") String type,
-                                                  @PathVariable("fileName") String fileName, HttpServletRequest request) throws MalformedURLException {
+                                                  @PathVariable("fileName") String fileName, HttpServletRequest request) throws IOException {
 
         log.info("이미지 호출");
         String filePath = imageService.getFilePath(type);
@@ -49,10 +47,10 @@ public class ImageController {
         if(contentType == null) {
             contentType = "application/octet-stream";
         }
-
+        //Base64.getEncoder().encodeToString(resource.getInputStream().readAllBytes());
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION)
                 .body(resource);
     }
 }
