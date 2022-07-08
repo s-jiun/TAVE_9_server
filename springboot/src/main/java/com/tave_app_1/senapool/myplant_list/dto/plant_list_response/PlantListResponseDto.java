@@ -23,7 +23,7 @@ public class PlantListResponseDto {
         userPK = user.getUserPK();
         userId = user.getUserId();
         if(user.getUserImageName().isBlank()) userImage = "Default.png";
-        else userImage = user.getUserImageName();
+        else userImage = "http://ec2-3-39-104-218.ap-northeast-2.compute.amazonaws.com:8080/images/user/" + user.getUserImageName();
 
         plantListDto = new PlantListDto(user.getMyPlantList());
     }

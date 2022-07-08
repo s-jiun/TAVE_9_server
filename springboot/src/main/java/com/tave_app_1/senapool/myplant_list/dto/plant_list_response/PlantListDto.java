@@ -17,7 +17,7 @@ public class PlantListDto {
         for(MyPlant m : plantList){
             String plantImage;
             if(m.getPlantImage().isBlank()) plantImage = "Default.png";
-            else plantImage = m.getPlantImage();
+            else plantImage = "http://ec2-3-39-104-218.ap-northeast-2.compute.amazonaws.com:8080/images/plant/" + m.getPlantImage();
 
             plantDtoList.add(new PlantDto(m.getPlantPK(), m.getPlantName(), plantImage));
         }
