@@ -19,8 +19,6 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
-// http://localhost:8080/swagger-ui/index.html#/
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -67,6 +65,7 @@ public class MyPlantController {
         Controller 에서 Entity 다루고 있음.
          */
         try {
+            // 토큰에서 가져온 user 정보가 존재하지 않을 경우, user.getUserPK()에서 NullPointerException 발생.
             User user = (User) authentication.getPrincipal();
 
             // 인증 성공
@@ -78,7 +77,9 @@ public class MyPlantController {
             else {
                 return new ErrorResponse<>(ErrorCode.INVALID_REQUEST);
             }
-        } catch (Exception e) {
+        }
+        // 유효하지 않은 토큰으로 인한 NullPointerException 처리.
+        catch (Exception e) {
             return new ErrorResponse<>(ErrorCode.INVALID_JWT);
         }
     }
@@ -104,6 +105,7 @@ public class MyPlantController {
 
 
         try {
+            // 토큰에서 가져온 user 정보가 존재하지 않을 경우, user.getUserPK()에서 NullPointerException 발생.
             User user = (User) authentication.getPrincipal();
 
             // 인증 성공
@@ -115,7 +117,9 @@ public class MyPlantController {
             else {
                 return new ErrorResponse<>(ErrorCode.INVALID_REQUEST);
             }
-        }catch (Exception e) {
+        }
+        // 유효하지 않은 토큰으로 인한 NullPointerException 처리.
+        catch (Exception e) {
             return new ErrorResponse<>(ErrorCode.INVALID_JWT);
         }
     }
@@ -139,6 +143,7 @@ public class MyPlantController {
                                          @ApiIgnore Authentication authentication){
 
         try {
+            // 토큰에서 가져온 user 정보가 존재하지 않을 경우, user.getUserPK()에서 NullPointerException 발생.
             User user = (User) authentication.getPrincipal();
 
             // 인증 성공
@@ -150,7 +155,9 @@ public class MyPlantController {
             else {
                 return new ErrorResponse<>(ErrorCode.INVALID_REQUEST);
             }
-        }catch (Exception e) {
+        }
+        // 유효하지 않은 토큰으로 인한 NullPointerException 처리.
+        catch (Exception e) {
             return new ErrorResponse<>(ErrorCode.INVALID_JWT);
         }
     }
@@ -173,16 +180,19 @@ public class MyPlantController {
                                       @ApiIgnore Authentication authentication){
 
         try {
+            // 토큰에서 가져온 user 정보가 존재하지 않을 경우, user.getUserPK()에서 NullPointerException 발생.
             User user = (User) authentication.getPrincipal();
 
             DiaryListResponseDto diaryListResponseDto;
             // 자신의 식물일기 리스트로 이동
-            if(user.getUserPK() == userPK) diaryListResponseDto = myPlantService.makeDiaryList(plantPK, true);
-            // 다른 사람의 식물일기 리스트로 이동
+            if (user.getUserPK() == userPK) diaryListResponseDto = myPlantService.makeDiaryList(plantPK, true);
+                // 다른 사람의 식물일기 리스트로 이동
             else diaryListResponseDto = myPlantService.makeDiaryList(plantPK, false);
 
             return new ErrorResponse<>(diaryListResponseDto);
-        } catch (Exception e) {
+        }
+        // 유효하지 않은 토큰으로 인한 NullPointerException 처리.
+        catch (Exception e) {
             return new ErrorResponse<>(ErrorCode.INVALID_JWT);
         }
     }

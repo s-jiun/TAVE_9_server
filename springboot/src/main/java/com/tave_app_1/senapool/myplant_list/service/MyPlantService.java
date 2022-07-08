@@ -8,16 +8,18 @@ import com.tave_app_1.senapool.myplant_list.dto.plant_register_request.PlantRegi
 import com.tave_app_1.senapool.myplant_list.dto.plant_list_response.PlantListResponseDto;
 import com.tave_app_1.senapool.myplant_list.dto.plant_update_request.PlantUpdateRequestDto;
 import com.tave_app_1.senapool.myplant_list.repository.MyPlantRepository;
-import com.tave_app_1.senapool.plant_diary.repository.PlantDiaryRepository;
 import com.tave_app_1.senapool.plant_diary.service.PlantDiaryService;
 import com.tave_app_1.senapool.user.repository.UserRepository;
 import com.tave_app_1.senapool.util.FileUtil;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
+import java.io.File;
+import java.io.IOException;
+import java.util.Base64;
+
 @Service
 @RequiredArgsConstructor
 public class MyPlantService {
@@ -33,7 +35,6 @@ public class MyPlantService {
         User user = userRepository.findByUserPK(userPK);
         // user 정보 존재여부 확인
         if(user == null) throw new CustomException("데이터베이스에서 해당 유저 정보를 발견하지 못했습니다.");
-        log.info(user.getMyPlantList().toString());
         // Entity -> Dto 변환
         return new PlantListResponseDto(user);
     }
@@ -50,7 +51,7 @@ public class MyPlantService {
     }
 
     @Transactional
-    public void updatePlant(Long plantPK, PlantUpdateRequestDto plantUpdateRequestDto) {
+    public void updatePlant(Long plantPK, PlantUpdateRequestDto plantUpdateRequestDto) throws IOException {
         MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
 
         // 기존 이미지 삭제 후, 새 이미지 저장
