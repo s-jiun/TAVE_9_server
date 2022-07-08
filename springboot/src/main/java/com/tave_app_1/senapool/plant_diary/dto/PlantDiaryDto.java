@@ -23,7 +23,7 @@ public class PlantDiaryDto {
 
     private Boolean publish;
 
-    private LocalDateTime createDate;
+//    private LocalDateTime createDate;
 
 
     public PlantDiaryDto(PlantDiary plantDiary) {
@@ -31,7 +31,7 @@ public class PlantDiaryDto {
         this.title = plantDiary.getTitle();
         this.content = plantDiary.getContent();
         this.publish = plantDiary.getPublish();
-        this.createDate = plantDiary.getCreateDate();
+//        this.createDate = plantDiary.getCreateDate();
 
         if(plantDiary.getDiaryImage().isBlank()) this.diaryImage = "Default.png";
         else this.diaryImage = "http://ec2-3-39-104-218.ap-northeast-2.compute.amazonaws.com:8080/images/diary/" +  plantDiary.getDiaryImage();

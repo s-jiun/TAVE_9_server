@@ -26,14 +26,14 @@ public class PlantDiaryUploadDto {
     @NotBlank
     private String content;
 
-
     @NotNull
     private Boolean publish;
 
-    private LocalDateTime createDate;
+//    private LocalDateTime createDate;
+
 
     public PlantDiary toEntity(String diaryImage, User user,MyPlant myPlant){
-        return new PlantDiary(user, myPlant, title, content, publish, createDate, diaryImage);
+        return new PlantDiary(user, myPlant, title, content, publish, diaryImage);
     }
 
 

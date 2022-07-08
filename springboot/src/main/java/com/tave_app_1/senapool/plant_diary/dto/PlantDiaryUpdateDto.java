@@ -18,6 +18,6 @@ public class PlantDiaryUpdateDto {
 
     private Boolean publish;
 
-    private LocalDateTime createDate;
+//    private LocalDateTime createDate;
 
 }
