@@ -24,9 +24,12 @@ public class FileUtil {
 
     public FileUtil() {
         this.absolutePath = new File("").getAbsolutePath() + File.separator;
-        this.plantFolderPath = absolutePath + "src/main/resources/static/images/plant/";
-        this.userFolderPath = absolutePath + "src/main/resources/static/images/user/";
-        this.diaryFolderPath = absolutePath + "src/main/resources/static/images/diary/";
+        //this.plantFolderPath = absolutePath + "src/main/resources/static/images/plant/";
+        //this.userFolderPath = absolutePath + "src/main/resources/static/images/user/";
+        //this.diaryFolderPath = absolutePath + "src/main/resources/static/images/diary/";
+        this.plantFolderPath = absolutePath + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "static" + File.separator + "images" + File.separator + "plant" + File.separator;
+        this.userFolderPath = absolutePath + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "static" + File.separator + "images" + File.separator + "user" + File.separator;
+        this.diaryFolderPath = absolutePath + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "static" + File.separator + "images" + File.separator + "diary" + File.separator;
     }
 
     // uuid 추가한 이미지 이름 반환
@@ -57,7 +60,7 @@ public class FileUtil {
         String uniqueImageName = getUniqueImageName(file);
 
         Path filePath = getPlantImagePath(uniqueImageName);
-
+        log.info(plantFolderPath + uniqueImageName);
         try {
             file.transferTo(filePath);
         } catch (IOException e) {
