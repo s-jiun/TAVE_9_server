@@ -117,6 +117,8 @@ public class UserController {
 
         } catch (ConstraintViolationException e) {
             return new ErrorResponse<>(ErrorCode.INVALID_INPUT_VALUE);
+        } catch (Exception e) {
+            return new ErrorResponse<>(ErrorCode.DUPLICATE_ID);
         }
     }
 
