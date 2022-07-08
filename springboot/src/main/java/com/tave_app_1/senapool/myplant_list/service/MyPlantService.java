@@ -12,8 +12,13 @@ import com.tave_app_1.senapool.plant_diary.service.PlantDiaryService;
 import com.tave_app_1.senapool.user.repository.UserRepository;
 import com.tave_app_1.senapool.util.FileUtil;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Base64;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +51,7 @@ public class MyPlantService {
     }
 
     @Transactional
-    public void updatePlant(Long plantPK, PlantUpdateRequestDto plantUpdateRequestDto) {
+    public void updatePlant(Long plantPK, PlantUpdateRequestDto plantUpdateRequestDto) throws IOException {
         MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
 
         // 기존 이미지 삭제 후, 새 이미지 저장

@@ -19,8 +19,6 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
-// http://localhost:8080/swagger-ui/index.html#/
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
