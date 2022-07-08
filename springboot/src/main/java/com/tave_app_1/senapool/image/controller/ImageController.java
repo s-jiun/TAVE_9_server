@@ -9,6 +9,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +31,7 @@ public class ImageController {
      */
     // type = {plant, user, diary}
     @ApiOperation(value = "이미지 다운로드", notes = "선택한 이미지 다운로드 - type = {plant, user, diary}")
-    @GetMapping("/images/{type}/{fileName}")
+    @RequestMapping("/images/{type}/{fileName}")
     public ResponseEntity<Resource> downloadImage(@PathVariable("type") String type,
                                                   @PathVariable("fileName") String fileName, HttpServletRequest request) throws MalformedURLException {
 
