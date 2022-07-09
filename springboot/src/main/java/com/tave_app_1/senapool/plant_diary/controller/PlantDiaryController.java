@@ -36,7 +36,6 @@ public class PlantDiaryController {
     private final MyPlantRepository myPlantRepository;
 
 
-
     //일기 등록
     @ApiOperation(value = "식물 일기 등록")
     @PostMapping("/myplant-diary/{userPK}/{plantPK}")
