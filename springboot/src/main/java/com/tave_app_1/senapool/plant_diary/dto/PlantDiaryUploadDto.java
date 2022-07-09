@@ -30,7 +30,8 @@ public class PlantDiaryUploadDto {
     @NotNull
     private Boolean publish;
 
-    @NotBlank
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createDate;
 
 
