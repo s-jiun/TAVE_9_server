@@ -1,14 +1,18 @@
 package com.tave_app_1.senapool.plant_diary.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tave_app_1.senapool.entity.BaseTime;
 import com.tave_app_1.senapool.entity.PlantDiary;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Slf4j
 @Data
-public class PlantDiaryInfoDto extends BaseTime {
+public class PlantDiaryInfoDto {
 
     private long diaryPK;
 
@@ -22,6 +26,8 @@ public class PlantDiaryInfoDto extends BaseTime {
 
     private long likesCount;
 
+    private LocalDate createDate;
+
 
     public PlantDiaryInfoDto(PlantDiary plantDiary) {
         this.diaryPK = plantDiary.getPlantDiaryPK();
@@ -29,6 +35,7 @@ public class PlantDiaryInfoDto extends BaseTime {
         this.content = plantDiary.getContent();
         this.publish = plantDiary.getPublish();
         this.likesCount = plantDiary.getLikesCount();
+        this.createDate = plantDiary.getCreateDate();
 
         if(plantDiary.getDiaryImage().isBlank()) this.diaryImage = "Default.png";
         else this.diaryImage = "http://ec2-3-39-104-218.ap-northeast-2.compute.amazonaws.com:8080/images/diary/" + plantDiary.getDiaryImage();

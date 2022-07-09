@@ -70,7 +70,7 @@ public class PlantDiaryService {
     public void updateDiary(long plantDiaryPK, PlantDiaryUpdateDto plantDiaryUpdateDto) throws IOException {
         PlantDiary plantDiary = plantDiaryRepository.findByPlantDiaryPK(plantDiaryPK);
         String uniqueImageName = fileUtil.imageChange(plantDiaryUpdateDto.getFile(),plantDiary.getDiaryImage());
-        plantDiary.update(plantDiaryUpdateDto.getTitle(),plantDiaryUpdateDto.getContent(),uniqueImageName,plantDiaryUpdateDto.getPublish());
+        plantDiary.update(plantDiaryUpdateDto.getTitle(),plantDiaryUpdateDto.getContent(),uniqueImageName,plantDiaryUpdateDto.getPublish(),plantDiaryUpdateDto.getCreateDate());
     }
 
     @Transactional

@@ -3,6 +3,7 @@ package com.tave_app_1.senapool.plant_diary.dto;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -18,6 +19,6 @@ public class PlantDiaryUpdateDto {
 
     private Boolean publish;
 
-//    private LocalDateTime createDate;
+    private LocalDate createDate;
 
 }

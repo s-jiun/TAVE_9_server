@@ -5,17 +5,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
+@Table(name = "plantDiary")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PlantDiary extends BaseTime{
+public class PlantDiary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,10 +39,10 @@ public class PlantDiary extends BaseTime{
     @Column
     private Boolean publish;
 
-//    //생성 시간을 지정
-//    @Column
-//    private LocalDateTime createDate;
-//
+    //생성 시간을 지정
+    @Column
+    private LocalDate createDate;
+
 //    @PrePersist //DB에 insert시 이 함수와 함께 실행
 //    public void createDate(){
 //        this.createDate = LocalDateTime.now();
@@ -59,23 +60,23 @@ public class PlantDiary extends BaseTime{
     @JoinColumn(name = "user_pk")
     private User user;
 
-    public PlantDiary(User user,MyPlant myPlant,String title,String content,Boolean publish,String diaryImage){
+    public PlantDiary(User user,MyPlant myPlant,String title,String content,Boolean publish,LocalDate createDate,String diaryImage){
         this.user = user;
         this.myPlant = myPlant;
         this.title = title;
         this.content = content;
         this.publish = publish;
-//        this.createDate = createDate;
+        this.createDate = createDate;
         this.diaryImage = diaryImage;
     }
 
 
-    public void update(String title, String content,String diaryImage,Boolean publish) {
+    public void update(String title, String content,String diaryImage,Boolean publish,LocalDate createDate) {
         this.title=title;
         this.content=content;
         this.diaryImage=diaryImage;
         this.publish=publish;
-//        this.createDate = createDate;
+        this.createDate = createDate;
     }
 
     //좋아요 개수 매핑
