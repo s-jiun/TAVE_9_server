@@ -1,6 +1,7 @@
 package com.tave_app_1.senapool.myplant_list.service;
 
 import com.tave_app_1.senapool.entity.MyPlant;
+import com.tave_app_1.senapool.entity.PlantDiary;
 import com.tave_app_1.senapool.entity.User;
 import com.tave_app_1.senapool.exception.CustomException;
 import com.tave_app_1.senapool.myplant_list.dto.diary_list_response.DiaryListResponseDto;
@@ -61,10 +62,13 @@ public class MyPlantService {
 
     @Transactional
     public void deletePlant(Long plantPK) {
-        // 식물삭제
+
+        MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
+
+        // 저장된 식물 사진, 식물 일기 사진 삭제
+        deleteRelatedImages(myPlant);
+        // 식물 삭제
         myPlantRepository.deleteById(plantPK);
-
-
     }
 
     @Transactional
@@ -87,9 +91,15 @@ public class MyPlantService {
     // ----------------------------------------------------------------------------------------
     // ----------------------------------------------------------------------------------------
 
-
     private MyPlant makePlantEntity(PlantRegisterRequestDto plantRegisterRequestDto, User user) {
             String uniqueImageName = fileUtil.savePlantImage(plantRegisterRequestDto.getFile());
             return plantRegisterRequestDto.toEntity(uniqueImageName, user);
+    }
+
+    private void deleteRelatedImages(MyPlant myPlant) {
+        fileUtil.deletePlantImage(myPlant.getPlantImage());
+        for (PlantDiary m : myPlant.getPlantDiaryList()) {
+            fileUtil.deleteDiaryImage(m.getDiaryImage());
+        }
     }
 }
