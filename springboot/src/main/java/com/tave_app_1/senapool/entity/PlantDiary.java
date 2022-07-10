@@ -93,6 +93,12 @@ public class PlantDiary extends BaseTime{
     @Transient
     private String diaryImageUrl;
 
+    @Transient
+    private String userID;
+
+    @Transient
+    private String userImage;
+
     public void updateLikesCount(long likesCount) {
         this.likesCount = likesCount;
     }
@@ -102,5 +108,7 @@ public class PlantDiary extends BaseTime{
     }
 
     public void updateDiaryImageUrl(String diaryImageUrl) { this.diaryImageUrl = diaryImageUrl; }
+
+    public void setUserInfo(){this.userID = this.user.getUserId(); this.userImage = "http://ec2-3-39-104-218.ap-northeast-2.compute.amazonaws.com:8080/images/diary/" + this.user.getUserImageName();}
 
 }
