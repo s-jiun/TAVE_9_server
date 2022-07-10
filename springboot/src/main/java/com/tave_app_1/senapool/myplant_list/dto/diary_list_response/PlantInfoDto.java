@@ -2,6 +2,7 @@ package com.tave_app_1.senapool.myplant_list.dto.diary_list_response;
 
 import com.tave_app_1.senapool.entity.BaseTime;
 import com.tave_app_1.senapool.entity.MyPlant;
+import com.tave_app_1.senapool.util.FileUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,7 +38,7 @@ public class PlantInfoDto extends BaseTime {
         this.period = ChronoUnit.DAYS.between(myPlant.getStartDay(), LocalDateTime.now());
 
         if(myPlant.getPlantImage().isBlank()) this.plantImage = "Default.png";
-        else this.plantImage = "http://ec2-3-39-104-218.ap-northeast-2.compute.amazonaws.com:8080/images/plant/" + myPlant.getPlantImage();
+        else this.plantImage = FileUtil.plantFolderPath + myPlant.getPlantImage();
 
     }
 }
