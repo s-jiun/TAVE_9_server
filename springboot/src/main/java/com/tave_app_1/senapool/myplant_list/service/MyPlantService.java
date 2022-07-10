@@ -71,13 +71,13 @@ public class MyPlantService {
     }
 
     @Transactional(readOnly = true)
-    public DiaryListResponseDto makeDiaryList(Long plantPK, Boolean publish) {
+    public DiaryListResponseDto makeDiaryList(Long plantPK, Boolean myPage) {
         // plantPK로 해당 plant 정보 가져오기
         MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
         // plant 정보 존재여부 확인
         if(myPlant == null) throw new CustomException("데이터베이스에서 해당 식물 정보를 발견하지 못했습니다.");
         // Entity -> Dto 변환
-        return new DiaryListResponseDto(myPlant, publish);
+        return new DiaryListResponseDto(myPlant, myPage);
     }
 
 

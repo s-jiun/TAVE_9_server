@@ -10,8 +10,8 @@ public class DiaryListResponseDto {
 
     private DiaryPrevListDto diaryPrevListDto;
 
-    public DiaryListResponseDto(MyPlant myPlant, Boolean publish) {
+    public DiaryListResponseDto(MyPlant myPlant, Boolean myPage) {
         plantInfoDto = new PlantInfoDto(myPlant);
-        diaryPrevListDto = new DiaryPrevListDto(myPlant.getPlantDiaryList(), publish);
+        diaryPrevListDto = new DiaryPrevListDto(myPlant.getPlantDiaryList(), myPage);
     }
 }

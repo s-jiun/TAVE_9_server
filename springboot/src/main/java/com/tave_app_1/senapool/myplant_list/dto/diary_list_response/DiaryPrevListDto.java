@@ -1,7 +1,9 @@
 package com.tave_app_1.senapool.myplant_list.dto.diary_list_response;
 
 import com.tave_app_1.senapool.entity.PlantDiary;
+import com.tave_app_1.senapool.util.FileUtil;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +13,12 @@ public class DiaryPrevListDto {
 
     private List<DiaryPrevDto> diaryPrevDtoList;
 
-    public DiaryPrevListDto(List<PlantDiary> plantDiaryList, Boolean publish) {
+    public DiaryPrevListDto(List<PlantDiary> plantDiaryList, Boolean myPage) {
         diaryPrevDtoList = new ArrayList<>(plantDiaryList.size());
 
         for (PlantDiary m : plantDiaryList) {
             // 다른 사람의 일기 목록을 볼 때
-            if(publish == false) {
+            if(myPage == false) {
                 // 일기장의 publish 속성이 true 되어 있으면 가져온다.
                 if (m.getPublish() == true) {
                     String diaryImage;
