@@ -23,7 +23,7 @@ public class feedController {
 
     @ApiOperation(value = "식물 일기 불러오기", notes = "'식물일기 피드'에 들어갈 식물 일기들을 불러오는 api")
     @GetMapping("/plant-diary")
-    public ErrorResponse<Page<PlantDiary>> mainFeed(Authentication authentication, @PageableDefault(size=3)Pageable pageable){
+    public ErrorResponse<Page<PlantDiary>> mainFeed(Authentication authentication, @PageableDefault(size=200)Pageable pageable){
         try {
             User user  = (User) authentication.getPrincipal();
             return new ErrorResponse<>(feedService.getDiaries(user.getUserPK(), pageable));
