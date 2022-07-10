@@ -25,6 +25,7 @@ public class MyPlantService {
 
     private final MyPlantRepository myPlantRepository;
     private final UserRepository userRepository;
+    private final PlantDiaryService plantDiaryService;
     private final FileUtil fileUtil;
 
     @Transactional(readOnly = true)
@@ -62,6 +63,8 @@ public class MyPlantService {
     public void deletePlant(Long plantPK) {
         // 식물삭제
         myPlantRepository.deleteById(plantPK);
+
+
     }
 
     @Transactional
@@ -86,16 +89,7 @@ public class MyPlantService {
 
 
     private MyPlant makePlantEntity(PlantRegisterRequestDto plantRegisterRequestDto, User user) {
-        MyPlant myPlant;
-
-        // file == null 을 먼저 체크해준다음 isEmpty()를 호출해야 NullPointerException 발생안함.
-        if(plantRegisterRequestDto.getFile() == null || plantRegisterRequestDto.getFile().isEmpty()){
-           myPlant = plantRegisterRequestDto.toEntity("", user);
-        }else{
             String uniqueImageName = fileUtil.savePlantImage(plantRegisterRequestDto.getFile());
-            myPlant = plantRegisterRequestDto.toEntity(uniqueImageName, user);
-        }
-
-        return myPlant;
+            return plantRegisterRequestDto.toEntity(uniqueImageName, user);
     }
 }

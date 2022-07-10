@@ -23,8 +23,7 @@ public class PlantListResponseDto {
     public PlantListResponseDto(User user){
         userPK = user.getUserPK();
         userId = user.getUserId();
-        if(user.getUserImageName().isBlank()) userImage = "Default.png";
-        else userImage = FileUtil.userFolderPath + user.getUserImageName();
+        userImage = FileUtil.userFolderPath + user.getUserImageName();
 
         plantListDto = new PlantListDto(user.getMyPlantList());
     }

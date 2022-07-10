@@ -16,9 +16,7 @@ public class PlantListDto {
         plantDtoList = new ArrayList<>(plantList.size());
 
         for(MyPlant m : plantList){
-            String plantImage;
-            if(m.getPlantImage().isBlank()) plantImage = "Default.png";
-            else plantImage = FileUtil.plantFolderPath + m.getPlantImage();
+            String plantImage = FileUtil.plantFolderPath + m.getPlantImage();
 
             plantDtoList.add(new PlantDto(m.getPlantPK(), m.getPlantName(), plantImage));
         }
