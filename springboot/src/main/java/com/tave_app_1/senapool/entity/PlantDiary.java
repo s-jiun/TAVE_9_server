@@ -109,6 +109,6 @@ public class PlantDiary extends BaseTime{
 
     public void updateDiaryImageUrl(String diaryImageUrl) { this.diaryImageUrl = diaryImageUrl; }
 
-    public void setUserInfo(){this.userID = this.user.getUserId(); this.userImage = "http://ec2-3-39-104-218.ap-northeast-2.compute.amazonaws.com:8080/images/diary/" + this.user.getUserImageName();}
+    public void setUserInfo(){this.userID = this.user.getUserId(); this.userImage = "http://ec2-3-39-104-218.ap-northeast-2.compute.amazonaws.com:8080/images/user/" + this.user.getUserImageName();}
 
 }
