@@ -13,13 +13,10 @@ import com.tave_app_1.senapool.user.repository.UserRepository;
 import com.tave_app_1.senapool.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Base64;
 
 @Slf4j
 @Service
@@ -28,7 +25,6 @@ public class MyPlantService {
 
     private final MyPlantRepository myPlantRepository;
     private final UserRepository userRepository;
-    private final PlantDiaryService plantDiaryService;
     private final FileUtil fileUtil;
 
     @Transactional(readOnly = true)
@@ -66,10 +62,6 @@ public class MyPlantService {
     public void deletePlant(Long plantPK) {
         // 식물삭제
         myPlantRepository.deleteById(plantPK);
-
-        // 식물 삭제 시 관련된 다이어리도 삭제
-        MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
-        plantDiaryService.deleteMyPlantDiaryAll(myPlant);
     }
 
     @Transactional
@@ -96,8 +88,9 @@ public class MyPlantService {
     private MyPlant makePlantEntity(PlantRegisterRequestDto plantRegisterRequestDto, User user) {
         MyPlant myPlant;
 
-        if(plantRegisterRequestDto.getFile().isEmpty()){
-            myPlant = plantRegisterRequestDto.toEntity("", user);
+        // file == null 을 먼저 체크해준다음 isEmpty()를 호출해야 NullPointerException 발생안함.
+        if(plantRegisterRequestDto.getFile() == null || plantRegisterRequestDto.getFile().isEmpty()){
+           myPlant = plantRegisterRequestDto.toEntity("", user);
         }else{
             String uniqueImageName = fileUtil.savePlantImage(plantRegisterRequestDto.getFile());
             myPlant = plantRegisterRequestDto.toEntity(uniqueImageName, user);

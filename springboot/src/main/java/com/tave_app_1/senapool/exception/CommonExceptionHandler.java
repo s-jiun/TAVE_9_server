@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 @Slf4j
 @RestControllerAdvice
@@ -21,6 +22,12 @@ public class CommonExceptionHandler {
     @ExceptionHandler(FileNotFoundException.class)
     public ErrorResponse<?> processUrlError(FileNotFoundException exception) {
         log.error("FileNotFoundException 발생", exception);
+        return new ErrorResponse<>(ErrorCode.INVALID_REQUEST);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ErrorResponse<?> processFileError(IOException exception) {
+        log.error("IOException 발생", exception);
         return new ErrorResponse<>(ErrorCode.INVALID_REQUEST);
     }
 
