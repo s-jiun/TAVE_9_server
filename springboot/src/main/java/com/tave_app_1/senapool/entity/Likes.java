@@ -3,6 +3,7 @@ package com.tave_app_1.senapool.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
@@ -27,5 +28,12 @@ public class Likes {
     public Likes(User user, PlantDiary diary){
         this.diary = diary;
         this.user = user;
+    }
+
+    @Transient
+    private long likesCount;
+
+    public void updateLikesCount(long likesCount) {
+        this.likesCount = likesCount;
     }
 }

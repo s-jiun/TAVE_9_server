@@ -24,8 +24,7 @@ public class LikesController {
     public ErrorResponse<?> likes(@PathVariable("diaryPK") long diaryPK, Authentication authentication){
         try {
             User user = (User) authentication.getPrincipal();
-            likesService.likes(diaryPK, user.getUserPK());
-            return new ErrorResponse<>(ErrorCode.SUCCESS);
+            return new ErrorResponse<>(likesService.likes(diaryPK, user.getUserPK()));
         } catch (Exception e) {
             return new ErrorResponse<>(ErrorCode.INVALID_REQUEST);
         }
@@ -36,8 +35,7 @@ public class LikesController {
     public ErrorResponse<?> unLikes(@PathVariable("diaryPK") long diaryPK, Authentication authentication){
         try {
             User user = (User) authentication.getPrincipal();
-            likesService.unLikes(diaryPK, user.getUserPK());
-            return new ErrorResponse<>(ErrorCode.SUCCESS);
+            return new ErrorResponse<>(likesService.unLikes(diaryPK, user.getUserPK()));
         } catch (Exception e) {
             return new ErrorResponse<>(ErrorCode.INVALID_REQUEST);
         }

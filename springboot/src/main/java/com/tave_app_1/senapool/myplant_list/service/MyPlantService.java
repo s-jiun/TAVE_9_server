@@ -4,8 +4,8 @@ import com.tave_app_1.senapool.entity.MyPlant;
 import com.tave_app_1.senapool.entity.User;
 import com.tave_app_1.senapool.exception.CustomException;
 import com.tave_app_1.senapool.myplant_list.dto.diary_list_response.DiaryListResponseDto;
-import com.tave_app_1.senapool.myplant_list.dto.plant_register_request.PlantRegisterRequestDto;
 import com.tave_app_1.senapool.myplant_list.dto.plant_list_response.PlantListResponseDto;
+import com.tave_app_1.senapool.myplant_list.dto.plant_register_request.PlantRegisterRequestDto;
 import com.tave_app_1.senapool.myplant_list.dto.plant_update_request.PlantUpdateRequestDto;
 import com.tave_app_1.senapool.myplant_list.repository.MyPlantRepository;
 import com.tave_app_1.senapool.plant_diary.service.PlantDiaryService;
@@ -13,13 +13,10 @@ import com.tave_app_1.senapool.user.repository.UserRepository;
 import com.tave_app_1.senapool.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Base64;
 
 @Slf4j
 @Service

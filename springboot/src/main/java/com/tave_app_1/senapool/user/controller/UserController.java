@@ -3,6 +3,8 @@ package com.tave_app_1.senapool.user.controller;
 import com.tave_app_1.senapool.entity.User;
 import com.tave_app_1.senapool.exception.ErrorCode;
 import com.tave_app_1.senapool.exception.ErrorResponse;
+import com.tave_app_1.senapool.myplant_list.service.MyPlantService;
+import com.tave_app_1.senapool.plant_diary.service.PlantDiaryService;
 import com.tave_app_1.senapool.user.dto.*;
 import com.tave_app_1.senapool.user.service.EmailServiceImpl;
 import com.tave_app_1.senapool.user.service.UserService;
@@ -26,6 +28,9 @@ public class UserController {
 
     private final UserService userService;
     private final EmailServiceImpl emailServiceImpl;
+
+    private final PlantDiaryService plantDiaryService;
+    private final MyPlantService myPlantService;
 
     @ApiOperation(
             value = "회원가입",
@@ -181,6 +186,8 @@ public class UserController {
     public ErrorResponse<?> deleteUser(Authentication authentication, @RequestBody UserPasswordDto passwordDto) throws Exception{
         try {
             User user = (User) authentication.getPrincipal();
+//            log.info(plantDiaryService.findUserDiaryAll(user).get().getDiaryImage());
+//            log.info(myPlantService.findUserPlantAll(user).get().getPlantImage());
             userService.deleteUser(user, passwordDto);
             return new ErrorResponse<>(ErrorCode.SUCCESS);
         } catch (Exception e) {
