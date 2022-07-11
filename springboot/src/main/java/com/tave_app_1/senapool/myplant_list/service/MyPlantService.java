@@ -1,6 +1,7 @@
 package com.tave_app_1.senapool.myplant_list.service;
 
 import com.tave_app_1.senapool.entity.MyPlant;
+import com.tave_app_1.senapool.entity.PlantDiary;
 import com.tave_app_1.senapool.entity.User;
 import com.tave_app_1.senapool.exception.CustomException;
 import com.tave_app_1.senapool.myplant_list.dto.diary_list_response.DiaryListResponseDto;
@@ -53,20 +54,27 @@ public class MyPlantService {
     public void updatePlant(Long plantPK, PlantUpdateRequestDto plantUpdateRequestDto) throws IOException {
         MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
 
-        // 기존 이미지 삭제 후, 새 이미지 저장
-        String uniqueImageName = fileUtil.imageChange(plantUpdateRequestDto.getFile(), myPlant.getPlantImage());
-        // dirty check 이용한 update
-        myPlant.updatePlant(uniqueImageName, plantUpdateRequestDto.getPlantName(), plantUpdateRequestDto.getPlantType(), plantUpdateRequestDto.getWaterPeriod());
+        // 이미지가 수정되었는지 확인.
+        if (plantUpdateRequestDto.getFile().getName().equals("Modify.png") == false) {
+            // 기존 이미지 삭제 후, 새 이미지 저장
+            String uniqueImageName = fileUtil.imageChange(plantUpdateRequestDto.getFile(), myPlant.getPlantImage());
+            // dirty check 이용한 update - 이미지 변경 o
+            myPlant.updatePlant(uniqueImageName, plantUpdateRequestDto.getPlantName(), plantUpdateRequestDto.getPlantType(), plantUpdateRequestDto.getWaterPeriod());
+        } else {
+            // dirty check 이용한 update - 이미지 변경 x
+            myPlant.updatePlant(plantUpdateRequestDto.getPlantName(), plantUpdateRequestDto.getPlantType(), plantUpdateRequestDto.getWaterPeriod());
+        }
     }
 
     @Transactional
     public void deletePlant(Long plantPK) {
-        // 식물삭제
-        myPlantRepository.deleteById(plantPK);
 
-        // 식물 삭제 시 관련된 다이어리도 삭제
         MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
-        plantDiaryService.deleteMyPlantDiaryAll(myPlant);
+
+        // 저장된 식물 사진, 식물 일기 사진 삭제
+        deleteRelatedImages(myPlant);
+        // 식물 삭제
+        myPlantRepository.deleteById(plantPK);
     }
 
     @Transactional
@@ -76,30 +84,28 @@ public class MyPlantService {
     }
 
     @Transactional(readOnly = true)
-    public DiaryListResponseDto makeDiaryList(Long plantPK, Boolean publish) {
+    public DiaryListResponseDto makeDiaryList(Long plantPK, Boolean myPage) {
         // plantPK로 해당 plant 정보 가져오기
         MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
         // plant 정보 존재여부 확인
         if(myPlant == null) throw new CustomException("데이터베이스에서 해당 식물 정보를 발견하지 못했습니다.");
         // Entity -> Dto 변환
-        return new DiaryListResponseDto(myPlant, publish);
+        return new DiaryListResponseDto(myPlant, myPage);
     }
 
 
     // ----------------------------------------------------------------------------------------
     // ----------------------------------------------------------------------------------------
 
-
     private MyPlant makePlantEntity(PlantRegisterRequestDto plantRegisterRequestDto, User user) {
-        MyPlant myPlant;
-
-        if(plantRegisterRequestDto.getFile().isEmpty()){
-            myPlant = plantRegisterRequestDto.toEntity("", user);
-        }else{
             String uniqueImageName = fileUtil.savePlantImage(plantRegisterRequestDto.getFile());
-            myPlant = plantRegisterRequestDto.toEntity(uniqueImageName, user);
-        }
+            return plantRegisterRequestDto.toEntity(uniqueImageName, user);
+    }
 
-        return myPlant;
+    private void deleteRelatedImages(MyPlant myPlant) {
+        fileUtil.deletePlantImage(myPlant.getPlantImage());
+        for (PlantDiary m : myPlant.getPlantDiaryList()) {
+            fileUtil.deleteDiaryImage(m.getDiaryImage());
+        }
     }
 }

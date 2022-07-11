@@ -2,9 +2,11 @@ package com.tave_app_1.senapool.util;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -17,19 +19,17 @@ import java.util.UUID;
 @Component
 public class FileUtil {
 
-    private final String absolutePath;
-    private final String plantFolderPath;
-    private final String userFolderPath;
-    private final String diaryFolderPath;
+    @Value("${ec2.absolute.path}")
+    private String absolutePath;
+    public static String plantFolderPath;
+    public static String userFolderPath;
+    public static String diaryFolderPath;
 
-    public FileUtil() {
-        // Local 경로.
-        // this.absolutePath = new File("").getAbsolutePath() + File.separator;
-        // ec2 서버 경로.
-        this.absolutePath = "/home/ec2-user/app/step1/TAVE_9_server/springboot/";
-        this.plantFolderPath = absolutePath + "src/main/resources/static/images/plant/";
-        this.userFolderPath = absolutePath + "src/main/resources/static/images/user/";
-        this.diaryFolderPath = absolutePath + "src/main/resources/static/images/diary/";
+    @PostConstruct
+    public void init() {
+        plantFolderPath = absolutePath + "src/main/resources/static/images/plant/";
+        userFolderPath = absolutePath + "src/main/resources/static/images/user/";
+        diaryFolderPath = absolutePath + "src/main/resources/static/images/diary/";
     }
 
     // uuid 추가한 이미지 이름 반환

@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -26,11 +27,13 @@ public class PlantDiaryUploadDto {
     @NotBlank
     private String content;
 
-
     @NotNull
     private Boolean publish;
 
-    private LocalDateTime createDate;
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate createDate;
+
 
     public PlantDiary toEntity(String diaryImage, User user,MyPlant myPlant){
         return new PlantDiary(user, myPlant, title, content, publish, createDate, diaryImage);

@@ -20,10 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class PlantDiaryService {
-
 
     private final UserRepository userRepository;
     private final PlantDiaryRepository plantDiaryRepository;
@@ -31,23 +30,6 @@ public class PlantDiaryService {
 
     private final FileUtil fileUtil;
 
-
-//    @Transactional
-//    public void save(PlantDiaryUploadDto plantDiaryUploadDto,long userPK,long plantPK){
-//
-//        String plantDiaryImage;
-//        if (plantDiaryUploadDto.getFile().isEmpty()) plantDiaryImage="";
-//        else plantDiaryImage = fileUtil.saveDiaryImage(plantDiaryUploadDto.getFile());
-//
-//        User user = userRepository.findByUserPK(userPK);
-//        MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
-//        plantDiaryRepository.save(PlantDiary.builder()
-//                .diaryImage(plantDiaryImage)
-//                .title(plantDiaryUploadDto.getTitle())
-//                .content(plantDiaryUploadDto.getContent())
-//                .user(user).myPlant(myPlant)
-//                .build());
-//    }
 
     @Transactional
     public void uploadDiary(PlantDiaryUploadDto plantDiaryUploadDto,User user,MyPlant myPlant){
@@ -63,6 +45,7 @@ public class PlantDiaryService {
         String uniqueImageName = fileUtil.imageChange(plantDiaryUpdateDto.getFile(),plantDiary.getDiaryImage());
         plantDiary.update(plantDiaryUpdateDto.getTitle(),plantDiaryUpdateDto.getContent(),uniqueImageName,plantDiaryUpdateDto.getPublish(),plantDiaryUpdateDto.getCreateDate());
     }
+
 
     @Transactional
     public void delete(Long plantPK) {

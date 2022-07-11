@@ -71,4 +71,10 @@ public class MyPlant extends BaseTime{
         this.plantType = plantType;
         this.waterPeriod = waterPeriod;
     }
+
+    public void updatePlant(String plantName, String plantType, Integer waterPeriod) {
+        this.plantName = plantName;
+        this.plantType = plantType;
+        this.waterPeriod = waterPeriod;
+    }
 }

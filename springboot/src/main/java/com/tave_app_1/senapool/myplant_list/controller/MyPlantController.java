@@ -79,7 +79,7 @@ public class MyPlantController {
             }
         }
         // 유효하지 않은 토큰으로 인한 NullPointerException 처리.
-        catch (Exception e) {
+        catch (NullPointerException e) {
             return new ErrorResponse<>(ErrorCode.INVALID_JWT);
         }
     }

@@ -1,6 +1,8 @@
 package com.tave_app_1.senapool.myplant_list.dto.diary_list_response;
 
+import com.tave_app_1.senapool.entity.BaseTime;
 import com.tave_app_1.senapool.entity.MyPlant;
+import com.tave_app_1.senapool.util.FileUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,7 +12,7 @@ import java.time.temporal.ChronoUnit;
 
 @Slf4j
 @Data
-public class PlantInfoDto {
+public class PlantInfoDto extends BaseTime {
 
     private Long plantPK;
 
@@ -36,6 +38,7 @@ public class PlantInfoDto {
         this.period = ChronoUnit.DAYS.between(myPlant.getStartDay(), LocalDateTime.now());
 
         if(myPlant.getPlantImage().isBlank()) this.plantImage = "Default.png";
-        else this.plantImage = myPlant.getPlantImage();
+        else this.plantImage = FileUtil.plantFolderPath + myPlant.getPlantImage();
+
     }
 }

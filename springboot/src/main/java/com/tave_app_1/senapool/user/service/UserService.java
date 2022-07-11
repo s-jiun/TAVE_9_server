@@ -2,6 +2,8 @@ package com.tave_app_1.senapool.user.service;
 
 
 import com.tave_app_1.senapool.entity.Authority;
+import com.tave_app_1.senapool.entity.MyPlant;
+import com.tave_app_1.senapool.entity.PlantDiary;
 import com.tave_app_1.senapool.entity.User;
 import com.tave_app_1.senapool.jwt.JwtFilter;
 import com.tave_app_1.senapool.jwt.TokenProvider;
@@ -156,13 +158,19 @@ public class UserService {
     @Transactional
     public void deleteUser(User user, UserPasswordDto passwordDto) throws Exception{
         if(passwordEncoder.matches(passwordDto.getPassword(), user.getPassword())){
-            plantDiaryService.deleteUserDiaryAll(user);
-            myPlantService.deleteUserPlantAll(user);
-            if (!user.getUserImageName().equals("Default.png")) {
-                fileUtil.deleteUserImage(user.getUserImageName());
+            User updateUser = userRepository.findByUserPK(user.getUserPK());
+
+            for (MyPlant p : updateUser.getMyPlantList()) {
+                for (PlantDiary d : p.getPlantDiaryList()) {
+                    fileUtil.deleteDiaryImage(d.getDiaryImage());
+                }
+                fileUtil.deleteDiaryImage(p.getPlantImage());
             }
+            //plantDiaryService.deleteUserDiaryAll(user);
+            //myPlantService.deleteUserPlantAll(user);
+            fileUtil.deleteUserImage(user.getUserImageName());
+
             userRepository.delete(user);
         }
     }
-
 }

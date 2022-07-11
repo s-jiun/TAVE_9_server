@@ -1,6 +1,7 @@
 package com.tave_app_1.senapool.myplant_list.dto.plant_list_response;
 
 import com.tave_app_1.senapool.entity.MyPlant;
+import com.tave_app_1.senapool.util.FileUtil;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -15,11 +16,9 @@ public class PlantListDto {
         plantDtoList = new ArrayList<>(plantList.size());
 
         for(MyPlant m : plantList){
-            String plantImage;
-            if(m.getPlantImage().isBlank()) plantImage = "Default.png";
-            else plantImage = "http://ec2-3-39-104-218.ap-northeast-2.compute.amazonaws.com:8080/images/plant/" + m.getPlantImage();
+            String plantImage = FileUtil.plantFolderPath + m.getPlantImage();
 
-            plantDtoList.add(new PlantDto(m.getPlantPK(), m.getPlantName(), plantImage));
+            plantDtoList.add(new PlantDto(m.getPlantPK(), m.getPlantName(), m.getPlantType(), m.getWaterPeriod(), m.getStartDay(), plantImage));
         }
     }
 }
