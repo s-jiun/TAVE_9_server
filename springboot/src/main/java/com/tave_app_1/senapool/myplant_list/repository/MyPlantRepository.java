@@ -16,5 +16,7 @@ public interface MyPlantRepository extends JpaRepository<MyPlant, Long> {
 
     MyPlant findByPlantPK(Long plantPK);
 
+    MyPlant findAllByPlantPK(Long plantPK);
+
     Optional <MyPlant> deleteByUser(User user);
 }

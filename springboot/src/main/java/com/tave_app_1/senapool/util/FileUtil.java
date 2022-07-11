@@ -21,9 +21,9 @@ public class FileUtil {
 
     @Value("${ec2.absolute.path}")
     private String absolutePath;
-    private String plantFolderPath;
-    private String userFolderPath;
-    private String diaryFolderPath;
+    public static String plantFolderPath;
+    public static String userFolderPath;
+    public static String diaryFolderPath;
 
     @PostConstruct
     public void init() {

@@ -24,7 +24,10 @@ public enum ErrorCode {
 
     NOT_FOUND_ID(false, 4006, "이메일로 가입된 아이디가 존재하지 않습니다."),
 
-    DUPLICATE_ID(false, 4007, "중복된 아이디 입니다.");
+    DUPLICATE_ID(false, 4007, "중복된 아이디 입니다."),
+
+    // 파일 관련 처리 실패
+    FAIL_PROCESS_FILE(false, 5000, "파일 처리에 실패하였습니다.");
 
 
 
