@@ -54,10 +54,16 @@ public class MyPlantService {
     public void updatePlant(Long plantPK, PlantUpdateRequestDto plantUpdateRequestDto) throws IOException {
         MyPlant myPlant = myPlantRepository.findByPlantPK(plantPK);
 
-        // 기존 이미지 삭제 후, 새 이미지 저장
-        String uniqueImageName = fileUtil.imageChange(plantUpdateRequestDto.getFile(), myPlant.getPlantImage());
-        // dirty check 이용한 update
-        myPlant.updatePlant(uniqueImageName, plantUpdateRequestDto.getPlantName(), plantUpdateRequestDto.getPlantType(), plantUpdateRequestDto.getWaterPeriod());
+        // 이미지가 수정되었는지 확인.
+        if (plantUpdateRequestDto.getFile().getName().equals("Modify.png") == false) {
+            // 기존 이미지 삭제 후, 새 이미지 저장
+            String uniqueImageName = fileUtil.imageChange(plantUpdateRequestDto.getFile(), myPlant.getPlantImage());
+            // dirty check 이용한 update - 이미지 변경 o
+            myPlant.updatePlant(uniqueImageName, plantUpdateRequestDto.getPlantName(), plantUpdateRequestDto.getPlantType(), plantUpdateRequestDto.getWaterPeriod());
+        } else {
+            // dirty check 이용한 update - 이미지 변경 x
+            myPlant.updatePlant(plantUpdateRequestDto.getPlantName(), plantUpdateRequestDto.getPlantType(), plantUpdateRequestDto.getWaterPeriod());
+        }
     }
 
     @Transactional
