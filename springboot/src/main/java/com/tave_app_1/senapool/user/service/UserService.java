@@ -56,14 +56,7 @@ public class UserService {
         /*
         image 설정 안했을 경우 처리.
          */
-        String outputFileName;
-        if(userDto.getUserImage().isEmpty()) {
-           outputFileName = "Default.png";
-        }
-        else {
-            outputFileName = fileUtil.saveUserImage(userDto.getUserImage());
-        }
-
+        String outputFileName = fileUtil.saveUserImage(userDto.getUserImage());
 
         User user = User.builder()
                 .userId(userDto.getUserId())
@@ -99,22 +92,14 @@ public class UserService {
         Optional<User> findUser = userRepository.findByUserId(userUpdateDto.getUserId());
         if (findUser.isPresent() && !user.getUserId().equals(userUpdateDto.getUserId())) {
             throw new Exception("아이디가 존재합니다.");
+        } else  {
+            user.setUserId(userUpdateDto.getUserId());
         }
 
-        //Default.png가 아니면 삭제되게 수정해야함
-        if (!user.getUserImageName().equals("Default.png")) {
+        if (!userUpdateDto.getUserImage().getOriginalFilename().equals("Modify.png")) {
             fileUtil.deleteUserImage(user.getUserImageName());
+            user.setUserImageName(fileUtil.saveUserImage(userUpdateDto.getUserImage()));
         }
-        /*
-        image 설정 안했을 경우 처리.
-         */
-        String outputFileName = "Default.png";
-        if (!userUpdateDto.getUserImage().isEmpty()) {
-            outputFileName = fileUtil.saveUserImage(userUpdateDto.getUserImage());
-        }
-
-        user.setUserId(userUpdateDto.getUserId());
-        user.setUserImageName(outputFileName);
 
         userRepository.save(user);
     }
