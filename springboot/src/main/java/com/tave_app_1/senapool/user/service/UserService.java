@@ -158,19 +158,18 @@ public class UserService {
     @Transactional
     public void deleteUser(User user, UserPasswordDto passwordDto) throws Exception{
         if(passwordEncoder.matches(passwordDto.getPassword(), user.getPassword())){
-            User us = userRepository.findByUserPK(user.getUserPK());
-            for (MyPlant p : us.getMyPlantList()) {
+            User updateUser = userRepository.findByUserPK(user.getUserPK());
+
+            for (MyPlant p : updateUser.getMyPlantList()) {
                 for (PlantDiary d : p.getPlantDiaryList()) {
                     fileUtil.deleteDiaryImage(d.getDiaryImage());
                 }
                 fileUtil.deleteDiaryImage(p.getPlantImage());
             }
-
             //plantDiaryService.deleteUserDiaryAll(user);
             //myPlantService.deleteUserPlantAll(user);
-            if (!user.getUserImageName().equals("Default.png")) {
-                fileUtil.deleteUserImage(user.getUserImageName());
-            }
+            fileUtil.deleteUserImage(user.getUserImageName());
+
             userRepository.delete(user);
         }
     }
