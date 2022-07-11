@@ -18,7 +18,7 @@ public class PlantListDto {
         for(MyPlant m : plantList){
             String plantImage = FileUtil.plantFolderPath + m.getPlantImage();
 
-            plantDtoList.add(new PlantDto(m.getPlantPK(), m.getPlantName(), plantImage));
+            plantDtoList.add(new PlantDto(m.getPlantPK(), m.getPlantName(), m.getPlantType(), m.getWaterPeriod(), m.getStartDay(), plantImage));
         }
     }
 }

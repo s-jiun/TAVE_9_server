@@ -14,10 +14,15 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @RestController

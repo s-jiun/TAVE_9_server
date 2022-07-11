@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 
 @Data
 @AllArgsConstructor
@@ -13,6 +15,12 @@ public class PlantDto {
     private Long plantPK;
 
     private String plantName;
+
+    private String plantType;
+
+    private Integer waterPeriod;
+
+    private LocalDate startDay;
 
     private String plantImage;
 
