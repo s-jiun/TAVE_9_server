@@ -6,6 +6,7 @@ import com.tave_app_1.senapool.util.FileUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
@@ -22,6 +23,8 @@ public class PlantInfoDto extends BaseTime {
 
     private String plantType;
 
+    private LocalDate lastWater;
+
     private Integer waterPeriod;
 
     // D+000
@@ -34,6 +37,7 @@ public class PlantInfoDto extends BaseTime {
         this.plantPK = myPlant.getPlantPK();
         this.plantName = myPlant.getPlantName();
         this.plantType = myPlant.getPlantType();
+        this.lastWater = myPlant.getLastWater();
         this.waterPeriod = myPlant.getWaterPeriod();
         this.period = ChronoUnit.DAYS.between(myPlant.getStartDay(), LocalDateTime.now());
 
