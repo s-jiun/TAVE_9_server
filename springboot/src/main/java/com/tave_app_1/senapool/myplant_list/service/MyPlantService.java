@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @Slf4j
@@ -98,6 +99,7 @@ public class MyPlantService {
     // ----------------------------------------------------------------------------------------
 
     private MyPlant makePlantEntity(PlantRegisterRequestDto plantRegisterRequestDto, User user) {
+            if(plantRegisterRequestDto.getFile() == null || plantRegisterRequestDto.getFile().isEmpty()) throw new CustomException("파일이 존재하지 않습니다.");
             String uniqueImageName = fileUtil.savePlantImage(plantRegisterRequestDto.getFile());
             return plantRegisterRequestDto.toEntity(uniqueImageName, user);
     }

@@ -14,10 +14,15 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @RestController
@@ -195,5 +200,27 @@ public class MyPlantController {
         catch (Exception e) {
             return new ErrorResponse<>(ErrorCode.INVALID_JWT);
         }
+    }
+
+    @GetMapping("test")
+    public String get(HttpServletRequest request,@RequestParam("name") String name) throws IOException {
+        ServletInputStream inputStream = request.getInputStream();
+        String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+
+        log.info("Get messageBody={}", messageBody);
+        //log.info("Get url={}", url);
+        log.info("Get name={}", name);
+        return "ok";
+    }
+
+    @PostMapping("test")
+    public String post(HttpServletRequest request) throws IOException {
+        ServletInputStream inputStream = request.getInputStream();
+        String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+
+        log.info("Post messageBody={}", messageBody);
+        //log.info("Get url={}", url);
+        //log.info("Post name={}", name);
+        return "ok";
     }
 }

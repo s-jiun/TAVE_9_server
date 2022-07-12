@@ -23,7 +23,7 @@ public class PlantListResponseDto {
     public PlantListResponseDto(User user){
         userPK = user.getUserPK();
         userId = user.getUserId();
-        userImage = FileUtil.userFolderPath + user.getUserImageName();
+        userImage = "http://ec2-3-39-104-218.ap-northeast-2.compute.amazonaws.com:8080/images/user/" + user.getUserImageName();
 
         plantListDto = new PlantListDto(user.getMyPlantList());
     }
