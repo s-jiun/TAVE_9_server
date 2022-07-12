@@ -38,7 +38,7 @@ public class PlantInfoDto extends BaseTime {
         this.period = ChronoUnit.DAYS.between(myPlant.getStartDay(), LocalDateTime.now());
 
         if(myPlant.getPlantImage().isBlank()) this.plantImage = "Default.png";
-        else this.plantImage = FileUtil.plantFolderPath + myPlant.getPlantImage();
+        else this.plantImage = "http://ec2-3-39-104-218.ap-northeast-2.compute.amazonaws.com:8080/images/plant/" + myPlant.getPlantImage();
 
     }
 }
