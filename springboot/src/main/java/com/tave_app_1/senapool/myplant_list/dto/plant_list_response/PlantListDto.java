@@ -16,7 +16,7 @@ public class PlantListDto {
         plantDtoList = new ArrayList<>(plantList.size());
 
         for(MyPlant m : plantList){
-            String plantImage = FileUtil.plantFolderPath + m.getPlantImage();
+            String plantImage = "http://ec2-3-39-104-218.ap-northeast-2.compute.amazonaws.com:8080/images/plant/" + m.getPlantImage();
 
             plantDtoList.add(new PlantDto(m.getPlantPK(), m.getPlantName(), m.getPlantType(), m.getWaterPeriod(), m.getStartDay(), plantImage));
         }
