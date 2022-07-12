@@ -9,8 +9,8 @@ public class PlantDiaryDetailDto {
 
     private PlantDiaryInfoDto plantDiaryInfoDto;
 
-    public PlantDiaryDetailDto(PlantDiary plantDiary) {
-        plantDiaryInfoDto = new PlantDiaryInfoDto(plantDiary);
+    public PlantDiaryDetailDto(Long userPK, PlantDiary plantDiary) {
+        plantDiaryInfoDto = new PlantDiaryInfoDto(userPK,plantDiary);
     }
 
 

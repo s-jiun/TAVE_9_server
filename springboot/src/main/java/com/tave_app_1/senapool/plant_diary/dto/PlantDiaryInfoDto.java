@@ -23,15 +23,28 @@ public class PlantDiaryInfoDto {
 
     private long likesCount;
 
+    private boolean likesState;
+
     private LocalDate createDate;
 
+//    diary.updateLikesCount(diary.getLikesList().size());
+//    diary.getLikesList().forEach(likes -> {
+//        if(likes.getUser().getUserPK() == userPK) diary.updateLikesState(true);
+//    });
 
-    public PlantDiaryInfoDto(PlantDiary plantDiary) {
+
+    public PlantDiaryInfoDto(Long userPK, PlantDiary plantDiary) {
         this.diaryPK = plantDiary.getPlantDiaryPK();
         this.title = plantDiary.getTitle();
         this.content = plantDiary.getContent();
         this.publish = plantDiary.getPublish();
-        this.likesCount = plantDiary.getLikesCount();
+        plantDiary.getLikesList().forEach(likes -> {
+            if(likes.getUser().getUserPK() == userPK) plantDiary.updateLikesState(true);
+        });
+        this.likesState = plantDiary.isLikesState();
+
+
+        this.likesCount = plantDiary.getLikesList().size();
         this.createDate = plantDiary.getCreateDate();
 
         if(plantDiary.getDiaryImage().isBlank()) this.diaryImage = "Default.png";

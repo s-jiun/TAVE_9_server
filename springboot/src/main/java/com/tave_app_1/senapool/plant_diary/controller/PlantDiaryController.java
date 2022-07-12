@@ -108,10 +108,11 @@ public class PlantDiaryController {
 
 
     @ApiOperation(value = "식물일기 자세히 보기")
-    @GetMapping("/myplant-diary/{diaryPK}")
-    public ErrorResponse<PlantDiaryDetailDto> diaryDetail(@PathVariable("diaryPK") Long diaryPK){
+    @GetMapping("/myplant-diary/{userPK}/{diaryPK}")
+    public ErrorResponse<PlantDiaryDetailDto> diaryDetail(@PathVariable("userPK") Long userPK,
+                                                          @PathVariable("diaryPK") Long diaryPK){
 
-        PlantDiaryDetailDto plantDiaryDetailDto = plantDiaryService.makeDiaryDetail(diaryPK);
+        PlantDiaryDetailDto plantDiaryDetailDto = plantDiaryService.makeDiaryDetail(userPK,diaryPK);
 
         return new ErrorResponse<>(plantDiaryDetailDto);
     }

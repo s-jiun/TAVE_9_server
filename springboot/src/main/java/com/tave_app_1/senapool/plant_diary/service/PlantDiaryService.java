@@ -55,13 +55,13 @@ public class PlantDiaryService {
 
 
     @Transactional(readOnly = true)
-    public PlantDiaryDetailDto makeDiaryDetail(Long diaryPK) {
+    public PlantDiaryDetailDto makeDiaryDetail(Long userPK, Long diaryPK) {
 
         PlantDiary plantDiary = plantDiaryRepository.findByPlantDiaryPK(diaryPK);
 
         if(plantDiary==null) throw new CustomException("데이터베이스에서 해당 식물 일기를 발견하지 못했습니다.");
 
-        return new PlantDiaryDetailDto(plantDiary);
+        return new PlantDiaryDetailDto(userPK,plantDiary);
     }
 
 
