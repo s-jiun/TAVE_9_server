@@ -5,10 +5,15 @@
 
 ### 📱Member
 서지운(Team Leader / Server)
+
 서강덕(Server)
+
 이연희(Server)
+
 장동호(Server)
+
 김세은(Client)
+
 이지민(Client)
 
 ### 📱Demo Video
