@@ -1,4 +1,10 @@
 ## 세나풀 (Senapul)
+![image](https://user-images.githubusercontent.com/84860387/225333164-4da35905-e333-4b81-995f-ac0277f9b869.png)
+![image](https://user-images.githubusercontent.com/84860387/225333525-b168ef18-f7c4-4284-b5b8-742afc0fb9ab.png)
+![image](https://user-images.githubusercontent.com/84860387/225333609-3f9c6da1-f889-4d8d-9f8d-ca3c464919fe.png)
+![image](https://user-images.githubusercontent.com/84860387/225333724-8fda5024-eae5-4d1f-bd33-5ff2579953e8.png)
+![image](https://user-images.githubusercontent.com/84860387/225333788-eb81a0cf-96c3-41fe-a338-50d8a4bec2d3.png)
+![image](https://user-images.githubusercontent.com/84860387/225333874-b62ec804-4db4-4095-a6f4-a549a20b7a7a.png)
 
 ### 📱Description
 ***Mobile app for managing gardening logs (9th conference of TAVE winning project)***
