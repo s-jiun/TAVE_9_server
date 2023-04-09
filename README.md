@@ -10,7 +10,7 @@ Senapul remembers the watering cycle for each plant and sends a notification to 
 It also developed to help plant keepers with the ability to write and manage plant diaries and share them with other users.
 
 <details>
-<summary>🎞데모 영상</summary>
+<summary>🎞Demo Video</summary>
 <div markdown="1">       
 
 https://user-images.githubusercontent.com/71878202/185157807-77b81b40-f2d5-4849-bcde-5305b5eb2c69.mp4
@@ -19,7 +19,7 @@ https://user-images.githubusercontent.com/71878202/185157807-77b81b40-f2d5-4849-
 </details>
 
 <details>
-<summary>📝최종 발표 자료</summary>
+<summary>📝Final Presentation</summary>
 <div markdown="1">  
 
 ![image](https://user-images.githubusercontent.com/71878202/185643841-4480603e-7769-469c-8b63-41d2218b86b1.png)
@@ -48,7 +48,7 @@ https://user-images.githubusercontent.com/71878202/185157807-77b81b40-f2d5-4849-
 </details>
 
 <details>
-<summary>🏆우수상 수상</summary>
+<summary>🏆2nd Prize at 9th conference of TAVE!!</summary>
 <div markdown="1">  
 
 ![image](https://user-images.githubusercontent.com/71878202/185645229-85a69ae0-179d-483f-8d51-5e414076f678.png)
